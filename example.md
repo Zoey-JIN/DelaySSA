@@ -41,7 +41,9 @@ plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_in
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
-![PDF Preview](figs/Oscillation_Mean.pdf)
+
+![mean](figs/Oscillation_mean.svg)
+![mean](figs/Oscillation_density_400s.svg)
 
 # Bursty Model
 
@@ -81,6 +83,8 @@ result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=t
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
+![mean](figs/Bursty_mean.svg)
+![mean](figs/Bursty_density_200s.svg)
 
 # Refractory Model
 We also study the refractory model, which was devised to explain the experimental observation that the distribution of ‘‘off’’ intervals is not exponential but rather has a peak at a nonzero value. The gene state can change between $G_0$, $G_1$ and $G_2$, but gene expression only occurs at the state of $G_2$. The the mRNA will degrade after the fixed delay time $\tau$. This reaction scheme can be illustrated by
@@ -119,7 +123,8 @@ plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_in
 plot_SSA_density(result = result,t_pick = tmax)
 
 ```
-
+![mean](figs/Refractory_mean.svg)
+![mean](figs/Refractory_density_150s.svg)
 # Birth Death Model
 We consider a non-Markovian system where mRNA are transcript at a rate $k$ and are removed from the system (degraded) after a fixed time delay $\tau$. For each mRNA, its $\tau$ follow a gamma distribution. This reaction scheme can be illustrated by
 $$
@@ -152,7 +157,8 @@ result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=t
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
-
+![mean](figs/BirthDeath_mean.svg)
+![mean](figs/BirthDeath_density_150s.svg)
 # A Reaction with Two Channels
 
 We study the reaction with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
@@ -186,7 +192,8 @@ result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=t
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
-
+![mean](figs/TwoChannels_mean.svg)
+![mean](figs/TwoChannels_density_150s.svg)
 
 
 

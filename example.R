@@ -194,7 +194,7 @@ tmax <- 1000
 t_initial <- 0
 n_initial <- matrix(0,nrow = 1)
 n_initial <- matrix(n_initial,nrow = 1)
-product_matrix <- matrix(c(rep(0,j),-1),nrow = 1)
+product_matrix <- matrix(c(rep(0,j),1),nrow = 1)
 
 ####on off####
 # off->on k1=0.03
