@@ -69,7 +69,7 @@ product_matrix <- matrix(rep(0,j),nrow = 1)
 
 
 
-####on off####
+####on off/ Telegraph ####
 #off->on k1=0.03
 #on->off k2=0.04
 #on->on+N N=>0 k3=10 tau=5
