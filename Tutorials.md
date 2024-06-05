@@ -45,7 +45,7 @@ Case 3: If reaction r loses the reactant species and gains the product species a
 The arguments of the DelaySSA are as follows.
 
 **algorithm**  
-The alternative algorithm must be one of "DelayMNR" (default), "DelayReject", or "DelayDirect". If you want to calculate without delay, "Direct", "MNR" and "NR"  are recommended and the parameters of "delay_type" and "delaytime_list" can be omitted.
+The alternative algorithm must be one of "DelayMNR" (default), "DelayReject", or "DelayDirect". If you want to calculate without delay, "Direct", "MNR" and "NR"  are recommended and the parameters of "S_matrix_dalay" "delay_type" and "delaytime_list" can be omitted.
 
 **sample_size**  
 A numeric value representing the number of repetitions for the system of these reactions.
@@ -68,7 +68,7 @@ An N-by-R matrix, where N corresponds to the number of species types and R corre
 **k**  
 An R-dimensional vector representing the reaction rate constants or a function representing the rate variable.
 
-**product_list**  
+**product_matrix**  
 An N-by-R matrix, where N corresponds to the number of species types and R corresponds to the number of reactions, representing the quantity of reactants.
 
 **f_r**  
@@ -82,6 +82,171 @@ An R-dimensional list representing the delay time of the reactions. Every elemen
 
 **delay_effect_matrix**  
 The first line is the reaction index of S_matrix, the second line is the reaction index of S_matrix_dalay. If not empty, each row represents the column of the *r*th reaction in matrix S_matrix that is the same as the column of the *r*‘th reaction in S_matrix_dalay. This will cause the *r*’th reaction in delay part to be randomly eliminated when the *r*th reaction in S_matrix occurs.
+
+# Function
+
+<!-- <table style="margin: auto; width: auto;">
+  <tr>
+    <td style="text-align: left; vertical-align: top;">
+      <strong>Function</strong><br>
+      check_delay_relative <br> 
+      convert_pdf <br>
+      fun_fr <br>
+      picksample <br>
+      plot_mean <br>
+      plot_SSA_density <br>
+      plot_SSA_mean <br>
+      propensity_n <br>
+      simulate_reaction <br>
+      simulate_reaction_delay_direct <br>
+      simulate_reaction_delay_modifiednextreaction <br>
+      simulate_reaction_delay_rejection <br>
+      simulate_reaction_modifiednextreaction <br>
+      simulate_reaction_nextreaction <br>
+      simulation_DelaySSA <br>
+      tau_element <br>
+    </td>
+    <td style="text-align: left; vertical-align: top;">
+      <strong>Description</strong><br>
+      Delay Effect Matrix <br>
+      Probability Density Functions Conversion <br>
+      Propensity Function <br>
+      Results Sampling <br>
+      The Mean Value of Species i at Time t <br>
+      Density at Time t_pick <br>
+      Mean of Species over Time <br>
+      For Propensity Calculation <br>
+      Gillespie Algorithm <br>
+      Delay Direct Method Algorithm <br>
+      Delay Modified Next Reaction Method Algorithm <br>
+      Delay Rejection Method Algorithm <br>
+      Modified Next Reaction Method Algorithm <br>
+      Next Reaction Method Algorithm <br>
+      Simulation Algorithm (SSA) with Delays<br>
+      Delay Time <br>
+    </td>
+  </tr>
+</table> -->
+
+<!-- <div style="display: flex;">
+
+<div style="flex: 1; padding: 10px;">
+
+Function <br>
+check_delay_relative <br>
+convert_pdf <br>
+fun_fr <br>
+picksample <br>
+plot_mean <br>
+plot_SSA_density <br>
+plot_SSA_mean <br>
+propensity_n <br>
+simulate_reaction <br>
+simulate_reaction_delay_direct <br>
+simulate_reaction_delay_modifiednextreaction <br>
+simulate_reaction_delay_rejection <br>
+simulate_reaction_modifiednextreaction <br>
+simulate_reaction_nextreaction <br>
+simulation_DelaySSA <br>
+tau_element <br>
+</div>
+
+<div style="flex: 1; padding: 10px;">
+
+Description <br>
+Delay Effect Matrix <br>
+Probability Density Functions Conversion <br>
+Propensity Function <br>
+Results Sampling <br>
+The Mean Value of Species i at Time t <br>
+Density at Time t_pick <br>
+Mean of Species over Time <br>
+For Propensity Calculation <br>
+Gillespie Algorithm <br>
+Delay Direct Method Algorithm <br>
+Delay Modified Next Reaction Method Algorithm <br>
+Delay Rejection Method Algorithm <br>
+Modified Next Reaction Method Algorithm <br>
+Next Reaction Method Algorithm <br>
+Simulation Algorithm (SSA) with Delays <br>
+Delay Time <br>
+</div>
+
+</div> -->
+
+<table style="margin: auto; width: auto; border-collapse: collapse;">
+  <tr>
+    <th style="text-align: left; padding: 5px;">Function</th>
+    <th style="text-align: left; padding: 5px;">Description</th>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">check_delay_relative*</td>
+    <td style="text-align: left; padding: 5px;">Delay Effect Matrix</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">convert_pdf</td>
+    <td style="text-align: left; padding: 5px;">Probability Density Functions Conversion</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">fun_fr</td>
+    <td style="text-align: left; padding: 5px;">Propensity Function</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">picksample</td>
+    <td style="text-align: left; padding: 5px;">Results Sampling</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">plot_mean</td>
+    <td style="text-align: left; padding: 5px;">The Mean Value of Species i at Time t</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">plot_SSA_density*</td>
+    <td style="text-align: left; padding: 5px;">Density at Time t_pick</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">plot_SSA_mean*</td>
+    <td style="text-align: left; padding: 5px;">Mean of Species over Time</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">propensity_n</td>
+    <td style="text-align: left; padding: 5px;">For Propensity Calculation</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">simulate_reaction*</td>
+    <td style="text-align: left; padding: 5px;">Gillespie Algorithm</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">simulate_reaction_delay_direct*</td>
+    <td style="text-align: left; padding: 5px;">Delay Direct Method Algorithm</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">
+    simulate_reaction_delay_modifiednextreaction*</td>
+    <td style="text-align: left; padding: 5px;">Delay Modified Next Reaction Method Algorithm</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">simulate_reaction_delay_rejection*</td>
+    <td style="text-align: left; padding: 5px;">Delay Rejection Method Algorithm</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">simulate_reaction_modifiednextreaction*</td>
+    <td style="text-align: left; padding: 5px;">Modified Next Reaction Method Algorithm</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">simulate_reaction_nextreaction*</td>
+    <td style="text-align: left; padding: 5px;">Next Reaction Method Algorithm</td>
+  </tr>
+  <tr>
+    <td style="text-align: left; padding: 5px;">simulation_DelaySSA*</td>
+    <td style="text-align: left; padding: 5px;">Simulation Algorithm (SSA) with Delays</td>
+  </tr>
+    <tr>
+    <td style="text-align: left; padding: 5px;">tau_element</td>
+    <td style="text-align: left; padding: 5px;">Delay Time </td>
+  </tr>
+</table>
+<p style="text-align: right; padding: 5px;">* This function can be used independently.</p>
+
  <!-- $\bm{i}$ -->
 
 # Delay Rejection Method Algorithm

@@ -105,7 +105,7 @@ picksample <- function(list_output,i=1,t){
 #' @description DelaySSA implements a stochastic simulation algorithm (SSA) with delays in R through different algorithms.
 #'
 #'
-#' @param algorithm  "DelayMNR" (default), "DelayReject", or "DelayDirect". If without delay, "Direct", "MNR" and "NR"  are recommended and the parameters of "delay_type" and "delaytime_list" can be omitted.
+#' @param algorithm  "DelayMNR" (default), "DelayReject", or "DelayDirect". If without delay, "Direct", "MNR" and "NR"  are recommended and the parameters of "S_matrix_dalay" "delay_type" and "delaytime_list" can be omitted.
 #' @param sample_size the number of repetitions
 #' @param tmax cutoff time
 #' @param n_initial initial species number
@@ -119,7 +119,7 @@ picksample <- function(list_output,i=1,t){
 #'
 #' @return A list contains sublists including the amount of a species and the corresponding time
 #' @export
-simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, product_matrix, delay_type = NULL, delaytime_list = NULL) {
+simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, product_matrix, delay_type , delaytime_list) {
     algorithm_chosen <- algorithm
     sample <- sample_size
     delay_effect_matrix <- check_delay_relative(delay_type, delaytime_list, S_matrix, S_matrix_delay)
@@ -162,14 +162,14 @@ plot_SSA_density <- function(result,t_pick){
     data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = paste("Specie", i))
   })
   plot_data <- do.call(rbind, data_list)
-  ggplot2::ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) +
-    geom_line() +
-    labs(x = "Quantity", y = "Percentage", title = paste("PDF of Specie at time",t_pick)) +
-    scale_color_brewer(palette = "Set1") +
-    theme_minimal() +
-    theme(
-      plot.title = element_text(hjust = 0.5),
-      legend.title = element_blank()
+  ggplot2::ggplot(plot_data, ggplot2::aes(x = quantity, y = percentage, color = Specie)) +
+    ggplot2::geom_line() +
+    ggplot2::labs(x = "Quantity", y = "Percentage", title = paste("PDF of Specie at time",t_pick)) +
+    ggplot2::scale_color_brewer(palette = "Set1") +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5),
+      legend.title = ggplot2::element_blank()
     )
 
 }
@@ -191,14 +191,14 @@ plot_SSA_mean <- function(result,t = seq(0, tmax, by = 1)){
     data.frame(t = t, quantity = n, Specie = paste("Specie", i))
   })
   plot_data <- do.call(rbind, data_list)
-  ggplot2::ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) +
-    geom_line() +
-    labs(x = "T", y = "Quantity", title = "Mean of Specie") +
-    scale_color_brewer(palette = "Set1") +
-    theme_minimal() +
-    theme(
-      plot.title = element_text(hjust = 0.5),
-      legend.title = element_blank()
+  ggplot2::ggplot(plot_data, ggplot2::aes(x = t, y = quantity, color = Specie)) +
+    ggplot2::geom_line() +
+    ggplot2::labs(x = "T", y = "Quantity", title = "Mean of Specie") +
+    ggplot2::scale_color_brewer(palette = "Set1") +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5),
+      legend.title = ggplot2::element_blank()
     )
 }
 #' @title Propensity Function
