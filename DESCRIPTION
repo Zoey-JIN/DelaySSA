@@ -1,0 +1,14 @@
+Package: DelaySSA
+Title: The Stochastic Simulation Algorithm with Delays
+Version: 1.0
+Authors@R: 
+    c(person(given = "Ziyan",family = "Jin", role = c("aut", "cre"), email = "ziyan.22@intl.zju.edu.cn"),
+    person(given = "Xinyi", family = "Zhou", role = c("aut", "fnd"), email = "Y13230018@mail.ecust.edu.cn"))
+Description: DelaySSA implements a stochastic simulation algorithm (SSA) with delays in R. It can simulate chemical reaction systems both with and without delays.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: 
+    ggplot2
