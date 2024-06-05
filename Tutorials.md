@@ -1,10 +1,8 @@
 How to define a reaction with our package and how to run it.
 
 Biological processes involve many complex mechanisms that include different molecules and physical operations. By representing these processes as a series of individual chemical reactions, we can express them more mathematically. This allows us to accurately model the reaction process and predict the quantity of reactants.
-生物过程包括许多复杂的机制，涉及不同的分子和物理操作。用几个单一的化学反应事件代替这些过程，可以用更数学的方法来表达这些过程。
 
 Stochastic Simulation Algorithm (SSA) is a method used to simulate stochastic processes in chemical reaction systems. This algorithm is particularly suitable for systems with a small number of molecules.
-随机模拟算法（Stochastic Simulation Algorithm, SSA）是一种用于模拟化学反应系统中的随机过程的方法。这种算法特别适用于分子数量较少的系统。
 
 While this is true in many cases, some chemical reactions, such as gene transcription and translation in living cells, require a certain amount of time to complete after initiation. Thus, the products of these reactions will appear after a delay.
 
@@ -83,7 +81,7 @@ An R-dimensional vector or a 1-by-R matrix representing the type of the reaction
 An R-dimensional list representing the delay time of the reactions. Every element can be a fixed number or a stochastic value governed by a function.
 
 **delay_effect_matrix**  
-The first line is the reaction index of S_matrix, the second line is the reaction index of S_matrix_dalay. If not empty, each row represents the column of the *r*th reaction in matrix S_matrix that is the same as the column of the *r'*th reaction in S_matrix_dalay. This will cause the *r'*th reaction in delay part to be randomly eliminated when the *r*th reaction in S_matrix occurs.
+The first line is the reaction index of S_matrix, the second line is the reaction index of S_matrix_dalay. If not empty, each row represents the column of the *r*th reaction in matrix S_matrix that is the same as the column of the *r*‘th reaction in S_matrix_dalay. This will cause the *r*’th reaction in delay part to be randomly eliminated when the *r*th reaction in S_matrix occurs.
  <!-- $\bm{i}$ -->
 
 # Delay Rejection Method Algorithm
@@ -260,10 +258,6 @@ where $u_1$ and $u_2$ are two independent, uniform $(0,1)$ random numbers.
 
 [Approximate accelerated stochastic simulation of chemically reacting systems]
 [Improved leap-size selection for accelerated stochastic simulation]
- 
- 考虑一个由 N 种化学物质组成的系统，有r个正在进行的化学反应，每一个化学反应都有对应的倾向函数f_r(n)。Gillespie算法假设每个反应从开始到完成的时间可以忽略不计。通过随机模拟，计算 1) 下一次反应发生（即启动和完成）前将经过多长时间，以及 2) 在那个未来时间点会发生哪一个反应。以下假设，有时被称为化学动力学的基本前提，是基于物理原理的，并作为化学反应系统模拟方法的基础假设[Exact stochastic simulation of coupled chemical reactions]：
- ak(X(t))∆t + o(∆t) = the probability that reaction k
- takes place in a small time interval [t, t + ∆t)
 
 
 
