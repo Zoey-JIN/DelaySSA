@@ -247,6 +247,91 @@ Delay Time <br>
 </table>
 <p style="text-align: right; padding: 5px;">* This function can be used independently.</p>
 
+
+# Example for How to Use: A Reaction with Two Channels
+
+We study the reaction with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
+
+$$
+S_1+S_2 \xrightarrow{k_1}\emptyset\\
+\emptyset\stackrel{\tau}\Rightarrow S_3\\
+S_3 \xrightarrow{k_2}\emptyset
+$$
+
+The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
+
+## Initialization Part
+Assume reactions occur in this system from $t_{initial}=0$ to $tmax=150$, repeating this process $sample=1000~times$. The initial quantities of $S_1,S_2$ and $S_3$ are 1000, 1000, and 1, respectively.
+```
+sample <- 1000
+tmax <- 150
+n_initial <- matrix(c(1000,1000,0),nrow = 3)
+t_initial <- 0
+```
+According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s^{'}_{ir}$ denote numbers of reactant and product molecules, respectively. Then,
+$s=\begin{pmatrix}
+1 & 0 \\
+1 & 0 \\
+0 & 1
+\end{pmatrix}$='product_matrix',
+$s^{'}=
+\begin{pmatrix}
+0 & 0 \\
+0 & 0 \\
+0 & 0
+\end{pmatrix}$
+. Therefore, $S=s^{'}-s=\begin{pmatrix}
+-1 & 0 \\
+-1 & 0 \\
+0 & -1
+\end{pmatrix}$='S_matrix',$S_
+{delay}=\begin{pmatrix}
+0 & 0 \\
+0 & 0 \\
+1 & 0
+\end{pmatrix}$='S_matrix_delay'. 
+```
+S_matrix <- c(-1,-1,0,0,0,-1)
+S_matrix <- matrix(S_matrix,nrow = 3) 
+> S_matrix
+     [,1] [,2]
+[1,]   -1    0
+[2,]   -1    0
+[3,]    0   -1
+
+S_matrix_delay <- c(0,0,1,0,0,0)
+S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
+> S_matrix_delay
+     [,1] [,2]
+[1,]    0    0
+[2,]    0    0
+[3,]    1    0
+
+k <- c(0.001,0.001)
+product_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
+> product_matrix
+     [,1] [,2]
+[1,]    1    0
+[2,]    1    0
+[3,]    0    1
+```
+The reactions are categorized as ICD and ND, with 'delay_type' corresponding to '2' and '1' respectively. 'delaytime_list' records the delay times of the reactions. The first reaction has a delay of 0.1 seconds. The second reaction is not a delay reaction, so a '0' is added to 'delaytime_list'. 
+```
+delay_type <- matrix(c(2,0),nrow = 1)
+delaytime_list <- list()
+delaytime_list <- append(delaytime_list,0.1)
+delaytime_list <- append(delaytime_list,0)
+```
+Next, use the function ‘simulation_DelaySSA’ from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction.
+```
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+```
+Sampling times are taken as 'seq(0, tmax, by = 1)'. Use 'plot_SSA_mean' to calculate and plot the mean changes in the quantities of each substance at these time points. At time 'tmax', use 'plot_SSA_density' to calculate and plot the probability distribution of the quantities of each substance.
+```
+plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
+plot_SSA_density(result = result,t_pick = tmax)
+```
+
  <!-- $\bm{i}$ -->
 
 # Delay Rejection Method Algorithm

@@ -16,25 +16,8 @@ J_2(Y)=k_2E_T\frac{Y}{K_m+Y}.
 $$
 
 
-The species are $X$ and $Y$. Let $k_1=1,k_2=1,S=1,E_T=1,K_d=1,K_m=1,p=2.$
+The species are $X$ and $Y$. Let $k_1=1,k_2=1,S=1,E_T=1,K_d=1,K_m=1,p=2,\tau=20.$
 
-## Non-Delay Part
-```
-product_list <- matrix(c(0,0,0,1),nrow = 2)
-fun_fr <- function(k,n){
-  k <- c(1/(1 + (n[2])^2), 1/(1 + n[2]))
-  return(k*propensity(n,product_list))
-}
-S_matrix <- c(1,0,0,-1)
-S_matrix <- matrix(S_matrix,nrow = 2)
-```
-
-Then we define initial conditions
-```
-tmax <- 400
-n_initial <- matrix(c(0,0),nrow = 2)
-t_initial <- 0
-```
 ## Delay Part
 ```
 sample <- 10000
@@ -54,11 +37,11 @@ delaytime_list <- append(delaytime_list,0)
 
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 
-plot_SSA_mean(result = result)
+plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
-Finally simulate the reaction and plot the results
+![PDF Preview](figs/Oscillation_Mean.pdf)
 
 # Bursty Model
 
@@ -95,7 +78,7 @@ for (i in 1:j) {
 
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 
-plot_SSA_mean(result = result)
+plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
@@ -103,16 +86,42 @@ plot_SSA_density(result = result,t_pick = tmax)
 We also study the refractory model, which was devised to explain the experimental observation that the distribution of ‘‘off’’ intervals is not exponential but rather has a peak at a nonzero value. The gene state can change between $G_0$, $G_1$ and $G_2$, but gene expression only occurs at the state of $G_2$. The the mRNA will degrade after the fixed delay time $\tau$. This reaction scheme can be illustrated by
 $$
 \begin{aligned}
-G_0\xrightarrow{\sigma_0} G1,~
-G_1\xrightarrow{\sigma_1}G_2,~
-G_2\xrightarrow{\sigma_2}G_0,~
-G_2\xrightarrow{\rho}G_2+N,~
+G_0\xrightarrow{k_1} G1,~
+G_1\xrightarrow{k_2}G_2,~
+G_2\xrightarrow{k_3}G_0,~
+G_2\xrightarrow{k_4}G_2+N,~
 N\stackrel{\tau}\Rightarrow\emptyset.
 \end{aligned}
 $$
+The specie is $G_0,G_1,G_2,N$. Let $k_1 = 0.15,k_2 =  0.1,k_3 = 0.05,k_4 = 10, \tau = 1.$
+## Delay Part
+```
+sample <- 10000
+tmax <- 150
+n_initial <- matrix(c(1,0,0,0),nrow = 4)
+t_initial <- 0
+S_matrix <- c(-1,1,0,0,0,-1,1,0,1,0,-1,0,0,0,0,1)
+S_matrix <- matrix(S_matrix,nrow = 4) 
+S_matrix_delay <- c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1)
+S_matrix_delay <- matrix(S_matrix_delay,nrow = 4)
+k <- c(0.15,0.1,0.05,10)
+product_matrix <- matrix(c(1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0),nrow = 4)
+delay_type <- matrix(c(0,0,0,2),nrow = 1)
+delaytime_list <- list()
+delaytime_list <- append(delaytime_list,0)
+delaytime_list <- append(delaytime_list,0)
+delaytime_list <- append(delaytime_list,0)
+delaytime_list <- append(delaytime_list,1)
+
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+
+plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
+plot_SSA_density(result = result,t_pick = tmax)
+
+```
 
 # Birth Death Model
-We consider a non-Markovian system where mRNA are transcript at a rate $\rho$ and are removed from the system (degraded) after a fixed time delay $\tau$. For each mRNA, its $\tau$ follow a gamma distribution. This reaction scheme can be illustrated by
+We consider a non-Markovian system where mRNA are transcript at a rate $k$ and are removed from the system (degraded) after a fixed time delay $\tau$. For each mRNA, its $\tau$ follow a gamma distribution. This reaction scheme can be illustrated by
 $$
 \emptyset\stackrel{k}\rightarrow N, 
 N\stackrel{\tau}\Rightarrow\emptyset.
@@ -124,13 +133,13 @@ The specie is $N$. Let $k=10, \tau\sim\text{Gamma}(7,1).$
 
 ## Delay Part
 ```
-sample <- 10000
-tmax <- 20
+sample <- 1000
+tmax <- 150
 n_initial <- matrix(c(0),nrow = 1)
 t_initial <- 0
 S_matrix <- c(1)
 S_matrix <- matrix(S_matrix,nrow = 1) 
-S_matrix_delay <- -c(1)
+S_matrix_delay <- c(-1)
 S_matrix_delay <- matrix(S_matrix_delay,nrow = 1)
 k <- c(10)
 product_matrix <- matrix(c(0),nrow = 1)
@@ -140,26 +149,44 @@ delaytime_list <- append(delaytime_list,rgamma(n = 1, shape = 7, rate = 1))
 
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 
-plot_SSA_mean(result = result)
+plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
 # A Reaction with Two Channels
-感觉这个可以当做tutorial里面解释代码的例子
 
-We study the reaction with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $c_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $c_2$. This procedure can be described by
+We study the reaction with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
 
 $$
-S_1+S_2 \xrightarrow{c_1}\emptyset\\
+S_1+S_2 \xrightarrow{k_1}\emptyset\\
 \emptyset\stackrel{\tau}\Rightarrow S_3\\
-S_3 \xrightarrow{c_2}\emptyset
+S_3 \xrightarrow{k_2}\emptyset
 $$
 
+The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
+## Delay Part
+```
+sample <- 1000
+tmax <- 150
+n_initial <- matrix(c(1000,1000,0),nrow = 3)
+t_initial <- 0
+S_matrix <- c(-1,-1,0,0,0,-1)
+S_matrix <- matrix(S_matrix,nrow = 3) 
+S_matrix_delay <- c(0,0,1,0,0,0)
+S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
+k <- c(0.001,0.001)
+product_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
+delay_type <- matrix(c(2,0),nrow = 1)
+delaytime_list <- list()
+delaytime_list <- append(delaytime_list,0.1)
+delaytime_list <- append(delaytime_list,0)
+
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+
+plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
+plot_SSA_density(result = result,t_pick = tmax)
 ```
 
-```
-
-[]!
 
 
 

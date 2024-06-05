@@ -119,10 +119,11 @@ picksample <- function(list_output,i=1,t){
 #'
 #' @return A list contains sublists including the amount of a species and the corresponding time
 #' @export
-simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, product_matrix, delay_type , delaytime_list) {
+simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay = NULL, k, product_matrix, delay_type = NULL , delaytime_list = NULL) {
     algorithm_chosen <- algorithm
     sample <- sample_size
-    delay_effect_matrix <- check_delay_relative(delay_type, delaytime_list, S_matrix, S_matrix_delay)
+    if (!(is.null(delay_type) || is.null(delaytime_list) || is.null(S_matrix_delay))) {
+      delay_effect_matrix <- check_delay_relative(delay_type, delaytime_list, S_matrix, S_matrix_delay)}
     fun_fr <- function(k,n){
       if (is.function(k)) {
         k_mask <- k(n)
@@ -178,16 +179,18 @@ plot_SSA_density <- function(result,t_pick){
 #'
 #' @param result result of solve_DelaySSA
 #' @param t time series
+#' @param n_initial initial species number
+#' @param t_initial initial time
 #'
 #' @return a picture showing the mean through time
 #' @export
-plot_SSA_mean <- function(result,t = seq(0, tmax, by = 1)){
+plot_SSA_mean <- function(result,t = seq(0, tmax, by = 1),n_initial=n_initial,t_initial=t_initial){
   num_columns <- nrow(result[[1]]$n_values)
   data_list <- lapply(1:num_columns, function(i) {
     n <- lapply(t,function(x) plot_mean(result,i,x))
     n <- unlist(n)
-    if(t[1]==0)
-      n[1] <- 0
+    if(t[1]==t_initial)
+      n[1] <- n_initial[i,]
     data.frame(t = t, quantity = n, Specie = paste("Specie", i))
   })
   plot_data <- do.call(rbind, data_list)
