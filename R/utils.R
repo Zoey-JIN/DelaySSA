@@ -135,9 +135,9 @@ simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_ini
                     "DelayDirect" = lapply(1:sample, function(x) simulate_reaction_delay_direct(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
                     "DelayMNR" = lapply(1:sample, function(x) simulate_reaction_delay_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
                     "DelayRejection" = lapply(1:sample, function(x) simulate_reaction_delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
-                    "Direct" = lapply(1:sample, function(x) simulate_reaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr)),
-                    "MNR" = lapply(1:sample, function(x) simulate_reaction_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr)),
-                    "NR" = lapply(1:sample, function(x) simulate_reaction_nextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr)),
+                    "Direct" = lapply(1:sample, function(x) simulate_reaction(tmax, n_initial, t_initial, S_matrix, fun_fr)),
+                    "MNR" = lapply(1:sample, function(x) simulate_reaction_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, fun_fr)),
+                    "NR" = lapply(1:sample, function(x) simulate_reaction_nextreaction(tmax, n_initial, t_initial, S_matrix, fun_fr)),
                     "Error: No such algorithm!"
                     )
    return(result)
