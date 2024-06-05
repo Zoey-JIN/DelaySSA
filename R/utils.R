@@ -132,9 +132,9 @@ simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_ini
       return(k_mask*propensity_n(n,product_matrix))
     }
     result <- switch(algorithm_chosen,
-                    "DelayDirect" = lapply(1:sample, function(x) simulate_reaction_delay_direct(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix, delay_effect_matrix)),
-                    "DelayMNR" = lapply(1:sample, function(x) simulate_reaction_delay_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix, delay_effect_matrix)),
-                    "DelayRejection" = lapply(1:sample, function(x) simulate_reaction_delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix, delay_effect_matrix)),
+                    "DelayDirect" = lapply(1:sample, function(x) simulate_reaction_delay_direct(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
+                    "DelayMNR" = lapply(1:sample, function(x) simulate_reaction_delay_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
+                    "DelayRejection" = lapply(1:sample, function(x) simulate_reaction_delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
                     "Direct" = lapply(1:sample, function(x) simulate_reaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr)),
                     "MNR" = lapply(1:sample, function(x) simulate_reaction_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr)),
                     "NR" = lapply(1:sample, function(x) simulate_reaction_nextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr)),
