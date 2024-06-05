@@ -3,12 +3,13 @@
 brief illustrasion of this R package DelaySSA
 
 DelaySSA implements a stochastic simulation algorithm (SSA) with delays in R. It can simulate chemical reaction systems both with and without delays.
-DelaySSA用r语言的方式实现了对与一些有延迟的反应的ssa模拟。针对这些涉及或者不涉及的反应用包的方式进行模拟。
 
 
 ## Install
 
 how to install 
+devtools::install_github("Zoey-JIN/DelaySSA")
+library(DelaySSA)
 
 ## Examples
 
