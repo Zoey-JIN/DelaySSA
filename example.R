@@ -196,7 +196,7 @@ n_initial <- matrix(0,nrow = 1)
 n_initial <- matrix(n_initial,nrow = 1)
 product_matrix <- matrix(c(rep(0,j),1),nrow = 1)
 
-####on off####
+####on off / Telegraph####
 # off->on k1=0.03
 # on->off k2=0.04
 # on->on+N k3=10 
