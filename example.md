@@ -199,7 +199,7 @@ $$
 N\stackrel{\tau}\Rightarrow\emptyset.
 $$
 
-where $\tau\sim\text{Gamma}(7,1)$. Let $k=10 \tau\sim\text{Gamma}(7,1).$
+where $\tau\sim\text{Gamma}(7,1)$. Let $k=10$, $\tau\sim\text{Gamma}(7,1).$
 
 ```R
 tmax <- 150
