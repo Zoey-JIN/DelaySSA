@@ -24,20 +24,20 @@ $$
 Propensity functions are in the form of mass-action kinetics type
 [Stochastic processes in physics and chemistry]
 $$
-f_r({n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}}
+f_r(\bm{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}}
 $$
 
 where $\bm{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega $ is the volume of a closed compartment.
 
 Some reactions are expected to include delays. Such as gene transcription and translation, these chemical reactions may require a specific duration to complete after initiation. And the products of such reactions will emerge after distinct delays.
 
-The delay could be a fixed number or a stochastic value. According to Barrio et al.[Oscillatory Regulation of Hes1: Discrete Stochastic Delay Modelling and Simulation], reactions with delays are categorized into consuming and nonconsuming reactions. If a delayed reaction is a nonconsuming reactions, it initiates at $t$ and will finish until $t+t_{delay}$, then the $\bm{n}$ of the number of species will change only at $t+t_{delay}$. If a delayed reaction is a consuming reactions, it initiates at $t$ and will finish until $t+t_{delay}$, then the $\bm{n}$ of the number of species will change both at $t$ and $t+t_{delay}$.
+The delay could be a fixed number or a stochastic value. According to Barrio et al.[Oscillatory Regulation of Hes1: Discrete Stochastic Delay Modelling and Simulation], reactions with delays are categorized into consuming and nonconsuming reactions. If a delayed reaction is a nonconsuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\bm{n}$ of the number of species will change only at $t+t_\text{delay}$. If a delayed reaction is a consuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\bm{n}$ of the number of species will change both at $t$ and $t+t_\text{delay}$.
 
 We can categorize reactions into the following three cases.
 
 Case 1: If reaction r loses the reactant species and gains the product species at the initiation time $t$, we define the reaction r with no delays as ND.
 
-Case 2: If reaction r loses the reactant species and gains the product species at the completion time $t+t_{delay}$, we define the reaction r with delays as CD.
+Case 2: If reaction r loses the reactant species and gains the product species at the completion time $t+t_\text{delay}$, we define the reaction r with delays as CD.
 
 Case 3: If reaction r loses the reactant species and gains the product species at the initiation time $t$ and the completion time $t+t_{delay}$, respectively, we define the reaction r with delays as ICD.
 
@@ -63,16 +63,16 @@ A numeric value representing the initial time for the system of these reactions.
 An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and $R$ corresponds to the number of reactions. It represents the stoichiometric matrix at the initiation time $t$, which is only relevant for the type of ND and ICD reactions. If it is CD reactions, the corresponding column is filled with zeros.
 
 `S_matrix_dalay`  
-An N-by-R matrix, where $N$ corresponds to the number of species types and $R$ corresponds to the number of reactions. It represents the stoichiometric matrix at the completion time $t+t_\text{delay}$, which is only relevant for the delayed type of CD and ICD reactions. If it is not a delay reaction namely ND reactions, the corresponding column is filled with zeros.
+An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and $R$ corresponds to the number of reactions. It represents the stoichiometric matrix at the completion time $t+t_\text{delay}$, which is only relevant for the delayed type of CD and ICD reactions. If it is not a delay reaction namely ND reactions, the corresponding column is filled with zeros.
 
 `k`  
-An R-dimensional vector representing the reaction rate constants or a function representing the rate variable.
+An $R$-dimensional vector representing the reaction rate constants or a function representing the rate variable.
 
 `product_matrix`  
-An N-by-R matrix, where N corresponds to the number of species types and R corresponds to the number of reactions, representing the quantity of reactants.
+An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and R corresponds to the number of reactions, representing the quantity of reactants.
 
 `f_r`  
-A function determined by $k$ and $\bm{n}$. f_r represents the propensity function.
+A function determined by $k$ and $\bm{n}$. `f_r` represents the propensity function.
 
 `delay_type`  
 An R-dimensional vector or a 1-by-R matrix representing the type of the reactions. It is a numerical vector, where each element can take on the values 0, 1, or 2. Here, 0 represents ND, 1 represents CD, and 2 represents ICD.
@@ -81,7 +81,7 @@ An R-dimensional vector or a 1-by-R matrix representing the type of the reaction
 An R-dimensional list representing the delay time of the reactions. Every element can be a fixed number or a stochastic value governed by a function.
 
 `delay_effect_matrix`  
-The first line is the reaction index of S_matrix, the second line is the reaction index of S_matrix_dalay. If not empty, each row represents the column of the *r*th reaction in matrix S_matrix that is the same as the column of the *r*‘th reaction in S_matrix_dalay. This will cause the *r*’th reaction in delay part to be randomly eliminated when the *r*th reaction in S_matrix occurs called interruption.
+The first line is the reaction index of `S_matrix`, the second line is the reaction index of `S_matrix_dalay`. If not empty, each row represents the column of the *r*th reaction in matrix `S_matrix` that is the same as the column of the $r$'-th reaction in `S_matrix_dalay`. This will cause the $r$'-th reaction in delay part to be randomly eliminated when the $r$-th reaction in `S_matrix` occurs called interruption.
 
 # Function
 
