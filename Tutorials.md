@@ -16,7 +16,7 @@ $$
 \sum_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R.
 $$  
 
-$s_{ir}$ and $s^{'}_{ir}$ denote numbers of reactant and product molecules, respectively. $k_r$ is the reaction rate constant of the *r*th reacion. And the stoichiometric matrix S is given by
+$s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $ k_r $ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
 $$
 S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
 $$
@@ -24,10 +24,10 @@ $$
 Propensity functions are in the form of mass-action kinetics type
 [Stochastic processes in physics and chemistry]
 $$
-f_r(\bm{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}}
+f_r({n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}}
 $$
 
-where $\mathbf{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega $ is the volume of a closed compartment.
+where $\bm{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega $ is the volume of a closed compartment.
 
 Some reactions are expected to include delays. Such as gene transcription and translation, these chemical reactions may require a specific duration to complete after initiation. And the products of such reactions will emerge after distinct delays.
 
