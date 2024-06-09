@@ -16,10 +16,7 @@ Then load
 ```
 library("DelaySSA")
 ```
-## Examples
-
-# Delayed Production and Annihilation System
-
+## Example
 Molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. 
 $$
 S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3\\
