@@ -1,49 +1,89 @@
-How to define a reaction with our package and how to run it.
 
-Biological processes involve many complex mechanisms that include different molecules and physical operations. By representing these processes as a series of individual chemical reactions, we can express them more mathematically. This allows us to accurately model the reaction process and predict the quantity of reactants.
+# Tutorial Example : Delayed Production and Annihilation System
 
-Stochastic Simulation Algorithm (SSA) is a method used to simulate stochastic processes in chemical reaction systems. This algorithm is particularly suitable for systems with a small number of molecules.
-
-While this is true in many cases, some chemical reactions, such as gene transcription and translation in living cells, require a certain amount of time to complete after initiation. Thus, the products of these reactions will appear after a delay.
-
-DelaySSA implements a stochastic simulation algorithm (SSA) with delays in R. It can simulate chemical reaction systems both with and without delays. Gillespie’s exact stochastic simulation algorithm has been widely used to simulate the stochastic dynamics of chemically reacting systems.
-
-Based on the same fundamental premise of stochastic kinetics used by Gillespie, an exact SSA for chemical reaction systems with delays called the direct method is developed by Cai[Exact stochastic simulation of coupled chemical reactions with delays]. In his paper, it points out that an algorithm modified from Gillespie’s SSA by Barrio et al.[Oscillatory Regulation of Hes1: Discrete Stochastic Delay Modelling and Simulation] is also an exact SSA  called the rejection method for chemical reaction systems with delays. But the rejection method requires more random variables than the direct method. And another algorithm is extended from the modified Next Reaction Method to systems known as the Next Reaction Method for systems with delays.[A modified Next Reaction Method for simulating chemical systems with time dependent propensities and delays]
-
-Given a finite set of chemical species $X_i, i = 1, \ldots,N,$ and R chemical reactions, we define the reactions by the notation  
+This tutorial is designed to demonstrate how to use DelaySSA for defining chemical reaction models, solving related problems, and visualizing the results. We study the system with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then degrade with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
 
 $$
-\sum_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R.
-$$  
-
-$s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $ k_r $ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
-$$
-S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
+S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3\\
+S_3 \xrightarrow{k_2}\emptyset.
 $$
 
-Propensity functions are in the form of mass-action kinetics type
-[Stochastic processes in physics and chemistry]
-$$
-f_r(\bm{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}}
-$$
+The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
 
-where $\bm{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega $ is the volume of a closed compartment.
+## Initialization Part
+Assume reactions occur in this system from `t_initial=0` to `tmax=150`, repeating this process for `sample=1000` times. The initial quantities of $S_1,S_2$ and $S_3$ are 1000, 1000, and 1, respectively.
 
-Some reactions are expected to include delays. Such as gene transcription and translation, these chemical reactions may require a specific duration to complete after initiation. And the products of such reactions will emerge after distinct delays.
+```R
+sample <- 1000
+tmax <- 150
+n_initial <- matrix(c(1000,1000,0),nrow = 3)
+t_initial <- 0
+```
+According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s^{'}_{ir}$ denote numbers of reactant and product molecules, respectively. Then, we define
+$s=\begin{pmatrix}
+1 & 0 \\
+1 & 0 \\
+0 & 1
+\end{pmatrix}$ as `product_matrix`, 
+$s^{'}=
+\begin{pmatrix}
+0 & 0 \\
+0 & 0 \\
+0 & 0
+\end{pmatrix}$. Therefore, we can define $S=s^{'}-s=\begin{pmatrix}
+-1 & 0 \\
+-1 & 0 \\
+0 & -1
+\end{pmatrix}$ as `S_matrix`. for delay part, we can define $S_\text
+{delay}=\begin{pmatrix}
+0 & 0 \\
+0 & 0 \\
+1 & 0
+\end{pmatrix}$ as `S_matrix_delay`. 
+```R
+S_matrix <- c(-1,-1,0,0,0,-1)
+S_matrix <- matrix(S_matrix,nrow = 3) 
+> S_matrix
+     [,1] [,2]
+[1,]   -1    0
+[2,]   -1    0
+[3,]    0   -1
 
-The delay could be a fixed number or a stochastic value. According to Barrio et al.[Oscillatory Regulation of Hes1: Discrete Stochastic Delay Modelling and Simulation], reactions with delays are categorized into consuming and nonconsuming reactions. If a delayed reaction is a nonconsuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\bm{n}$ of the number of species will change only at $t+t_\text{delay}$. If a delayed reaction is a consuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\bm{n}$ of the number of species will change both at $t$ and $t+t_\text{delay}$.
+S_matrix_delay <- c(0,0,1,0,0,0)
+S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
+> S_matrix_delay
+     [,1] [,2]
+[1,]    0    0
+[2,]    0    0
+[3,]    1    0
 
-We can categorize reactions into the following three cases.
+k <- c(0.001,0.001)
+product_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
+> product_matrix
+     [,1] [,2]
+[1,]    1    0
+[2,]    1    0
+[3,]    0    1
+```
+The reactions are categorized as ICD and ND, with `delay_type` corresponding to `2` and `1` respectively. `delaytime_list` records the delay times of the reactions. The first reaction will trigger a delay reaction that will happen after $\tau = 0.1$ seconds. The second reaction will not trigger a delay reaction, thus a `0` is added to `delaytime_list`. 
+```R
+tau = 0.1
+delay_type <- matrix(c(2,0),nrow = 1)
+delaytime_list <- list()
+delaytime_list <- append(delaytime_list,tau)
+delaytime_list <- append(delaytime_list,0)
+```
+Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction
+```R
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+```
+Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean changes in the quantities of each substance at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each substance. Here the number of $S_1$ is the same as the number of $S_2$. Also can use the drawing method in [example.md](https://github.com/Zoey-JIN/DelaySSA/blob/main/example.md).
+```R
+plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
+plot_SSA_density(result = result,t_pick = tmax)
+```
 
-Case 1: If reaction r loses the reactant species and gains the product species at the initiation time $t$, we define the reaction r with no delays as ND.
-
-Case 2: If reaction r loses the reactant species and gains the product species at the completion time $t+t_\text{delay}$, we define the reaction r with delays as CD.
-
-Case 3: If reaction r loses the reactant species and gains the product species at the initiation time $t$ and the completion time $t+t_{delay}$, respectively, we define the reaction r with delays as ICD.
-
-
-The arguments of the DelaySSA are as follows.
-
+## Main API
 `algorithm`  
 The alternative algorithm must be one of `DelayMNR` (default), `DelayReject`, or `DelayDirect`. If you want to calculate without delay, `Direct`, `MNR` and `NR`  are recommended and the parameters of `S_matrix_dalay` `delay_type` and `delaytime_list` can be omitted.
 
@@ -75,10 +115,10 @@ An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and R
 A function determined by $k$ and $\bm{n}$. `f_r` represents the propensity function.
 
 `delay_type`  
-An R-dimensional vector or a 1-by-R matrix representing the type of the reactions. It is a numerical vector, where each element can take on the values 0, 1, or 2. Here, 0 represents ND, 1 represents CD, and 2 represents ICD.
+An R-dimensional vector or a $1$-by-$R$ matrix representing the type of the reactions. It is a numerical vector, where each element can take on the values `0`, `1`, or `2`. Here `0` represents ND, `1` represents CD and `2`represents ICD.
 
 `delaytime_list`  
-An R-dimensional list representing the delay time of the reactions. Every element can be a fixed number or a stochastic value governed by a function.
+An $R$-dimensional list representing the delay time of the reactions. Every element can be a fixed number or a stochastic value governed by a function.
 
 `delay_effect_matrix`  
 The first line is the reaction index of `S_matrix`, the second line is the reaction index of `S_matrix_dalay`. If not empty, each row represents the column of the *r*th reaction in matrix `S_matrix` that is the same as the column of the $r$'-th reaction in `S_matrix_dalay`. This will cause the $r$'-th reaction in delay part to be randomly eliminated when the $r$-th reaction in `S_matrix` occurs called interruption.
@@ -247,90 +287,55 @@ Delay Time <br>
 </table>
 <p style="text-align: right; padding: 5px;">* This function can be used independently.</p>
 
+# Basic Concepts
+Biological processes involve many complex mechanisms that include different molecules and physical operations. By representing these processes as a series of individual chemical reactions, we can express them more mathematically. This allows us to accurately model the reaction process and predict the quantity of reactants.
 
-# Tutorial Example : Delayed Production and Annihilation System
+Stochastic Simulation Algorithm (SSA) is a method used to simulate stochastic processes in chemical reaction systems. This algorithm is particularly suitable for systems with a small number of molecules.
 
-This tutorial is designed to demonstrate how to use DelaySSA for defining chemical reaction models, solving related problems, and visualizing the results. We study the system with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then degrade with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
+While this is true in many cases, some chemical reactions, such as gene transcription and translation in living cells, require a certain amount of time to complete after initiation. Thus, the products of these reactions will appear after a delay.
+
+DelaySSA implements a stochastic simulation algorithm (SSA) with delays in R. It can simulate chemical reaction systems both with and without delays. Gillespie’s exact stochastic simulation algorithm has been widely used to simulate the stochastic dynamics of chemically reacting systems.
+
+Based on the same fundamental premise of stochastic kinetics used by Gillespie, an exact SSA for chemical reaction systems with delays called the direct method is developed by Cai[Exact stochastic simulation of coupled chemical reactions with delays]. In his paper, it points out that an algorithm modified from Gillespie’s SSA by Barrio et al.[Oscillatory Regulation of Hes1: Discrete Stochastic Delay Modelling and Simulation] is also an exact SSA  called the rejection method for chemical reaction systems with delays. But the rejection method requires more random variables than the direct method. And another algorithm is extended from the modified Next Reaction Method to systems known as the Next Reaction Method for systems with delays.[A modified Next Reaction Method for simulating chemical systems with time dependent propensities and delays]
+
+Given a finite set of chemical species $X_i, i = 1, \ldots,N,$ and R chemical reactions, we define the reactions by the notation  
 
 $$
-S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3\\
-S_3 \xrightarrow{k_2}\emptyset.
+\sum_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R.
+$$  
+
+$s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $ k_r $ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
+$$
+S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
 $$
 
-The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
+Propensity functions are in the form of mass-action kinetics type
+[Stochastic processes in physics and chemistry]
+$$
+f_r(\bm{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}}
+$$
 
-## Initialization Part
-Assume reactions occur in this system from `t_initial=0` to `tmax=150`, repeating this process for `sample=1000` times. The initial quantities of $S_1,S_2$ and $S_3$ are 1000, 1000, and 1, respectively.
+where $\bm{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega $ is the volume of a closed compartment.
 
-```R
-sample <- 1000
-tmax <- 150
-n_initial <- matrix(c(1000,1000,0),nrow = 3)
-t_initial <- 0
-```
-According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s^{'}_{ir}$ denote numbers of reactant and product molecules, respectively. Then, we define
-$s=\begin{pmatrix}
-1 & 0 \\
-1 & 0 \\
-0 & 1
-\end{pmatrix}$ as `product_matrix`, 
-$s^{'}=
-\begin{pmatrix}
-0 & 0 \\
-0 & 0 \\
-0 & 0
-\end{pmatrix}$. Therefore, we can define $S=s^{'}-s=\begin{pmatrix}
--1 & 0 \\
--1 & 0 \\
-0 & -1
-\end{pmatrix}$ as `S_matrix`. for delay part, we can define $S_\text
-{delay}=\begin{pmatrix}
-0 & 0 \\
-0 & 0 \\
-1 & 0
-\end{pmatrix}$ as `S_matrix_delay`. 
-```R
-S_matrix <- c(-1,-1,0,0,0,-1)
-S_matrix <- matrix(S_matrix,nrow = 3) 
-> S_matrix
-     [,1] [,2]
-[1,]   -1    0
-[2,]   -1    0
-[3,]    0   -1
+Some reactions are expected to include delays. Such as gene transcription and translation, these chemical reactions may require a specific duration to complete after initiation. And the products of such reactions will emerge after distinct delays.
 
-S_matrix_delay <- c(0,0,1,0,0,0)
-S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
-> S_matrix_delay
-     [,1] [,2]
-[1,]    0    0
-[2,]    0    0
-[3,]    1    0
+The delay could be a fixed number or a stochastic value. According to Barrio et al.[Oscillatory Regulation of Hes1: Discrete Stochastic Delay Modelling and Simulation], reactions with delays are categorized into consuming and nonconsuming reactions. If a delayed reaction is a nonconsuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\bm{n}$ of the number of species will change only at $t+t_\text{delay}$. If a delayed reaction is a consuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\bm{n}$ of the number of species will change both at $t$ and $t+t_\text{delay}$.
 
-k <- c(0.001,0.001)
-product_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
-> product_matrix
-     [,1] [,2]
-[1,]    1    0
-[2,]    1    0
-[3,]    0    1
-```
-The reactions are categorized as ICD and ND, with `delay_type` corresponding to `2` and `1` respectively. `delaytime_list` records the delay times of the reactions. The first reaction will trigger a delay reaction that will happen after $\tau = 0.1$ seconds. The second reaction will not trigger a delay reaction, thus a `0` is added to `delaytime_list`. 
-```R
-tau = 0.1
-delay_type <- matrix(c(2,0),nrow = 1)
-delaytime_list <- list()
-delaytime_list <- append(delaytime_list,tau)
-delaytime_list <- append(delaytime_list,0)
-```
-Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction
-```R
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
-```
-Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean changes in the quantities of each substance at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each substance. Here the number of $S_1$ is the same as the number of $S_2$. Also can use the drawing method in [example.md](https://github.com/Zoey-JIN/DelaySSA/blob/main/example.md).
-```R
-plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
-plot_SSA_density(result = result,t_pick = tmax)
-```
+We can categorize reactions into the following three cases.
+
+Case 1: If reaction r loses the reactant species and gains the product species at the initiation time $t$, we define the reaction r with no delays as ND.
+
+Case 2: If reaction r loses the reactant species and gains the product species at the completion time $t+t_\text{delay}$, we define the reaction r with delays as CD.
+
+Case 3: If reaction r loses the reactant species and gains the product species at the initiation time $t$ and the completion time $t+t_{delay}$, respectively, we define the reaction r with delays as ICD.
+
+
+The arguments of the DelaySSA are as follows.
+
+
+
+
+
 
  <!-- $\bm{i}$ -->
 
@@ -620,3 +625,8 @@ We have therefore found the absolute times of the next firings of reactions $r =
  9. Recalculate the propensity function, $f_r$, for each reaction.
 
  10. Return to step 5 or quit.
+
+## References
+[1] Cai, X. (2007). Exact stochastic simulation of coupled chemical reactions with delays. The Journal of chemical physics, 126(12).
+
+[2] Barrio, M., Burrage, K., Leier, A., & Tian, T. (2006). Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation. PLoS computational biology, 2(9), e117.
