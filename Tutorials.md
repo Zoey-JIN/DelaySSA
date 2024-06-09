@@ -24,7 +24,7 @@ $s=\begin{pmatrix}
 1 & 0 \\
 1 & 0 \\
 0 & 1
-\end{pmatrix}$ as `product_matrix`, 
+\end{pmatrix}$ as `reactant_matrix`, 
 $s^{'}=
 \begin{pmatrix}
 0 & 0 \\
@@ -58,8 +58,8 @@ S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
 [3,]    1    0
 
 k <- c(0.001,0.001)
-product_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
-> product_matrix
+reactant_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
+> reactant_matrix
      [,1] [,2]
 [1,]    1    0
 [2,]    1    0
@@ -75,7 +75,7 @@ delaytime_list <- append(delaytime_list,0)
 ```
 Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction
 ```R
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean changes in the quantities of each substance at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each substance. Here the number of $S_1$ is the same as the number of $S_2$. Also can use the drawing method in [example.md](https://github.com/Zoey-JIN/DelaySSA/blob/main/example.md).
 ```R
@@ -108,7 +108,7 @@ An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and $
 `k`  
 An $R$-dimensional vector representing the reaction rate constants or a function representing the rate variable.
 
-`product_matrix`  
+`reactant_matrix`  
 An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and R corresponds to the number of reactions, representing the quantity of reactants.
 
 `f_r`  

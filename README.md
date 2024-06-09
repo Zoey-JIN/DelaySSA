@@ -54,7 +54,10 @@ plot_SSA_density(result = result,t_pick = tmax)
 ```
 
 Check [Tutorials](https://github.com/Zoey-JIN/DelaySSA/blob/main/Tutorials.md) for more details.
-## References
-[1]
 
-[2]...
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 # Delay Modified Next Reaction Method Algorithm
 
- Delay Modified Next Reaction Method Algorithm is modified Next Reaction Method to systems with delays. If $T_r$ is the current internal time of $Y_r$, $P_r$ the first internal time after $T_r$ at which $Y_r$ fires, and the propensity function for the *r*th reaction channel is given by $f_r$, then the time until the next initiation of reaction r (assuming no other reactions initiate or complete) is still given by $\Delta t_r = (1/f_r)(P_r − T_r)$.  To each delayed reaction channel we therefore assign a vector, $s_r$, that stores the completion times of that reaction in ascending order. Thus, the time until there is a change in the state of the system, be it an initiation or a completion, will be given by
+ Delay Modified Next Reaction Method Algorithm is modified Next Reaction Method to systems with delays. According to [1], if $T_r$ is the current internal time of $Y_r$, $P_r$ the first internal time after $T_r$ at which $Y_r$ fires, and the propensity function for the *r*th reaction channel is given by $f_r$, then the time until the next initiation of reaction r (assuming no other reactions initiate or complete) is still given by $\Delta t_r = (1/f_r)(P_r − T_r)$.  To each delayed reaction channel we therefore assign a vector, $s_r$, that stores the completion times of that reaction in ascending order. Thus, the time until there is a change in the state of the system, be it an initiation or a completion, will be given by
  $$
  \Delta=\min\{\Delta t_r, s_r[1]-t\}
  $$
@@ -47,3 +47,6 @@
  13. Recalculate the propensity functions, $f_r$.
 
  14. Return to step 4 or quit.
+
+## References
+[1] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).

@@ -1,7 +1,7 @@
 
 # Gillespie Algorithm
 
- Consider a system of N chemical substances with r ongoing chemical reactions, each of which has a corresponding tendency function $f_r(\bm{n})$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems[Exact stochastic simulation of coupled chemical reactions][A general method for numerically simulating the stochastic time evolution of coupled chemical reactions]:
+ Consider a system of $N$ chemical substances with r ongoing chemical reactions, each of which has a corresponding tendency function $f_r(\bm{n})$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
  $$
  f_r(\bm{n}(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
  $$
@@ -81,10 +81,7 @@ $$
 
 We have therefore found the absolute times of the next firings of reactions $r = µ$ without having to generate any new random numbers.
 
- Note that after the first timestep is taken in the Next Reaction Method, all subsequent timesteps only demand one random number to be generated.  The Next Reaction Method developed with the notion of a dependency graph and a priority queue in order to increase computational efficiency. This is compared with two random numbers needed for each step of the original Gillespie Algorithm.
-
-[Efficient exact stochastic simulation of chemical systems with many species and many channels]
-
+ Note that after the first timestep is taken in the Next Reaction Method, all subsequent timesteps only demand one random number to be generated.  The Next Reaction Method developed with the notion of a dependency graph and a priority queue in order to increase computational efficiency [2]. This is similar with random numbers needed for each step of the original Gillespie Algorithm.
 
 ## Algorithm
 
@@ -113,7 +110,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
 
 # Modified Next Reaction Method Algorithm
- Modified Next Reaction Method Algorithm that is completely equivalent to Next Reaction Method Algorithm. But  but makes more explicit use of the internal times $T_r$. The main idea of this algorithm is $\Delta t_r = (1/f_r)(P_r − T_r)$.
+According to [3], Modified Next Reaction Method Algorithm that is completely equivalent to Next Reaction Method Algorithm. But  but makes more explicit use of the internal times $T_r$. The main idea of this algorithm is $\Delta t_r = (1/f_r)(P_r − T_r)$.
 
 ## Algorithm
 
@@ -136,3 +133,13 @@ We have therefore found the absolute times of the next firings of reactions $r =
  9. Recalculate the propensity function, $f_r$, for each reaction.
 
  10. Return to step 5 or quit.
+
+## References
+
+[1] Gillespie, D. T. (1977). Exact stochastic simulation of coupled chemical reactions. The journal of physical chemistry, 81(25), 2340-2361.
+
+[2] Gibson, M. A., & Bruck, J. (2000). Efficient exact stochastic simulation of chemical systems with many species and many channels. The journal of physical chemistry A, 104(9), 1876-1889.
+
+[3] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).
+
+
