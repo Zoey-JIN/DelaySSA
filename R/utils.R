@@ -50,13 +50,13 @@ check_delay_relative <- function(delay_type, delaytime_list, S_matrix, S_matrix_
 #' @title For Propensity Calculation
 #'
 #' @param n species number
-#' @param product_matrix species product matrix
+#' @param reactant_matrx species reactant matrix
 #'
 #' @return a vector used for calculating propensity function
-propensity_n <- function(n,product_matrix){
-  result <- sapply(1:ncol(product_matrix), function(j) {
-    prod(sapply(1:nrow(product_matrix), function(i) {
-      ifelse(product_matrix[i,j]==0, 1, Reduce(`*`, (n[i] - (0:(product_matrix[i,j]-1)))))
+propensity_n <- function(n,reactant_matrx){
+  result <- sapply(1:ncol(reactant_matrx), function(j) {
+    prod(sapply(1:nrow(reactant_matrx), function(i) {
+      ifelse(reactant_matrx[i,j]==0, 1, Reduce(`*`, (n[i] - (0:(reactant_matrx[i,j]-1)))))
     }))})
   return(result)
 }
@@ -68,6 +68,7 @@ propensity_n <- function(n,product_matrix){
 #' @param t time t
 #'
 #' @return mean value
+#' @export
 plot_mean <- function(result,i,t){
   n <- lapply(result,function(x) picksample(x,i,t))
   n <- unlist(n)
@@ -79,6 +80,7 @@ plot_mean <- function(result,i,t){
 #' @param a_vector a vector
 #'
 #' @return PDF
+#' @export
 convert_pdf <- function(a_vector) {
   freq <- table(a_vector)
   prob <- freq / sum(freq)
@@ -94,6 +96,7 @@ convert_pdf <- function(a_vector) {
 #' @param t time t
 #'
 #' @return species number
+#' @export
 picksample <- function(list_output,i=1,t){
   index <- which.min(list_output$t_values<t)-1
   n_output <- list_output$n_values[i,index]
@@ -113,13 +116,13 @@ picksample <- function(list_output,i=1,t){
 #' @param S_matrix the stoichiometric matrix at the initiation time
 #' @param S_matrix_delay the stoichiometric matrix at the completion time
 #' @param k reaction rate
-#' @param product_matrix species product matrix
+#' @param reactant_matrx species reactant matrix
 #' @param delay_type vector of reaction type taking on the values 0, 1, or 2
 #' @param delaytime_list a list representing the delay time of each reaction
 #'
 #' @return A list contains sublists including the amount of a species and the corresponding time
 #' @export
-simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay = NULL, k, product_matrix, delay_type = NULL , delaytime_list = NULL) {
+simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay = NULL, k, reactant_matrx, delay_type = NULL , delaytime_list = NULL) {
     algorithm_chosen <- algorithm
     sample <- sample_size
     if (!(is.null(delay_type) || is.null(delaytime_list) || is.null(S_matrix_delay))) {
@@ -130,7 +133,7 @@ simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_ini
       }else {
         k_mask <- k
       }
-      return(k_mask*propensity_n(n,product_matrix))
+      return(k_mask*propensity_n(n,reactant_matrx))
     }
     result <- switch(algorithm_chosen,
                     "DelayDirect" = lapply(1:sample, function(x) simulate_reaction_delay_direct(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),

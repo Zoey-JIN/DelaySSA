@@ -11,15 +11,15 @@ simulation_DelaySSA(
   n_initial,
   t_initial,
   S_matrix,
-  S_matrix_delay,
+  S_matrix_delay = NULL,
   k,
-  product_matrix,
+  reactant_matrx,
   delay_type = NULL,
   delaytime_list = NULL
 )
 }
 \arguments{
-\item{algorithm}{"DelayMNR" (default), "DelayReject", or "DelayDirect". If without delay, "Direct", "MNR" and "NR"  are recommended and the parameters of "delay_type" and "delaytime_list" can be omitted.}
+\item{algorithm}{"DelayMNR" (default), "DelayReject", or "DelayDirect". If without delay, "Direct", "MNR" and "NR"  are recommended and the parameters of "S_matrix_dalay" "delay_type" and "delaytime_list" can be omitted.}
 
 \item{sample_size}{the number of repetitions}
 
@@ -35,7 +35,7 @@ simulation_DelaySSA(
 
 \item{k}{reaction rate}
 
-\item{product_matrix}{species product matrix}
+\item{reactant_matrx}{species reactant matrix}
 
 \item{delay_type}{vector of reaction type taking on the values 0, 1, or 2}
 
