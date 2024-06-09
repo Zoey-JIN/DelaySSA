@@ -15,7 +15,7 @@ t_initial <- 0
 delay_type <- matrix(c(2),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,5)
-product_matrix <- matrix(c(0),nrow = 1)
+reactant_matrix <- matrix(c(0),nrow = 1)
 
 
 ####oscillation####
@@ -35,7 +35,7 @@ delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,20)
 delaytime_list <- append(delaytime_list,0)
-product_matrix <- matrix(c(0,0,0,1),nrow = 2)
+reactant_matrix <- matrix(c(0,0,0,1),nrow = 2)
 
 k <- function(n){  k <- c(1/(1 + (n[2])^2), 1/(1 + n[2]))}
 
@@ -65,7 +65,7 @@ for (i in 1:j) {
   delaytime_list <- append(delaytime_list,120) 
 }
 
-product_matrix <- matrix(rep(0,j),nrow = 1)
+reactant_matrix <- matrix(rep(0,j),nrow = 1)
 
 
 
@@ -90,7 +90,7 @@ delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,5)
 
-product_matrix <- matrix(c(1,0,0,0,1,0,0,1,0),nrow = 3)
+reactant_matrix <- matrix(c(1,0,0,0,1,0,0,1,0),nrow = 3)
 
 
 ####sir####
@@ -111,7 +111,7 @@ delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,20)
 delaytime_list <- append(delaytime_list,0)
-product_matrix <- matrix(c(1,0,1,0,0,0,1,0),nrow = 4)
+reactant_matrix <- matrix(c(1,0,1,0,0,0,1,0),nrow = 4)
 
 
 
@@ -133,7 +133,7 @@ delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,5)
 delaytime_list <- append(delaytime_list,0)
-product_matrix <- matrix(c(0,1),nrow = 1)
+reactant_matrix <- matrix(c(0,1),nrow = 1)
 
 ####delay interrupt example2####
 # 0->A k1=2
@@ -157,7 +157,7 @@ delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,15)
 delaytime_list <- append(delaytime_list,0)
-product_matrix <- matrix(c(0,0,1,0,1,0,0,1),nrow = 2)
+reactant_matrix <- matrix(c(0,0,1,0,1,0,0,1),nrow = 2)
 
 
 ####without delay####
@@ -173,7 +173,7 @@ S_matrix <- matrix(S_matrix,nrow = 1)
 tmax <- 10
 n_initial <- matrix(c(0),nrow = 1)
 t_initial <- 0
-product_matrix <- matrix(c(0,1),nrow = 1)
+reactant_matrix <- matrix(c(0,1),nrow = 1)
 
 ####bursty####
 # 0->iN k=ab^i/(1+b)^(i+1) 
@@ -194,7 +194,7 @@ tmax <- 1000
 t_initial <- 0
 n_initial <- matrix(0,nrow = 1)
 n_initial <- matrix(n_initial,nrow = 1)
-product_matrix <- matrix(c(rep(0,j),1),nrow = 1)
+reactant_matrix <- matrix(c(rep(0,j),1),nrow = 1)
 
 ####on off / Telegraph####
 # off->on k1=0.03
@@ -211,4 +211,4 @@ tmax <- 100
 t_initial <- 0
 n_initial <- c(1,0,0)
 n_initial <- matrix(n_initial,nrow = 3)
-product_matrix <- matrix(c(1,0,0,0,1,0,0,1,0,0,0,1),nrow = 3)
+reactant_matrix <- matrix(c(1,0,0,0,1,0,0,1,0,0,0,1),nrow = 3)
