@@ -4,12 +4,21 @@
 \alias{plot_SSA_mean}
 \title{Mean of Species over Time}
 \usage{
-plot_SSA_mean(result, t = seq(0, tmax, by = 1))
+plot_SSA_mean(
+  result,
+  t = seq(0, tmax, by = 1),
+  n_initial = n_initial,
+  t_initial = t_initial
+)
 }
 \arguments{
 \item{result}{result of solve_DelaySSA}
 
 \item{t}{time series}
+
+\item{n_initial}{initial species number}
+
+\item{t_initial}{initial time}
 }
 \value{
 a picture showing the mean through time
