@@ -19,18 +19,18 @@ tmax <- 150
 n_initial <- matrix(c(1000,1000,0),nrow = 3)
 t_initial <- 0
 ```
-According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s^{'}_{ir}$ denote numbers of reactant and product molecules, respectively. Then, we define
+According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s_{ir}'$ denote numbers of reactant and product molecules, respectively. Then, we define
 $s=\begin{pmatrix}
 1 & 0 \\
 1 & 0 \\
 0 & 1
 \end{pmatrix}$ as `reactant_matrix`, 
-$s^{'}=
+$s'=
 \begin{pmatrix}
 0 & 0 \\
 0 & 0 \\
 0 & 0
-\end{pmatrix}$. Therefore, we can define $S=s^{'}-s=\begin{pmatrix}
+\end{pmatrix}$. Therefore, we can define $S=s'-s=\begin{pmatrix}
 -1 & 0 \\
 -1 & 0 \\
 0 & -1
@@ -77,7 +77,7 @@ Next, use the function `simulation_DelaySSA` from the package to calculate the q
 ```R
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
-Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean changes in the quantities of each substance at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each substance. Here the number of $S_1$ is the same as the number of $S_2$. Also can use the drawing method in [example.md](https://github.com/Zoey-JIN/DelaySSA/blob/main/example.md).
+Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean values in the quantities of each substance at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each substance. Here the number of $S_1$ is the same as the number of $S_2$.
 ```R
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
@@ -85,40 +85,42 @@ plot_SSA_density(result = result,t_pick = tmax)
 
 ## Main API
 `algorithm`  
-The alternative algorithm must be one of `DelayMNR` (default), `DelayReject`, or `DelayDirect`. If you want to calculate without delay, `Direct`, `MNR` and `NR`  are recommended and the parameters of `S_matrix_dalay` `delay_type` and `delaytime_list` can be omitted.
+The alternative algorithm must be one of `DelayMNR` (default), `DelayReject`, or `DelayDirect`. Traditional stochastic simulation including `Direct`, `MNR` and `NR`  are recommended and the parameters of `S_matrix_dalay` `delay_type` and `delaytime_list` can be omitted.
 
 `sample_size`  
-A numeric value representing the number of repetitions for the system of these reactions.
+A numeric value representing trajectories for the system.
 
 `tmax`  
-A numeric value representing the cutoff time for the system of these reactions.
+A numeric value representing the cut-off time for the system.
 
 `n_initial`  
-An $N$-by-$1$ matrix representing the initial quantity of species, where $N$ corresponds to the number of species types.
+An N-by-1 matrix representing the initial quantity of species, where N corresponds to the number of molecular species.
 
 `t_initial`  
-A numeric value representing the initial time for the system of these reactions.
+A numeric value representing the initial time for the system.
 
 `S_matrix`  
-An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and $R$ corresponds to the number of reactions. It represents the stoichiometric matrix at the initiation time $t$, which is only relevant for the type of ND and ICD reactions. If it is CD reactions, the corresponding column is filled with zeros.
+An N-by-R matrix, where N corresponds to the number of species types and R corresponds to the number of reactions. It represents the stoichiometric matrix at the initiation time $t$, denoting the change in the number of molecules per reaction.
+
+ <!-- which is only relevant for the type of ND and ICD reactions. If it is CD reactions, the corresponding column is filled with zeros. -->
 
 `S_matrix_dalay`  
-An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and $R$ corresponds to the number of reactions. It represents the stoichiometric matrix at the completion time $t+t_\text{delay}$, which is only relevant for the delayed type of CD and ICD reactions. If it is not a delay reaction namely ND reactions, the corresponding column is filled with zeros.
+An N-by-R matrix, representing the stoichiometric matrix at the completion time $t+t_\text{delay}$, which is only relevant for the delayed type of CD and ICD reactions. If it is not a delay reaction namely ND reactions, the corresponding column is filled with zeros.
 
 `k`  
-An $R$-dimensional vector representing the reaction rate constants or a function representing the rate variable.
+An R-dimensional vector representing the reaction constant rate or a function representing the variable rate.
 
 `reactant_matrix`  
-An $N$-by-$R$ matrix, where $N$ corresponds to the number of species types and R corresponds to the number of reactions, representing the quantity of reactants.
+An N-by-R matrix, representing the quantity of reactants.
 
 `f_r`  
 A function determined by $k$ and $\bm{n}$. `f_r` represents the propensity function.
 
 `delay_type`  
-An R-dimensional vector or a $1$-by-$R$ matrix representing the type of the reactions. It is a numerical vector, where each element can take on the values `0`, `1`, or `2`. Here `0` represents ND, `1` represents CD and `2`represents ICD.
+An R-dimensional vector or a 1-by-R matrix representing the type of the reactions. It is a numerical vector, where each element can take on the values `0`, `1`, or `2`. Here `0` represents ND, `1` represents CD and `2`represents ICD.
 
 `delaytime_list`  
-An $R$-dimensional list representing the delay time of the reactions. Every element can be a fixed number or a stochastic value governed by a function.
+An R-dimensional list representing the delay time of the reactions. Every element can be a fixed number or a stochastic value governed by a function.
 
 `delay_effect_matrix`  
 The first line is the reaction index of `S_matrix`, the second line is the reaction index of `S_matrix_dalay`. If not empty, each row represents the column of the *r*th reaction in matrix `S_matrix` that is the same as the column of the $r$'-th reaction in `S_matrix_dalay`. This will cause the $r$'-th reaction in delay part to be randomly eliminated when the $r$-th reaction in `S_matrix` occurs called interruption.
