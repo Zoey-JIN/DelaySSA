@@ -114,7 +114,7 @@ An R-dimensional vector representing the reaction constant rate or a function re
 An N-by-R matrix, representing the quantity of reactants.
 
 `f_r`  
-A function determined by $k$ and $\bm{n}$. `f_r` represents the propensity function.
+A function determined by $k$ and $n$. `f_r` represents the propensity function.
 
 `delay_type`  
 An R-dimensional vector or a 1-by-R matrix representing the type of the reactions. It is a numerical vector, where each element can take on the values `0`, `1`, or `2`. Here `0` represents ND, `1` represents CD and `2`represents ICD.
