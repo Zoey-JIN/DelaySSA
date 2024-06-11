@@ -83,6 +83,12 @@ plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_in
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
+![TwoChannels_mean](figs/TwoChannels_mean.svg)
+![TwoChannels_S1andS2_density_150s](figs/TwoChannels_S1andS2_density_150s.svg)
+![TwoChannels_S3_density_150s](figs/TwoChannels_S3_density_150s.svg)
+
+
+
 ## Main API
 `algorithm`  
 The alternative algorithm must be one of `DelayMNR` (default), `DelayReject`, or `DelayDirect`. Traditional stochastic simulation including `Direct`, `MNR` and `NR`  are recommended and the parameters of `S_matrix_dalay` `delay_type` and `delaytime_list` can be omitted.
@@ -126,96 +132,6 @@ An R-dimensional list representing the delay time of the reactions. Every elemen
 The first line is the reaction index of `S_matrix`, the second line is the reaction index of `S_matrix_dalay`. If not empty, each row represents the column of the *r*th reaction in matrix `S_matrix` that is the same as the column of the $r$'-th reaction in `S_matrix_dalay`. This will cause the $r$'-th reaction in delay part to be randomly eliminated when the $r$-th reaction in `S_matrix` occurs called interruption.
 
 # Function
-
-<!-- <table style="margin: auto; width: auto;">
-  <tr>
-    <td style="text-align: left; vertical-align: top;">
-      <strong>Function</strong><br>
-      check_delay_relative <br> 
-      convert_pdf <br>
-      fun_fr <br>
-      picksample <br>
-      plot_mean <br>
-      plot_SSA_density <br>
-      plot_SSA_mean <br>
-      propensity_n <br>
-      simulate_reaction <br>
-      simulate_reaction_delay_direct <br>
-      simulate_reaction_delay_modifiednextreaction <br>
-      simulate_reaction_delay_rejection <br>
-      simulate_reaction_modifiednextreaction <br>
-      simulate_reaction_nextreaction <br>
-      simulation_DelaySSA <br>
-      tau_element <br>
-    </td>
-    <td style="text-align: left; vertical-align: top;">
-      <strong>Description</strong><br>
-      Delay Effect Matrix <br>
-      Probability Density Functions Conversion <br>
-      Propensity Function <br>
-      Results Sampling <br>
-      The Mean Value of Species i at Time t <br>
-      Density at Time t_pick <br>
-      Mean of Species over Time <br>
-      For Propensity Calculation <br>
-      Gillespie Algorithm <br>
-      Delay Direct Method Algorithm <br>
-      Delay Modified Next Reaction Method Algorithm <br>
-      Delay Rejection Method Algorithm <br>
-      Modified Next Reaction Method Algorithm <br>
-      Next Reaction Method Algorithm <br>
-      Simulation Algorithm (SSA) with Delays<br>
-      Delay Time <br>
-    </td>
-  </tr>
-</table> -->
-
-<!-- <div style="display: flex;">
-
-<div style="flex: 1; padding: 10px;">
-
-Function <br>
-check_delay_relative <br>
-convert_pdf <br>
-fun_fr <br>
-picksample <br>
-plot_mean <br>
-plot_SSA_density <br>
-plot_SSA_mean <br>
-propensity_n <br>
-simulate_reaction <br>
-simulate_reaction_delay_direct <br>
-simulate_reaction_delay_modifiednextreaction <br>
-simulate_reaction_delay_rejection <br>
-simulate_reaction_modifiednextreaction <br>
-simulate_reaction_nextreaction <br>
-simulation_DelaySSA <br>
-tau_element <br>
-</div>
-
-<div style="flex: 1; padding: 10px;">
-
-Description <br>
-Delay Effect Matrix <br>
-Probability Density Functions Conversion <br>
-Propensity Function <br>
-Results Sampling <br>
-The Mean Value of Species i at Time t <br>
-Density at Time t_pick <br>
-Mean of Species over Time <br>
-For Propensity Calculation <br>
-Gillespie Algorithm <br>
-Delay Direct Method Algorithm <br>
-Delay Modified Next Reaction Method Algorithm <br>
-Delay Rejection Method Algorithm <br>
-Modified Next Reaction Method Algorithm <br>
-Next Reaction Method Algorithm <br>
-Simulation Algorithm (SSA) with Delays <br>
-Delay Time <br>
-</div>
-
-</div> -->
-
 <table style="margin: auto; width: auto; border-collapse: collapse;">
   <tr>
     <th style="text-align: left; padding: 5px;">Function</th>
@@ -289,7 +205,7 @@ Delay Time <br>
 </table>
 <p style="text-align: right; padding: 5px;">* This function can be used independently.</p>
 
-# Basic Concepts
+<!-- # Basic Concepts
 Biological processes involve many complex mechanisms that include different molecules and physical operations. By representing these processes as a series of individual chemical reactions, we can express them more mathematically. This allows us to accurately model the reaction process and predict the quantity of reactants.
 
 Stochastic Simulation Algorithm (SSA) is a method used to simulate stochastic processes in chemical reaction systems. This algorithm is particularly suitable for systems with a small number of molecules.
@@ -332,16 +248,9 @@ Case 2: If reaction r loses the reactant species and gains the product species a
 Case 3: If reaction r loses the reactant species and gains the product species at the initiation time $t$ and the completion time $t+t_{delay}$, respectively, we define the reaction r with delays as ICD.
 
 
-The arguments of the DelaySSA are as follows.
+The arguments of the DelaySSA are as follows. -->
 
-
-
-
-
-
- <!-- $\bm{i}$ -->
-
-# Delay Rejection Method Algorithm
+<!-- # Delay Rejection Method Algorithm
 
  Based upon the no delay algorithm, we see that simulation methods for systems with delays need to calculate when reactions initiate and store when they complete. However, because of the delayed reactions, the propensity functions can change between initiation times. Bratsun et al.[Delay-induced stochastic oscillations in gene regulation] and Barrio et al[Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation] used an algorithm for computing the initiation times that is exactly like the original Gillespie Algorithm except that if there is a stored delayed reaction set to finish within a computed timestep, then the computed timestep is discarded, and the system is updated to incorporate the stored delayed reaction. The algorithm then attempts another step starting at its new state. This algorithm will be referred to as the Rejection Method.
 
@@ -626,9 +535,95 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
  9. Recalculate the propensity function, $f_r$, for each reaction.
 
- 10. Return to step 5 or quit.
+ 10. Return to step 5 or quit. -->
 
-## References
-[1] Cai, X. (2007). Exact stochastic simulation of coupled chemical reactions with delays. The Journal of chemical physics, 126(12).
 
-[2] Barrio, M., Burrage, K., Leier, A., & Tian, T. (2006). Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation. PLoS computational biology, 2(9), e117.
+
+<!-- <table style="margin: auto; width: auto;">
+  <tr>
+    <td style="text-align: left; vertical-align: top;">
+      <strong>Function</strong><br>
+      check_delay_relative <br> 
+      convert_pdf <br>
+      fun_fr <br>
+      picksample <br>
+      plot_mean <br>
+      plot_SSA_density <br>
+      plot_SSA_mean <br>
+      propensity_n <br>
+      simulate_reaction <br>
+      simulate_reaction_delay_direct <br>
+      simulate_reaction_delay_modifiednextreaction <br>
+      simulate_reaction_delay_rejection <br>
+      simulate_reaction_modifiednextreaction <br>
+      simulate_reaction_nextreaction <br>
+      simulation_DelaySSA <br>
+      tau_element <br>
+    </td>
+    <td style="text-align: left; vertical-align: top;">
+      <strong>Description</strong><br>
+      Delay Effect Matrix <br>
+      Probability Density Functions Conversion <br>
+      Propensity Function <br>
+      Results Sampling <br>
+      The Mean Value of Species i at Time t <br>
+      Density at Time t_pick <br>
+      Mean of Species over Time <br>
+      For Propensity Calculation <br>
+      Gillespie Algorithm <br>
+      Delay Direct Method Algorithm <br>
+      Delay Modified Next Reaction Method Algorithm <br>
+      Delay Rejection Method Algorithm <br>
+      Modified Next Reaction Method Algorithm <br>
+      Next Reaction Method Algorithm <br>
+      Simulation Algorithm (SSA) with Delays<br>
+      Delay Time <br>
+    </td>
+  </tr>
+</table> -->
+
+<!-- <div style="display: flex;">
+
+<div style="flex: 1; padding: 10px;">
+
+Function <br>
+check_delay_relative <br>
+convert_pdf <br>
+fun_fr <br>
+picksample <br>
+plot_mean <br>
+plot_SSA_density <br>
+plot_SSA_mean <br>
+propensity_n <br>
+simulate_reaction <br>
+simulate_reaction_delay_direct <br>
+simulate_reaction_delay_modifiednextreaction <br>
+simulate_reaction_delay_rejection <br>
+simulate_reaction_modifiednextreaction <br>
+simulate_reaction_nextreaction <br>
+simulation_DelaySSA <br>
+tau_element <br>
+</div>
+
+<div style="flex: 1; padding: 10px;">
+
+Description <br>
+Delay Effect Matrix <br>
+Probability Density Functions Conversion <br>
+Propensity Function <br>
+Results Sampling <br>
+The Mean Value of Species i at Time t <br>
+Density at Time t_pick <br>
+Mean of Species over Time <br>
+For Propensity Calculation <br>
+Gillespie Algorithm <br>
+Delay Direct Method Algorithm <br>
+Delay Modified Next Reaction Method Algorithm <br>
+Delay Rejection Method Algorithm <br>
+Modified Next Reaction Method Algorithm <br>
+Next Reaction Method Algorithm <br>
+Simulation Algorithm (SSA) with Delays <br>
+Delay Time <br>
+</div>
+
+</div> -->

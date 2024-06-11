@@ -264,7 +264,7 @@ result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=t
 ![TwoChannels_S1andS2_density_150s](figs/TwoChannels_S1andS2_density_150s.svg)
 ![TwoChannels_S3_density_150s](figs/TwoChannels_S3_density_150s.svg)
 
-# Telegraph Model
+<!-- # Telegraph Model
 
 $$
 G\xrightleftharpoons[\sigma_\text{on}]{\sigma_\text{off}}G^\star,\\
@@ -526,6 +526,6 @@ delaytime_list <- append(delaytime_list,0)
 product_matrix <- matrix(c(0,0,1,0,1,0,0,1),nrow = 2)
 
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
-```
+``` -->
 
 
