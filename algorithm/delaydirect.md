@@ -14,21 +14,21 @@ $$
 $$
 \mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(t + T_i)< u_2 \lambda (t + T_i) \leq \sum_{r=1}^{\mu} f_r(t + T_i)$} ,
 $$
-where $u_1$ and $u_2$ are two independent, uniform $(0,1)$ random numbers.
+where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 ## Algorithm
 
 Suppose that at time $t$ there are ongoing delayed reactions set to complete at times $t+T_1, t+T_2, \ldots, t+T_d$. Define $T_0=0$ and $T_{d+1}=\infty$.
 
-Define *Tstruct*, whose $i$th $(i=1,\dots,d)$ row stores $T_i$ and the index, $\mu_i$, of the reaction that $T_i$ is associated with.
+Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $\mu_i$, of the reaction that $T_i$ is associated with.
 
- 1. Initialize. Set $ t = 0 $ and set species number $\bm{n}= n_{initial}$.Initialize. Create a empty *Tstruct*.
+ 1. Initialize. Set $ t = 0 $ and set species number $n = n_\text{initial}$. Create a empty *Tstruct*.
 
  2. Calculate propensity functions $f_r(t), r=1, \ldots,R$. 
 
  3. Generate  $\tau$.
     
-      - Generate $u_1$ from a uniform(0,1) random variable.
+      - Generate an independent $\text{Uniform}(0,1)$ random number $u_1$
 
       - If *Tstruct* is empty, it means there is no ongoing delayed reaction
           - set $\tau = -\ln(u_1)/\sum_{r=1}^{R} f_r$.
@@ -47,13 +47,13 @@ Define *Tstruct*, whose $i$th $(i=1,\dots,d)$ row stores $T_i$ and the index, $\
 
               - Set $a_{mask}=a_t$. Update $a_t=a_t+\sum_{r=1}^{R}f_r(t+T_i)(T_{i+1}-T_i)$.
 
-              - If $i>1$, update species number $\bm{n}$ due to the delay reaction at $t+T_{i-1}$
+              - If $i>1$, update species number $n$ due to the delay reaction at $t+T_{i-1}$
 
           - EndWhile
 
           - Set $i=i-1$.
 
-          - Calculate $\tau=T_i-(\ln(1-u_1)+a_{mask}-\sum_{r=1}^{R}f_r(t+T_i)(T_{i+1}-T_i))/\sum_{r=1}^{R}f_r(t+T_i)$.
+          - Calculate $\tau=T_i-(\ln(1-u_1)+a_\text{mask}-\sum_{r=1}^{R}f_r(t+T_i)(T_{i+1}-T_i))/\sum_{r=1}^{R}f_r(t+T_i)$.
 
       - EndIf
 

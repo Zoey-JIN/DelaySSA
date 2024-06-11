@@ -1,11 +1,11 @@
 # Delay Rejection Method Algorithm
 
- Based upon the no delay algorithm, we see that simulation methods for systems with delays need to calculate when reactions initiate and store when they complete. However, because of the delayed reactions, the propensity functions can change between initiation times. Bratsun et al. [1] used an algorithm for computing the initiation times that is exactly like the original Gillespie Algorithm except that if there is a stored delayed reaction set to finish within a computed timestep, then the computed timestep is discarded, and the system is updated to incorporate the stored delayed reaction. The algorithm then attempts another step starting at its new state. This algorithm will be referred to as the Rejection Method.
+ Based upon the non-delay algorithm, we see that simulation methods for systems with delays need to calculate when reactions initiate and store when they complete. However, because of the delayed reactions, the propensity functions can change between initiation times. [1] used an algorithm for computing the initiation times that is exactly like the original Gillespie Algorithm except that if there is a stored delayed reaction set to finish within a computed timestep, then the computed timestep is discarded, and the system is updated to incorporate the stored delayed reaction. The algorithm then attempts another step starting at its new state. This algorithm will be referred to as the Rejection Method.
 
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $\bm{n}= n_{initial}$.
+ 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$.
 
  2. Calculate propensity functions $f_r(t), r=1, \ldots,R$. 
 

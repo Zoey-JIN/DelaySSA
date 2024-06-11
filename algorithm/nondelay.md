@@ -1,7 +1,7 @@
 
 # Gillespie Algorithm
 
- Consider a system of $N$ chemical substances with r ongoing chemical reactions, each of which has a corresponding tendency function $f_r(\bm{n})$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
+ Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(\bm{n})$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
  $$
  f_r(\bm{n}(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
  $$
@@ -20,10 +20,10 @@ $$
 $$
 \mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(\bm{n},t)< u_2 \lambda(\bm{n},t) \leq \sum_{r=1}^{\mu} f_r(\bm{n},t)$} ,
 $$
-where $u_1$ and $u_2$ are two independent, uniform $(0,1)$ random numbers.
+where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
-[Approximate accelerated stochastic simulation of chemically reacting systems]
-[Improved leap-size selection for accelerated stochastic simulation]
+<!-- [Approximate accelerated stochastic simulation of chemically reacting systems]
+[Improved leap-size selection for accelerated stochastic simulation] -->
 
 
 
