@@ -19,10 +19,10 @@ library("DelaySSA")
 ```
 ## Example
 Molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. 
-$$
+```math
 S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3\\
 S_3 \xrightarrow{k_2}\emptyset
-$$
+```
 
 The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
 
