@@ -1,24 +1,24 @@
 
 # Gillespie Algorithm
 
- Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(\bm{n})$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
+ Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
  $$
- f_r(\bm{n}(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
+ f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
  $$
 
 Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent random variables and following the probability density functions as:
 $$
-p(\tau|\bm{n},t)=\lambda(\bm{n},t) \exp(-\tau \lambda(\bm{n},t)), ~~\lambda=\sum_{r=1}^{R} f_r(\bm{n},t),
+p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),
 $$
 $$
-p(\mu|\bm{n},t)=f_r(\bm{n},t)/\lambda(\bm{n},t) .
+p(\mu|n,t)=f_r(n,t)/\lambda(n,t) .
 $$
 According this two equations, $\tau$ and $\mu$ can be generated as,
 $$
-\tau=-\ln(u_1)/\lambda(\bm{n},t) ,
+\tau=-\ln(u_1)/\lambda(n,t) ,
 $$
 $$
-\mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(\bm{n},t)< u_2 \lambda(\bm{n},t) \leq \sum_{r=1}^{\mu} f_r(\bm{n},t)$} ,
+\mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(n,t)< u_2 \lambda(n,t) \leq \sum_{r=1}^{\mu} f_r(n,t)$} ,
 $$
 where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
@@ -29,7 +29,7 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $\bm{n}= n_{initial}$. 
+ 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. 
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
@@ -37,11 +37,11 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
  4. Set $\tau = -\ln(u_1)/\sum_{r=1}^{R} f_r$.
 
- 5. Find the integer $\mu$ which satisfies $\sum_{r=1}^{\mu-1} f_r< u_2 \sum_{r=1}^{R} f_r \leq \sum_{r=1}^{\mu} f_r$/
+ 5. Find the integer $\mu$ which satisfies $\sum_{r=1}^{\mu-1} f_r< u_2 \sum_{r=1}^{R} f_r \leq \sum_{r=1}^{\mu} f_r$.
 
  6. Set $t = t + \tau$.
 
- 7. Update species number $\bm{n}$ based upon the completion of the reaction $\mu$.
+ 7. Update species number $n$ based upon the completion of the reaction $\mu$.
 
  8. Return to step 2 or quit.
 
@@ -53,18 +53,18 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
  Let $v_r$, $v'_r\in N^N_{\geq 0}$ be the vectors representing the number of each species consumed and created in the *r*th reaction, respectively. Then, if $N_r(t)$ is the number of initiations of reaction $r$ by time $t$, the state of the system at time $t$ is
 
 $$
-\bm{n}(t)=\bm{n}(0)+\sum_{r=1}^R{N_r(t)(v^{'}_r-v_r)}.
+n(t)=n(0)+\sum_{r=1}^R{N_r(t)(v^{'}_r-v_r)}.
 $$
 
- However, based upon the fundamental assumption of stochastic chemical kinetics, $N_r(t)$ is a counting process with intensity $f_r(\bm{n}(t))$ such that $p(N_k(t+\Delta t)-N_k(t)=1)=f_r(\bm{n}(t))\Delta t$, for small $\Delta t$. Therefore, we have
+ However, based upon the fundamental assumption of stochastic chemical kinetics, $N_r(t)$ is a counting process with intensity $f_r(n(t))$ such that $p(N_k(t+\Delta t)-N_k(t)=1)=f_r(n(t))\Delta t$, for small $\Delta t$. Therefore, we have
 
 $$
-N_r(t)=Y_r\Big(\int^t_0f_r(\bm{n}(s))ds\Big),\tag{1} 
+N_r(t)=Y_r\Big(\int^t_0f_r(n(s))ds\Big),\tag{1} 
 $$
 
 where the $Y_r$ are independent, unit rate Poisson processes. 
 
-Each Poisson process $Y_r$ brings its own time frame. If we define $T_r(t)=\int^t_0f_r(\bm{n}(s))ds$ for each $r$, then it is relevant for us to consider $Y_r(T_r(t))$. We will call $T_r(t)$ the "**internal time**" for reaction $r$.
+Each Poisson process $Y_r$ brings its own time frame. If we define $T_r(t)=\int^t_0f_r(n(s))ds$ for each $r$, then it is relevant for us to consider $Y_r(T_r(t))$. We will call $T_r(t)$ the "**internal time**" for reaction $r$.
 
 $\Delta t_r$ notes the gap time which the *r*th reaction needs. $\Delta=\min_r { \Delta t_r }$. For the moment we denote $\overline{t} = t +\Delta $ and the updated propensity functions by $\overline{f_r}$. 
 
@@ -85,7 +85,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $\bm{n}= n_{initial}$. 
+ 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. 
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
@@ -95,7 +95,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
  5. Set $t = \min_r \{ \tau_r \}$. Here we assume that $\tau_\mu$ is the minimum.
 
- 6. Update species number $\bm{n}$ based upon the completion of the reaction $\mu$.
+ 6. Update species number $n$ based upon the completion of the reaction $\mu$.
 
  7. Recalculate the propensity function, $\overline{f_r}$, for each reaction.
 
@@ -114,7 +114,7 @@ According to [3], Modified Next Reaction Method Algorithm that is completely equ
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $\bm{n}= n_{initial}$. For each $r \leq R$, set $P_r = 0$ and $T_r = 0$.
+ 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. For each $r \leq R$, set $P_r = 0$ and $T_r = 0$.
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
@@ -124,7 +124,7 @@ According to [3], Modified Next Reaction Method Algorithm that is completely equ
 
  5. Set $\tau = \min_r \{  \tau_r \}$. Here we assume that $\tau_\mu$ is the minimum.
 
- 6. Set $t = t + \tau$. And update species number $\bm{n}$ based upon the completion of the reaction $\mu$.
+ 6. Set $t = t + \tau$. And update species number $n$ based upon the completion of the reaction $\mu$.
 
  7. For each r, set $T_r = T_r+f_r\tau$.
 
