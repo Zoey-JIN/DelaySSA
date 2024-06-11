@@ -53,7 +53,7 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
  Let $v_r$, $v'_r\in N^N_{\geq 0}$ be the vectors representing the number of each species consumed and created in the *r*th reaction, respectively. Then, if $N_r(t)$ is the number of initiations of reaction $r$ by time $t$, the state of the system at time $t$ is
 
 $$
-n(t)=n(0)+\sum_{r=1}^R{N_r(t)(v^{'}_r-v_r)}.
+n(t)=n(0)+\sum_{r=1}^R{N_r(t)(v'_r-v_r)}.
 $$
 
  However, based upon the fundamental assumption of stochastic chemical kinetics, $N_r(t)$ is a counting process with intensity $f_r(n(t))$ such that $p(N_k(t+\Delta t)-N_k(t)=1)=f_r(n(t))\Delta t$, for small $\Delta t$. Therefore, we have
@@ -101,7 +101,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
  8. For each $r \neq \mu$, set $\tau_r=(f_r/\overline{f_r})(\tau_r-t)+t$.
 
- 9. For reaction $\mu$, let $u^{'}$ be uniform $(0,1)$ and set $\tau_\mu=-\ln(u^{'})/\overline{f_
+ 9. For reaction $\mu$, let $u'$ be uniform $(0,1)$ and set $\tau_\mu=-\ln(u')/\overline{f_
  \mu}+t$. If $\tau_r$ is either $NA$ or $Inf$, it also needs to be recalculated in this manner.
 
  10. For each r, set $f_r = \overline{f_r}$.
@@ -128,7 +128,7 @@ According to [3], Modified Next Reaction Method Algorithm that is completely equ
 
  7. For each r, set $T_r = T_r+f_r\tau$.
 
- 8. For reaction $\mu$, let $u^{'}$ be uniform$(0,1)$ and set $P_\mu = P_\mu - \ln(u^{'})$.
+ 8. For reaction $\mu$, let $u'$ be uniform $(0,1)$ and set $P_\mu = P_\mu - \ln(u')$.
 
  9. Recalculate the propensity function, $f_r$, for each reaction.
 
