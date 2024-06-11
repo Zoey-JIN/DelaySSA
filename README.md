@@ -1,18 +1,19 @@
 # DelaySSA
+DelaySSA is an R package designed to simulate non-Markovian models of gene expression using a delayed the Gillespie algorithm. This package is particularly useful for researchers and practitioners in computational biology and systems biology who are interested in modeling the dynamics of gene expression with intrinsic delays.
 
-DelaySSA implements a stochastic simulation algorithm (SSA) with delays in R. It can simulate chemical reaction systems both with and without delays.
+## Features
+- Implementation of the delayed Gillespie algorithm [1-4].
+- Support for modeling gene expression with various delay distributions.
+- Easy-to-use interface for defining reactions with delays.
+- Capability to handle complex gene regulatory networks.
+- Visualization tools for analyzing simulation results.
 
-
-## Install
+## Installation
 Download the installation package from GitHub
 ```
 devtools::install_github("Zoey-JIN/DelaySSA")
 ```
-Or download and install locally
-```
-devtools::install("~/DelaySSA")
-```
-Then load
+Then load the package
 ```
 library("DelaySSA")
 ```
@@ -52,7 +53,14 @@ plot_SSA_density(result = result,t_pick = tmax)
 
 Check [Tutorials](https://github.com/Zoey-JIN/DelaySSA/blob/main/Tutorials.md) for more details.
 
+## References
+[1]Gillespie, D. T. (1977). Exact stochastic simulation of coupled chemical reactions. The journal of physical chemistry, 81(25), 2340-2361.
 
+[2] Cai, X. (2007). Exact stochastic simulation of coupled chemical reactions with delays. The Journal of chemical physics, 126(12).
+
+[3] Barrio, M., Burrage, K., Leier, A., & Tian, T. (2006). Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation. PLoS computational biology, 2(9), e117.
+
+[4] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).
 
 
 
