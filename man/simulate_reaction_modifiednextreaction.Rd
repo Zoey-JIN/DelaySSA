@@ -9,6 +9,7 @@ simulate_reaction_modifiednextreaction(
   n_initial,
   t_initial,
   S_matrix,
+  k,
   fun_fr
 )
 }
@@ -20,6 +21,8 @@ simulate_reaction_modifiednextreaction(
 \item{t_initial}{initial time}
 
 \item{S_matrix}{the stoichiometric matrix at the initiation time}
+
+\item{k}{a reaction rate vector}
 
 \item{fun_fr}{a function representing the propensity function}
 }

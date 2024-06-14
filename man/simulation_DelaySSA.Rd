@@ -33,11 +33,11 @@ simulation_DelaySSA(
 
 \item{S_matrix_delay}{the stoichiometric matrix at the completion time}
 
-\item{k}{reaction rate}
+\item{k}{a reaction rate vector}
 
 \item{reactant_matrx}{species reactant matrix}
 
-\item{delay_type}{vector of reaction type taking on the values 0, 1, or 2}
+\item{delay_type}{the reaction type vector taking on the values 0, 1, or 2}
 
 \item{delaytime_list}{a list representing the delay time of each reaction}
 }

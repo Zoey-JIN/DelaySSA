@@ -10,6 +10,7 @@ simulate_reaction_delay_rejection(
   t_initial,
   S_matrix,
   S_matrix_delay,
+  k,
   fun_fr,
   delay_type,
   delaytime_list,
@@ -27,9 +28,11 @@ simulate_reaction_delay_rejection(
 
 \item{S_matrix_delay}{the stoichiometric matrix at the completion time}
 
+\item{k}{a reaction rate vector}
+
 \item{fun_fr}{a function representing the propensity function}
 
-\item{delay_type}{vector of reaction type taking on the values 0, 1, or 2}
+\item{delay_type}{the reaction type vector taking on the values 0, 1, or 2}
 
 \item{delaytime_list}{a list representing the delay time of each reaction}
 

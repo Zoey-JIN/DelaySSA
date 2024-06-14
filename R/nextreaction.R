@@ -6,12 +6,13 @@
 #' @param n_initial initial species number
 #' @param t_initial initial time
 #' @param S_matrix the stoichiometric matrix at the initiation time
+#' @param k a reaction rate vector
 #' @param fun_fr a function representing the propensity function
 #'
 #' @return the amount of a species and the corresponding time
 #' @export
 #'
-simulate_reaction_nextreaction <- function(tmax, n_initial, t_initial, S_matrix, fun_fr) {
+simulate_reaction_nextreaction <- function(tmax, n_initial, t_initial, S_matrix, k, fun_fr) {
   n_values <- matrix(n_initial)
   t_values <- c(t_initial)
   n <- n_initial

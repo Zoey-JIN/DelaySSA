@@ -4,7 +4,7 @@
 \alias{simulate_reaction_nextreaction}
 \title{Next Reaction Method Algorithm}
 \usage{
-simulate_reaction_nextreaction(tmax, n_initial, t_initial, S_matrix, fun_fr)
+simulate_reaction_nextreaction(tmax, n_initial, t_initial, S_matrix, k, fun_fr)
 }
 \arguments{
 \item{tmax}{cutoff time}
@@ -14,6 +14,8 @@ simulate_reaction_nextreaction(tmax, n_initial, t_initial, S_matrix, fun_fr)
 \item{t_initial}{initial time}
 
 \item{S_matrix}{the stoichiometric matrix at the initiation time}
+
+\item{k}{a reaction rate vector}
 
 \item{fun_fr}{a function representing the propensity function}
 }

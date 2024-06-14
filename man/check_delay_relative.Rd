@@ -16,7 +16,7 @@ check_delay_relative(delay_type, delaytime_list, S_matrix, S_matrix_delay)
 \item{S_matrix_delay}{the stoichiometric matrix at the completion time}
 }
 \value{
-delay_effect_matrix
+A 2-row delay_effect_matrix
 }
 \description{
 Delay Effect Matrix

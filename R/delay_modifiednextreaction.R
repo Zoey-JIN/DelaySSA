@@ -7,8 +7,9 @@
 #' @param t_initial initial time
 #' @param S_matrix the stoichiometric matrix at the initiation time
 #' @param S_matrix_delay the stoichiometric matrix at the completion time
+#' @param k a reaction rate vector
 #' @param fun_fr a function representing the propensity function
-#' @param delay_type vector of reaction type taking on the values 0, 1, or 2
+#' @param delay_type the reaction type vector taking on the values 0, 1, or 2
 #' @param delaytime_list a list representing the delay time of each reaction
 #' @param delay_effect_matrix a matrix representing that reaction without delay affects reaction with delay
 #'
@@ -16,7 +17,7 @@
 #' @export
 #'
 
-simulate_reaction_delay_modifiednextreaction <- function(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, fun_fr, delay_type, delaytime_list, delay_effect_matrix) {
+simulate_reaction_delay_modifiednextreaction <- function(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, fun_fr, delay_type, delaytime_list, delay_effect_matrix) {
   n_values <- matrix(n_initial)
   t_values <- c(t_initial)
   n <- n_initial

@@ -7,10 +7,10 @@
 tau_element(element)
 }
 \arguments{
-\item{element}{a delaytime in delaytime_list which could be a function or a fixed number}
+\item{element}{an element in delaytime_list which could be a function or a fixed number}
 }
 \value{
-delaytime
+delaytime which is a fixed number or a stochastic value governed by a function
 }
 \description{
 Delay Time
