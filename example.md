@@ -29,7 +29,7 @@ S_matrix <- matrix(S_matrix,nrow = 2)
 S_matrix_delay <- c(-1,1,0,0)
 S_matrix_delay <- matrix(S_matrix_delay,nrow = 2)
 k <- function(n){  k <- c(1/(1 + (n[2])^2), 1/(1 + n[2]))}
-product_matrix <- matrix(c(0,0,0,1),nrow = 2)
+reactant_matrix <- matrix(c(0,0,0,1),nrow = 2)
 delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,20)
@@ -40,7 +40,7 @@ We simulate $10^5$ trajectories and calculate the mean value and probability dis
 
 ```R
 sample <- 100000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
 Draw the figures using the following code.
@@ -130,7 +130,7 @@ S_matrix_delay <- matrix(S_matrix_delay,nrow = 1)
 a <- 0.0282
 b <- 3.46
 k <- c(sapply(1:j, function(i) a * b^i / (1 + b)^(i + 1)))
-product_matrix <- matrix(rep(0,j),nrow = 3)
+reactant_matrix <- matrix(rep(0,j),nrow = 3)
 delay_type <- matrix(rep(c(2),times=j),nrow = 1)
 delaytime_list <- list()
 for (i in 1:j) {
@@ -142,7 +142,7 @@ We simulate $10^5$ trajectories and calculate the mean value and probability dis
 
 ```R
 sample <- 100000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
 ![Bursty_mean](figs/Bursty_mean.svg)
@@ -171,7 +171,7 @@ S_matrix <- matrix(S_matrix,nrow = 4)
 S_matrix_delay <- c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1)
 S_matrix_delay <- matrix(S_matrix_delay,nrow = 4)
 k <- c(0.15,0.1,0.05,10)
-product_matrix <- matrix(c(1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0),nrow = 4)
+reactant_matrix <- matrix(c(1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0),nrow = 4)
 delay_type <- matrix(c(0,0,0,2),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,0)
@@ -184,7 +184,7 @@ We simulate $10^4$ trajectories and calculate the mean value and probability dis
 
 ```R
 sample <- 10000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
 ![Refractory_mean](figs/Refractory_mean.svg)
@@ -210,7 +210,7 @@ S_matrix <- matrix(S_matrix,nrow = 1)
 S_matrix_delay <- c(-1)
 S_matrix_delay <- matrix(S_matrix_delay,nrow = 1)
 k <- c(10)
-product_matrix <- matrix(c(0),nrow = 1)
+reactant_matrix <- matrix(c(0),nrow = 1)
 delay_type <- matrix(c(2),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,rgamma(n = 1, shape = 7, rate = 1))
@@ -220,7 +220,7 @@ We simulate $10^4$ trajectories and calculate the mean value and probability dis
 
 ```R
 sample <- 10000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
 ![BirthDeath_mean](figs/BirthDeath_mean.svg)
@@ -246,7 +246,7 @@ S_matrix <- matrix(S_matrix,nrow = 3)
 S_matrix_delay <- c(0,0,1,0,0,0)
 S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
 k <- c(0.001,0.001)
-product_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
+reactant_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
 delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,0.1)
@@ -257,7 +257,7 @@ We simulate $10^4$ trajectories and calculate the mean value for all the molecul
 
 ```R
 sample <- 10000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
 ![TwoChannels_mean](figs/TwoChannels_mean.svg)
@@ -293,9 +293,9 @@ delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,5)
 
-product_matrix <- matrix(c(1,0,0,0,1,0,0,1,0),nrow = 3)
+reactant_matrix <- matrix(c(1,0,0,0,1,0,0,1,0),nrow = 3)
 
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 $$
 G\xrightleftharpoons[\sigma_\text{on}]{\sigma_\text{off}}G^\star,\\
@@ -319,7 +319,7 @@ tmax <- 100
 t_initial <- 0
 n_initial <- c(1,0,0)
 n_initial <- matrix(n_initial,nrow = 3)
-product_matrix <- matrix(c(1,0,0,0,1,0,0,1,0,0,0,1),nrow = 3)
+reactant_matrix <- matrix(c(1,0,0,0,1,0,0,1,0,0,0,1),nrow = 3)
 ```
 # Birth Death Model
 
@@ -345,9 +345,9 @@ t_initial <- 0
 delay_type <- matrix(c(2),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,5)
-product_matrix <- matrix(c(0),nrow = 1)
+reactant_matrix <- matrix(c(0),nrow = 1)
 
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
 $$
@@ -368,7 +368,7 @@ S_matrix <- matrix(S_matrix,nrow = 1)
 tmax <- 10
 n_initial <- matrix(c(0),nrow = 1)
 t_initial <- 0
-product_matrix <- matrix(c(0,1),nrow = 1)
+reactant_matrix <- matrix(c(0,1),nrow = 1)
 ```
 
 # Bursty Model
@@ -402,9 +402,9 @@ delaytime_list <- list()
 for (i in 1:j) {
   delaytime_list <- append(delaytime_list,120) 
 }
-product_matrix <- matrix(rep(0,j),nrow = 1)
+reactant_matrix <- matrix(rep(0,j),nrow = 1)
 
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 $$
 \emptyset\stackrel{k_i=\frac{\alpha b^i}{(1+b)^{i+1}}}\longrightarrow iN,~~i=1,2,3,... \\
@@ -430,7 +430,7 @@ tmax <- 1000
 t_initial <- 0
 n_initial <- matrix(0,nrow = 1)
 n_initial <- matrix(n_initial,nrow = 1)
-product_matrix <- matrix(c(rep(0,j),1),nrow = 1)
+reactant_matrix <- matrix(c(rep(0,j),1),nrow = 1)
 
 
 ```
@@ -459,9 +459,9 @@ delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,20)
 delaytime_list <- append(delaytime_list,0)
-product_matrix <- matrix(c(1,0,1,0,0,0,1,0),nrow = 4)
+reactant_matrix <- matrix(c(1,0,1,0,0,0,1,0),nrow = 4)
 
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 # Birth Death Interruption System
 $$
@@ -488,9 +488,9 @@ delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,5)
 delaytime_list <- append(delaytime_list,0)
-product_matrix <- matrix(c(0,1),nrow = 1)
+reactant_matrix <- matrix(c(0,1),nrow = 1)
 
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 # Birth Death Systems with Both Interruptions and Conversions
 $$
@@ -523,9 +523,9 @@ delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,0)
 delaytime_list <- append(delaytime_list,15)
 delaytime_list <- append(delaytime_list,0)
-product_matrix <- matrix(c(0,0,1,0,1,0,0,1),nrow = 2)
+reactant_matrix <- matrix(c(0,0,1,0,1,0,0,1),nrow = 2)
 
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ``` -->
 
 

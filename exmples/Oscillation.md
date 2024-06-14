@@ -29,7 +29,7 @@ S_matrix <- matrix(S_matrix,nrow = 2)
 S_matrix_delay <- c(-1,1,0,0)
 S_matrix_delay <- matrix(S_matrix_delay,nrow = 2)
 k <- function(n){  k <- c(1/(1 + (n[2])^2), 1/(1 + n[2]))}
-product_matrix <- matrix(c(0,0,0,1),nrow = 2)
+reactant_matrix <- matrix(c(0,0,0,1),nrow = 2)
 delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,20)
@@ -40,7 +40,7 @@ We simulate $10^5$ trajectories and calculate the mean value and probability dis
 
 ```R
 sample <- 100000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
 Draw the figures using the following code.
