@@ -128,7 +128,7 @@ An R-dimensional vector or a 1-by-R matrix representing the type of the reaction
 An R-dimensional list representing the delay time of the reactions. Every element can be a fixed number or a stochastic value governed by a function.
 
 `delay_effect_matrix`  
-The first line is the reaction index of `S_matrix`, the second line is the reaction index of `S_matrix_dalay`. If not empty, each row represents the column of the *r*th reaction in matrix `S_matrix` that is the same as the column of the $r$'-th reaction in `S_matrix_dalay`. This will cause the $r$'-th reaction in delay part to be randomly eliminated when the $r$-th reaction in `S_matrix` occurs called interruption.
+A 2-row matrix. The first row represents the reaction index of `S_matrix`, the second row represents the reaction index of `S_matrix_dalay`. If not empty, each column of the matrix links `S_matrix` and `S_matrix_delay`: the first row shows the column index $r$ from `S_matrix`, while the second row shows the corresponding column index $r$' from `S_matrix_delay`, where both columns are the same. This will cause the $r$'-th reaction in delay part to be randomly eliminated when the $r$-th reaction in `S_matrix` occurs called interruption.
 
 # Function
 <table style="margin: auto; width: auto; border-collapse: collapse;">
