@@ -43,11 +43,11 @@ sample <- 100000
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
-Draw the figures using the following code.
+Use the following code to visualize the results.
 
 ```R
+library("ggplot2")
 Specie <- c("X","Y")
-svg <- svglite("Oscillation_mean.svg", width = 5, height = 5)
 t=seq(0, tmax, by = 1)
 t_initial = 0
 num_columns <- nrow(result[[1]]$n_values)
@@ -59,23 +59,25 @@ data_list <- lapply(1:num_columns, function(i) {
   data.frame(t = t, quantity = n, Specie = Specie[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot2::ggplot(plot_data, ggplot2::aes(x = t, y = quantity, color = Specie)) + 
-  ggplot2::geom_line(linewidth = 0.7) +  
-  ggplot2::labs(x = "T", y = "Mean Value") + 
-  ggplot2::scale_color_brewer(palette = "Set1") + 
-  ggplot2::theme_minimal() + 
-  ggplot2::theme(
-    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),  
-    axis.title = ggplot2::element_text(size = 12, face = "bold"),  
-    axis.text = ggplot2::element_text(size = 10),  
-    legend.title = ggplot2::element_blank(),  
-    legend.text = ggplot2::element_text(size = 10), 
-    panel.grid = ggplot2::element_blank(),  
-    panel.background = ggplot2::element_blank(), 
-    axis.line = ggplot2::element_line(color = "black")  
+ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "T", y = "Mean Value") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10), 
+    panel.grid = element_blank(),  
+    panel.background = element_blank(), 
+    axis.line = element_line(color = "black")  
   )
-dev.off()
-svg <- svglite("Oscillation_density_400s.svg", width = 5, height = 5)
+```
+![Oscillation_mean](../figs/Oscillation_mean.svg)
+
+```R
 num_columns <- nrow(result[[1]]$n_values)
 data_list <- lapply(1:num_columns, function(i) {
   n <- lapply(result, function(x) picksample(x, i, t=tmax))
@@ -87,23 +89,22 @@ data_list <- lapply(1:num_columns, function(i) {
   data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot2::ggplot(plot_data, ggplot2::aes(x = quantity, y = percentage, color = Specie)) + 
-  ggplot2::geom_line(linewidth = 0.7) +  
-  ggplot2::labs(x = "# of Products", y = "Probability") + 
-  ggplot2::scale_color_brewer(palette = "Set1") + 
-  ggplot2::theme_minimal() + 
-  ggplot2::theme(
-    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),  
-    axis.title = ggplot2::element_text(size = 12, face = "bold"),  
-    axis.text = ggplot2::element_text(size = 10),  
-    legend.title = ggplot2::element_blank(),  
-    legend.text = ggplot2::element_text(size = 10),  
-    panel.grid = ggplot2::element_blank(), 
-    panel.background = ggplot2::element_blank(), 
-    axis.line = ggplot2::element_line(color = "black")  
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "# of Products", y = "Probability") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(), 
+    panel.background = element_blank(), 
+    axis.line = element_line(color = "black")  
   )
-dev.off()
 ```
 
-![Oscillation_mean](../figs/Oscillation_mean.svg)
+
 ![Oscillation_density_400s](../figs/Oscillation_density_400s.svg)
