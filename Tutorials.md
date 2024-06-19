@@ -9,7 +9,7 @@ $$
 
 The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
 
-## Initialization Part
+## Initialization part
 Assume reactions occur in this system from `t_initial=0` to `tmax=150`, repeating this process for `sample=1000` times. The initial quantities of $S_1,S_2$ and $S_3$ are 1000, 1000, and 1, respectively.
 
 ```R
@@ -71,6 +71,8 @@ delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,c(tau,0))
 ```
+
+## Simulation and visualization part
 Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction
 ```R
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
