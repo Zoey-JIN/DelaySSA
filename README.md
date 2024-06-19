@@ -338,7 +338,7 @@ Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $
 
           - set $a_{mask}=0$
 
-          - Set $i=0$, $F=0$ and $a_t = \sum_{r=1}^{R} f_rT_1$.
+          - Set $i=0$, $F=0$ and $a_t = \Sigma_{r=1}^{R} f_rT_1$.
         
           - While $F < u_1$
               
