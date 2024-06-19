@@ -28,7 +28,7 @@ library("DelaySSA")
 Molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. 
 ```math
 S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3,\\
-S_3 \xrightarrow{k_2}\emptyset
+S_3 \xrightarrow{k_2}\emptyset.
 ```
 
 The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
@@ -274,7 +274,7 @@ However, some chemical reactions, such as gene transcription and translation wit
 Given a finite set of chemical species $X_i, i = 1, \ldots,N,$ and $R$ chemical reactions, we define the reactions by the notation  
 
 $$
-\sum_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R,
+\Sigma_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R,
 $$  
 
 where $s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $ k_r $ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
