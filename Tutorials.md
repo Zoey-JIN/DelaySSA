@@ -69,8 +69,7 @@ The reactions are categorized as ICD and ND, with `delay_type` corresponding to 
 tau = 0.1
 delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
-delaytime_list <- append(delaytime_list,tau)
-delaytime_list <- append(delaytime_list,0)
+delaytime_list <- append(delaytime_list,c(tau,0))
 ```
 Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction
 ```R

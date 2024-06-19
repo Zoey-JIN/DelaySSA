@@ -20,7 +20,7 @@ library("DelaySSA")
 ## Example
 Molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. 
 ```math
-S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3\\
+S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3,\\
 S_3 \xrightarrow{k_2}\emptyset
 ```
 
@@ -35,7 +35,7 @@ S_matrix <- matrix(S_matrix,nrow = 3)
 S_matrix_delay <- c(0,0,1,0,0,0)
 S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
 k <- c(0.001,0.001)
-product_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
+reactant_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
 delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
 delaytime_list <- append(delaytime_list,0.1)
@@ -46,7 +46,7 @@ Simulate $10^4$ times and calculate the mean value for all the molecule species 
 
 ```R
 sample <- 10000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, product_matrix=product_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
+result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
