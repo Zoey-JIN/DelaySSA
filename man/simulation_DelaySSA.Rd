@@ -13,7 +13,7 @@ simulation_DelaySSA(
   S_matrix,
   S_matrix_delay = NULL,
   k,
-  reactant_matrx,
+  reactant_matrix,
   delay_type = NULL,
   delaytime_list = NULL
 )
@@ -35,7 +35,7 @@ simulation_DelaySSA(
 
 \item{k}{a reaction rate vector}
 
-\item{reactant_matrx}{species reactant matrix}
+\item{reactant_matrix}{species reactant matrix}
 
 \item{delay_type}{the reaction type vector taking on the values 0, 1, or 2}
 

@@ -4,12 +4,12 @@
 \alias{propensity_n}
 \title{For Propensity Calculation}
 \usage{
-propensity_n(n, reactant_matrx)
+propensity_n(n, reactant_matrix)
 }
 \arguments{
 \item{n}{species number}
 
-\item{reactant_matrx}{species reactant matrix}
+\item{reactant_matrix}{species reactant matrix}
 }
 \value{
 a vector used for calculating propensity function
