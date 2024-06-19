@@ -92,7 +92,7 @@ $s'=
 -1 & 0 \\
 -1 & 0 \\
 0 & -1
-\end{pmatrix}$ as `S_matrix`. for delay part, we can define $S_\text
+\end{pmatrix}$ as `S_matrix`. For delay part, we can define $S_\text
 {delay}=\begin{pmatrix}
 0 & 0 \\
 0 & 0 \\
