@@ -58,18 +58,6 @@ plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_in
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
-Check [Tutorials](https://github.com/Zoey-JIN/DelaySSA/blob/main/Tutorials.md) for more details.
-
-## References
-[1]Gillespie, D. T. (1977). Exact stochastic simulation of coupled chemical reactions. The journal of physical chemistry, 81(25), 2340-2361.
-
-[2] Cai, X. (2007). Exact stochastic simulation of coupled chemical reactions with delays. The Journal of chemical physics, 126(12).
-
-[3] Barrio, M., Burrage, K., Leier, A., & Tian, T. (2006). Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation. PLoS computational biology, 2(9), e117.
-
-[4] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).
-
-
 # Tutorial Example : Delayed Production and Annihilation System
 This tutorial is designed to demonstrate how to use DelaySSA for defining chemical reaction models, solving related problems, and visualizing the results. The source code for all examples and figures can be found in the GitHub examples folder. We study the system with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then degrade with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
 
@@ -312,20 +300,7 @@ Case 2: If reaction $r$ loses the reactant species and gains the product species
 
 Case 3: If reaction $r$ loses the reactant species and gains the product species at the initiation time $t$ and the completion time $t+t_\text{delay}$, respectively, we define the reaction $r$ with delays as ICD.
 
-## References
-[1]Gillespie, D. T. (1977). Exact stochastic simulation of coupled chemical reactions. The journal of physical chemistry, 81(25), 2340-2361.
-
-[2] Cai, X. (2007). Exact stochastic simulation of coupled chemical reactions with delays. The Journal of chemical physics, 126(12).
-
-[3] Barrio, M., Burrage, K., Leier, A., & Tian, T. (2006). Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation. PLoS computational biology, 2(9), e117.
-
-[4] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).
-
-[5] Van Kampen, N. G. (1992). Stochastic processes in physics and chemistry (Vol. 1). Elsevier.
-
-
 # Delay Direct Method Algorithm
-
 Consider that $N_d$ delay reactions are ongoing at the time $t$. The delay reactions will complete at $t+T_1,\ldots,t+T_{N_d}$, where $T_1 \leq T_2,\ldots,t+T_{N_d}$. As in the derivation of Gillespie’s exact Stochastic Simulation Algorithm (SSA), $p(\tau, \nu) d\tau $ can be found from the fundamental assumption as $p(\tau, \nu) d\tau = p_0(\tau) f_\mu(t + \tau) d\tau$, where $p_0(\tau)$ is the probability that no reaction will happen in the time interval $[t,t+\tau)$. The delay effects the propensity function. So $p_0(\tau)$ comes to $ \exp(-\sum_{j=0}^{i-1}\lambda(t+T_j)(T_{j+1}-T_j)-\lambda(t+T_i)(\tau-T_{i})),~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d$, where the exponent assume equal to zero when $i=0$.
 $$
 p(\tau|\bm{n},t)=\lambda(t + T_i) \exp ( - \sum_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j) - \lambda(t + T_i)(\tau - T_i) ),~~\lambda(t + T_i)=\sum_{r=1}^{R} f_r(t + T_i),
@@ -393,15 +368,11 @@ Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $
 
  8. Return to Step 3 or quit.
 
-Remark. Notice that in the above pseudocode, we modified the Step 4 in the original algorithm for computational efficiency, but both are equivalent. More details are illustrated in [1].
-
-## References
-[1] Cai, X. (2007). Exact stochastic simulation of coupled chemical reactions with delays. The Journal of chemical physics, 126(12).
-
+Remark. Notice that in the above pseudocode, we modified the Step 4 in the original algorithm for computational efficiency, but both are equivalent. More details are illustrated in [2].
 
 # Delay Modified Next Reaction Method Algorithm
 
- Delay Modified Next Reaction Method Algorithm is modified Next Reaction Method to systems with delays. According to [1], if $T_r$ is the current internal time of $Y_r$, $P_r$ the first internal time after $T_r$ at which $Y_r$ fires, and the propensity function for the $r$-th reaction channel is given by $f_r$, then the time until the next initiation of reaction $r$ (assuming no other reactions initiate or complete) is still given by $\Delta t_r = (1/f_r)(P_r − T_r)$.  To each delayed reaction channel we therefore assign a vector, $s_r$, that stores the completion times of that reaction in ascending order. Thus, the time until there is a change in the state of the system, be it an initiation or a completion, will be given by
+ Delay Modified Next Reaction Method Algorithm is modified Next Reaction Method to systems with delays. According to [4], if $T_r$ is the current internal time of $Y_r$, $P_r$ the first internal time after $T_r$ at which $Y_r$ fires, and the propensity function for the $r$-th reaction channel is given by $f_r$, then the time until the next initiation of reaction $r$ (assuming no other reactions initiate or complete) is still given by $\Delta t_r = (1/f_r)(P_r − T_r)$.  To each delayed reaction channel we therefore assign a vector, $s_r$, that stores the completion times of that reaction in ascending order. Thus, the time until there is a change in the state of the system, be it an initiation or a completion, will be given by
  $$
  \Delta=\min\{\Delta t_r, s_r[1]-t\}
  $$
@@ -449,13 +420,9 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 
  14. Return to step 4 or quit.
 
-## References
-[1] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).
-
-
 # Delay Rejection Method Algorithm
 
- Based upon the non-delay algorithm, we see that simulation methods for systems with delays need to calculate when reactions initiate and store when they complete. However, because of the delayed reactions, the propensity functions can change between initiation times. [1] used an algorithm for computing the initiation times that is exactly like the original Gillespie Algorithm except that if there is a stored delayed reaction set to finish within a computed timestep, then the computed timestep is discarded, and the system is updated to incorporate the stored delayed reaction. The algorithm then attempts another step starting at its new state. This algorithm will be referred to as the Rejection Method.
+ Based upon the non-delay algorithm, we see that simulation methods for systems with delays need to calculate when reactions initiate and store when they complete. However, because of the delayed reactions, the propensity functions can change between initiation times. [3] used an algorithm for computing the initiation times that is exactly like the original Gillespie Algorithm except that if there is a stored delayed reaction set to finish within a computed timestep, then the computed timestep is discarded, and the system is updated to incorporate the stored delayed reaction. The algorithm then attempts another step starting at its new state. This algorithm will be referred to as the Rejection Method.
 
 
 ## Algorithm
@@ -479,10 +446,6 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
  7. Set the time $t= t+\tau$.
 
  8. Return to step 2 or quit.
-
-## References
-[1] Barrio, M., Burrage, K., Leier, A., & Tian, T. (2006). Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation. PLoS computational biology, 2(9), e117.
-
 
 # Gillespie Algorithm
 
@@ -566,7 +529,7 @@ $$
 
 We have therefore found the absolute times of the next firings of reactions $r = µ$ without having to generate any new random numbers.
 
- Note that after the first timestep is taken in the Next Reaction Method, all subsequent timesteps only demand one random number to be generated.  The Next Reaction Method developed with the notion of a dependency graph and a priority queue in order to increase computational efficiency [2]. This is similar with random numbers needed for each step of the original Gillespie Algorithm.
+ Note that after the first timestep is taken in the Next Reaction Method, all subsequent timesteps only demand one random number to be generated.  The Next Reaction Method developed with the notion of a dependency graph and a priority queue in order to increase computational efficiency [6]. This is similar with random numbers needed for each step of the original Gillespie Algorithm.
 
 ## Algorithm
 
@@ -595,7 +558,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
 
 # Modified Next Reaction Method Algorithm
-According to [3], Modified Next Reaction Method Algorithm that is completely equivalent to Next Reaction Method Algorithm. But  but makes more explicit use of the internal times $T_r$. The main idea of this algorithm is $\Delta t_r = (1/f_r)(P_r − T_r)$.
+According to [4], Modified Next Reaction Method Algorithm that is completely equivalent to Next Reaction Method Algorithm. But  but makes more explicit use of the internal times $T_r$. The main idea of this algorithm is $\Delta t_r = (1/f_r)(P_r − T_r)$.
 
 ## Algorithm
 
@@ -619,13 +582,19 @@ According to [3], Modified Next Reaction Method Algorithm that is completely equ
 
  10. Return to step 5 or quit.
 
-## References
+ ## References
 
-[1] Gillespie, D. T. (1977). Exact stochastic simulation of coupled chemical reactions. The journal of physical chemistry, 81(25), 2340-2361.
+[1]Gillespie, D. T. (1977). Exact stochastic simulation of coupled chemical reactions. The journal of physical chemistry, 81(25), 2340-2361.
 
-[2] Gibson, M. A., & Bruck, J. (2000). Efficient exact stochastic simulation of chemical systems with many species and many channels. The journal of physical chemistry A, 104(9), 1876-1889.
+[2] Cai, X. (2007). Exact stochastic simulation of coupled chemical reactions with delays. The Journal of chemical physics, 126(12).
 
-[3] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).
+[3] Barrio, M., Burrage, K., Leier, A., & Tian, T. (2006). Oscillatory regulation of Hes1: discrete stochastic delay modelling and simulation. PLoS computational biology, 2(9), e117.
+
+[4] Anderson, D. F. (2007). A modified next reaction method for simulating chemical systems with time dependent propensities and delays. The Journal of chemical physics, 127(21).
+
+[5] Van Kampen, N. G. (1992). Stochastic processes in physics and chemistry (Vol. 1). Elsevier.
+
+[6] Gibson, M. A., & Bruck, J. (2000). Efficient exact stochastic simulation of chemical systems with many species and many channels. The journal of physical chemistry A, 104(9), 1876-1889.
 
 
 
