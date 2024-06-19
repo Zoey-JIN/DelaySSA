@@ -23,11 +23,9 @@ S_matrix_delay <- matrix(S_matrix_delay,nrow = 4)
 k <- c(0.15,0.1,0.05,10)
 reactant_matrix <- matrix(c(1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0),nrow = 4)
 delay_type <- matrix(c(0,0,0,2),nrow = 1)
+tau = 1
 delaytime_list <- list()
-delaytime_list <- append(delaytime_list,0)
-delaytime_list <- append(delaytime_list,0)
-delaytime_list <- append(delaytime_list,0)
-delaytime_list <- append(delaytime_list,1)
+delaytime_list <- append(delaytime_list,c(0,0,0,tau))
 ```
 
 We simulate $10^4$ trajectories and calculate the mean value and probability distribution of $N$ at $t = 200$.

@@ -32,8 +32,8 @@ k <- function(n){  k <- c(1/(1 + (n[2])^2), 1/(1 + n[2]))}
 reactant_matrix <- matrix(c(0,0,0,1),nrow = 2)
 delay_type <- matrix(c(2,0),nrow = 1)
 delaytime_list <- list()
-delaytime_list <- append(delaytime_list,20)
-delaytime_list <- append(delaytime_list,0)
+tau = 20
+delaytime_list <- append(delaytime_list,c(tau,0))
 ```
 
 We simulate $10^5$ trajectories and calculate the mean value and probability distribution at $t = 400$. 

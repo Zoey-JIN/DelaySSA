@@ -22,9 +22,10 @@ b <- 3.46
 k <- c(sapply(1:j, function(i) a * b^i / (1 + b)^(i + 1)))
 reactant_matrix <- matrix(rep(0,j),nrow = 3)
 delay_type <- matrix(rep(c(2),times=j),nrow = 1)
+tau = 120
 delaytime_list <- list()
 for (i in 1:j) {
-  delaytime_list <- append(delaytime_list,120) 
+  delaytime_list <- append(delaytime_list,tau) 
 }
 ```
 
