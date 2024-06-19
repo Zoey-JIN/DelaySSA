@@ -386,7 +386,7 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
- 3. Generate $R$ independent, uniform $(0,1)$ random numbers, $u_r$, and set $P_r = -\ln(u_r)$.
+ 3. Generate $R$ independent, $\text{Uniform}(0,1)$ random numbers, $u_r$, and set $P_r = -\ln(u_r)$.
 
  4. Set $\tau_r = (P_r − T_r)/f_r$.
 
@@ -452,9 +452,9 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 # Gillespie Algorithm
 
  Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
- $$
+ ```math
  f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
- $$
+```
 
 Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent random variables and following the probability density functions as:
 ```math
@@ -479,7 +479,7 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. 
+ 1. Initialize. Set $t = 0$ and set species number $n= n_\text{initial}$. 
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
@@ -500,7 +500,7 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 # The Next Reaction Method Algorithm
  
- Let $v_r$, $v'_r\in N^N_{\geq 0}$ be the vectors representing the number of each species consumed and created in the *r*th reaction, respectively. Then, if $N_r(t)$ is the number of initiations of reaction $r$ by time $t$, the state of the system at time $t$ is
+ Let $v_r$, $v'_r\in N{\geq 0}^N$ be the vectors representing the number of each species consumed and created in the *r*th reaction, respectively. Then, if $N_r(t)$ is the number of initiations of reaction $r$ by time $t$, the state of the system at time $t$ is
 
 $$
 n(t)=n(0)+\sum_{r=1}^R{N_r(t)(v'_r-v_r)}.
@@ -539,7 +539,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
- 3. Generate $R$ independent, uniform $(0,1)$ random numbers, $u_r$.
+ 3. Generate $R$ independent, $\text{Uniform}(0,1)$ random numbers, $u_r$.
 
  4. set $\tau_r = -\ln(u_r)/ f_r$.
 
@@ -564,7 +564,7 @@ According to [4], Modified Next Reaction Method Algorithm that is completely equ
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. For each $r\leq R$, set $P_r = 0$ and $T_r = 0$.
+ 1. Initialize. Set $t = 0$ and set species number $n= n_\text{initial}$. For each $r\leq R$, set $P_r = 0$ and $T_r = 0$.
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
