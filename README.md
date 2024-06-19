@@ -312,7 +312,7 @@ p(\mu|\bm{n},t)=f_r(t + T_i)/\lambda(t + T_i),~~\mu= 1, \ldots,R, ~~\tau \in [T_
 ```
 According this two equations, $\tau$ and $\mu$ can be generated as,
 ```math
-\tau=T_i+\frac{-\ln(1-u_1)-\sum_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j)}{\lambda(t + T_i)} ,
+\tau=T_i+\frac{-\ln(1-u_1)-\Sigma_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j)}{\lambda(t + T_i)} ,
 ```
 ```math
 \mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(t + T_i)< u_2 \lambda (t + T_i) \leq \sum_{r=1}^{\mu} f_r(t + T_i)$} ,
