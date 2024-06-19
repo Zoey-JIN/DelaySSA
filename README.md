@@ -325,7 +325,7 @@ Suppose that at time $t$ there are ongoing delayed reactions set to complete at 
 
 Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $\mu_i$, of the reaction that $T_i$ is associated with.
 
- 1. Initialize. Set $ t = 0 $ and set species number $n = n_\text{initial}$. Create a empty *Tstruct*.
+ 1. Initialize. Set $t=0$ and set species number $n = n_\text{initial}$. Create a empty *Tstruct*.
 
  2. Calculate propensity functions $f_r(t), r=1, \ldots,R$. 
 
@@ -338,7 +338,7 @@ Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $
 
       - Else
 
-          - set $a_{mask}=0$
+          - set $a_\text{mask}=0$
 
           - Set $i=0$, $F=0$ and $a_t = \Sigma_{r=1}^{R} f_rT_1$.
         
@@ -375,20 +375,20 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 # Delay Modified Next Reaction Method Algorithm
 
  Delay Modified Next Reaction Method Algorithm is modified Next Reaction Method to systems with delays. According to [4], if $T_r$ is the current internal time of $Y_r$, $P_r$ the first internal time after $T_r$ at which $Y_r$ fires, and the propensity function for the $r$-th reaction channel is given by $f_r$, then the time until the next initiation of reaction $r$ (assuming no other reactions initiate or complete) is still given by $\Delta t_r = (1/f_r)(P_r − T_r)$.  To each delayed reaction channel we therefore assign a vector, $s_r$, that stores the completion times of that reaction in ascending order. Thus, the time until there is a change in the state of the system, be it an initiation or a completion, will be given by
- $$
+ ```math
  \Delta=\min\{\Delta t_r, s_r[1]-t\}
- $$
+ ```
  where $t$ is the current time of the system.
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. For each $r \leq R$, set $P_r = 0$, $T_r = 0$, and $s_r = [\infty]$.
+ 1. Initialize. Set $t=0$ and set species number $n= n_\text{initial}$. For each $r \leq R$, set $P_r = 0$, $T_r = 0$, and $s_r = [\infty]$.
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
  3. Generate $R$ independent, uniform $(0,1)$ random numbers, $u_r$, and set $P_r = -\ln(u_r)$.
 
- 4. Set $ \tau_r = (P_r − T_r)/f_r$.
+ 4. Set $\tau_r = (P_r − T_r)/f_r$.
 
  5. Set $\tau = \min_r \{  \tau_r , s_r[1]-t \}$
 
@@ -429,7 +429,7 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$.
+ 1. Initialize. Set $t = 0$ and set species number $n= n_\text{initial}$.
 
  2. Calculate propensity functions $f_r(t), r=1, \ldots,R$. 
 
@@ -457,19 +457,19 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
  $$
 
 Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent random variables and following the probability density functions as:
-$$
+```math
 p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),
-$$
-$$
+```
+```math
 p(\mu|n,t)=f_r(n,t)/\lambda(n,t) .
-$$
+```
 According this two equations, $\tau$ and $\mu$ can be generated as,
-$$
+```math
 \tau=-\ln(u_1)/\lambda(n,t) ,
-$$
-$$
+```
+```math
 \mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(n,t)< u_2 \lambda(n,t) \leq \sum_{r=1}^{\mu} f_r(n,t)$} ,
-$$
+```
 where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 <!-- [Approximate accelerated stochastic simulation of chemically reacting systems]
@@ -519,15 +519,15 @@ Each Poisson process $Y_r$ brings its own time frame. If we define $T_r(t)=\int^
 $\Delta t_r$ notes the gap time which the *r*th reaction needs. $\Delta=\min_r { \Delta t_r }$. For the moment we denote $\overline{t} = t +\Delta $ and the updated propensity functions by $\overline{f_r}$. 
 
 The internal time of the next firing of $Y_r$ has not changed and is still given by $T_r(t) + f_r \Delta t_r$. We also know that the updated internal time of $Y_r$ is given by $T_r(\overline{t}) =T_r(t)+ f_r \Delta $. Therefore, the amount of internal time that must pass before the *r*th reaction fires is given as the difference:
-$$
+```math
 (T_r(t) + f_r \Delta t_r) − (T_r(t)+ f_r \Delta ) = f_r(\Delta t_r − \Delta).
-$$
+```
 Thus, the amount of absolute time that must pass before the *r*th reaction channel fires,$ \Delta \overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
-$$
+```math
 \overline{\tau_r} = f_r / \overline{f_r}  (\Delta t_r − \Delta) + \overline{t}
     = f_r / \overline{f_r}  ((t+\Delta t_r )− (t+\Delta)) + \overline{t}
     = f_r / \overline{f_r}  (\tau_r − \overline{t}) + \overline{t}
-$$
+```
 
 We have therefore found the absolute times of the next firings of reactions $r = µ$ without having to generate any new random numbers.
 
