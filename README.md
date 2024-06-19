@@ -535,7 +535,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. 
+ 1. Initialize. Set $t=0$ and set species number $n= n_\text{initial}$. 
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
@@ -564,13 +564,13 @@ According to [4], Modified Next Reaction Method Algorithm that is completely equ
 
 ## Algorithm
 
- 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. For each $r \leq R$, set $P_r = 0$ and $T_r = 0$.
+ 1. Initialize. Set $ t = 0 $ and set species number $n= n_\text{initial}$. For each $r\leq R$, set $P_r = 0$ and $T_r = 0$.
 
  2. Calculate the propensity function, $f_r$, for each reaction.
 
  3. Generate $R$ independent, uniform $(0,1)$ random numbers, $u_r$, and set $P_r = -\ln(u_r)$.
 
- 4. Set $ \tau_r = (P_r − T_r)/f_r$.
+ 4. Set $\tau_r = (P_r − T_r)/f_r$.
 
  5. Set $\tau = \min_r \{  \tau_r \}$. Here we assume that $\tau_\mu$ is the minimum.
 
