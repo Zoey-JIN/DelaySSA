@@ -274,13 +274,13 @@ However, some chemical reactions, such as gene transcription and translation wit
 Given a finite set of chemical species $X_i, i = 1, \ldots,N,$ and $R$ chemical reactions, we define the reactions by the notation  
 
 $$
-\Sigma_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R,
+\sum_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R,
 $$  
 
 where $s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $ k_r $ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
-$$
+```math
 S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
-$$
+```
 
 According to [5], propensity function $f(\bm{n})$ are in the form of mass-action kinetics type
 
@@ -301,7 +301,7 @@ Case 2: If reaction $r$ loses the reactant species and gains the product species
 Case 3: If reaction $r$ loses the reactant species and gains the product species at the initiation time $t$ and the completion time $t+t_\text{delay}$, respectively, we define the reaction $r$ with delays as ICD.
 
 # Delay Direct Method Algorithm
-Consider that $N_d$ delay reactions are ongoing at the time $t$. The delay reactions will complete at $t+T_1,\ldots,t+T_{N_d}$, where $T_1 \leq T_2,\ldots,t+T_{N_d}$. As in the derivation of Gillespie’s exact Stochastic Simulation Algorithm (SSA), $p(\tau, \nu) d\tau $ can be found from the fundamental assumption as $p(\tau, \nu) d\tau = p_0(\tau) f_\mu(t + \tau) d\tau$, where $p_0(\tau)$ is the probability that no reaction will happen in the time interval $[t,t+\tau)$. The delay effects the propensity function. So $p_0(\tau)$ comes to $ \exp(-\sum_{j=0}^{i-1}\lambda(t+T_j)(T_{j+1}-T_j)-\lambda(t+T_i)(\tau-T_{i})),~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d$, where the exponent assume equal to zero when $i=0$.
+Consider that $N_d$ delay reactions are ongoing at the time $t$. The delay reactions will complete at $t+T_1,\ldots,t+T_{N_d}$, where $T_1 \leq T_2,\ldots,t+T_{N_d}$. As in the derivation of Gillespie’s exact Stochastic Simulation Algorithm (SSA), $p(\tau, \nu) d\tau $ can be found from the fundamental assumption as $p(\tau, \nu) d\tau = p_0(\tau) f_\mu(t + \tau) d\tau$, where $p_0(\tau)$ is the probability that no reaction will happen in the time interval $[t,t+\tau)$. The delay effects the propensity function. So $p_0(\tau)$ comes to $ \exp(-\Sigma_{j=0}^{i-1}\lambda(t+T_j)(T_{j+1}-T_j)-\lambda(t+T_i)(\tau-T_{i})),~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d$, where the exponent assume equal to zero when $i=0$.
 $$
 p(\tau|\bm{n},t)=\lambda(t + T_i) \exp ( - \sum_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j) - \lambda(t + T_i)(\tau - T_i) ),~~\lambda(t + T_i)=\sum_{r=1}^{R} f_r(t + T_i),
 $$
@@ -332,7 +332,7 @@ Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $
       - Generate an independent $\text{Uniform}(0,1)$ random number $u_1$
 
       - If *Tstruct* is empty, it means there is no ongoing delayed reaction
-          - set $\tau = -\ln(u_1)/\sum_{r=1}^{R} f_r$.
+          - set $\tau = -\ln(u_1)/\Sigma_{r=1}^{R} f_r$.
 
       - Else
 
@@ -344,9 +344,9 @@ Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $
               
               - Calculate $F=1-e^{-a_t},i=i+1$.
 
-              - Calculate propensity $f_r(t+T_i)$ due to the finish of the delayed reaction at $t+T_{i}$ and calculate $\sum_{r=1}^{R}f_r(t+T_i)$.           
+              - Calculate propensity $f_r(t+T_i)$ due to the finish of the delayed reaction at $t+T_{i}$ and calculate $\Sigma_{r=1}^{R}f_r(t+T_i)$.           
 
-              - Set $a_{mask}=a_t$. Update $a_t=a_t+\sum_{r=1}^{R}f_r(t+T_i)(T_{i+1}-T_i)$.
+              - Set $a_{mask}=a_t$. Update $a_t=a_t+\Sigma_{r=1}^{R}f_r(t+T_i)(T_{i+1}-T_i)$.
 
               - If $i>1$, update species number $n$ due to the delay reaction at $t+T_{i-1}$
 
@@ -354,13 +354,13 @@ Define *Tstruct*, whose $i$-th $(i=1,\dots,d)$ row stores $T_i$ and the index, $
 
           - Set $i=i-1$.
 
-          - Calculate $\tau=T_i-(\ln(1-u_1)+a_\text{mask}-\sum_{r=1}^{R}f_r(t+T_i)(T_{i+1}-T_i))/\sum_{r=1}^{R}f_r(t+T_i)$.
+          - Calculate $\tau=T_i-(\ln(1-u_1)+a_\text{mask}-\Sigma_{r=1}^{R}f_r(t+T_i)(T_{i+1}-T_i))/\Sigma_{r=1}^{R}f_r(t+T_i)$.
 
       - EndIf
 
  4. If $\tau\in[T_i,T_{i+1})$, delete the columns $1,\ldots,i$ of $T_i$ and set $T_j=T_j-\tau$.
 
- 5. Generate $u_2$ from a uniform(0,1) random variable, and find the integer $\mu$ which satisfies $\sum_{r=1}^{\mu-1} f_r< u_2 \sum_{r=1}^{R} f_r \leq \sum_{r=1}^{\mu} f_r$.
+ 5. Generate $u_2$ from a uniform(0,1) random variable, and find the integer $\mu$ which satisfies $\Sigma_{r=1}^{\mu-1} f_r< u_2 \Sigma_{r=1}^{R} f_r \leq \Sigma_{r=1}^{\mu} f_r$.
 
  6. Update according to the type of reaction $\mu$ belongs to: if the reaction $\mu$ belongs to type ND, update species number $\bm{n}$; if the reaction belongs to type CD, store the time $t+\tau_\mu$; if the reaction belongs to type ICD, update species number $\bm{n}$ and store the time $t+\tau_\mu$. If it is a delay reaction, insert $\tau_\mu$ and the reaction $\mu$ into *Tstruct*, ensuring that the times in *Tstruct* remain in ascending order.
 
@@ -431,7 +431,7 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 
  2. Calculate propensity functions $f_r(t), r=1, \ldots,R$. 
 
- 3. Generate $u_1$ from a uniform(0,1) random variable, and set $\tau = -\ln(u_1)/\sum_{r=1}^{R} f_r$.
+ 3. Generate $u_1$ from a uniform(0,1) random variable, and set $\tau = -\ln(u_1)/\Sigma_{r=1}^{R} f_r$.
 
  4. If there is a delayed reaction to finish in $[t,t+\tau)$
     - Discard $\tau$.
@@ -439,7 +439,7 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
     - Return to step 2 or quit
 
  5. Else if there is no delayed reaction in $[t,t+\tau)$. 
-    - Generate $u_2$ from a uniform(0,1) random variable, and find the integer $\mu$ which satisfies $\sum_{r=1}^{\mu-1} f_r< u_2 \sum_{r=1}^{R} f_r \leq \sum_{r=1}^{\mu} f_r$.
+    - Generate $u_2$ from a uniform(0,1) random variable, and find the integer $\mu$ which satisfies $\Sigma_{r=1}^{\mu-1} f_r< u_2 \Sigma_{r=1}^{R} f_r \leq \Sigma_{r=1}^{\mu} f_r$.
 
  6. Update according to the type of reaction $\mu$ belongs to: if the reaction $\mu$ belongs to type ND, update species number $\bm{n}$; if the reaction belongs to type CD, store the time $t+\tau_\mu$; if the reaction belongs to type ICD, update species number $\bm{n}$ and store the time $t+\tau_\mu$.
 
@@ -483,9 +483,9 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
  3. Generate two independent, uniform $(0,1)$ random numbers, $u_1$ and $u_2$.
 
- 4. Set $\tau = -\ln(u_1)/\sum_{r=1}^{R} f_r$.
+ 4. Set $\tau = -\ln(u_1)/\Sigma_{r=1}^{R} f_r$.
 
- 5. Find the integer $\mu$ which satisfies $\sum_{r=1}^{\mu-1} f_r< u_2 \sum_{r=1}^{R} f_r \leq \sum_{r=1}^{\mu} f_r$.
+ 5. Find the integer $\mu$ which satisfies $\Sigma_{r=1}^{\mu-1} f_r< u_2 \Sigma_{r=1}^{R} f_r \leq \Sigma_{r=1}^{\mu} f_r$.
 
  6. Set $t = t + \tau$.
 
