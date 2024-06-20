@@ -83,7 +83,6 @@ $$
 \emptyset \xrightarrow{J_1(Y)} X,
 X\stackrel{\tau}\Rightarrow Y,\\
 Y\xrightarrow{J_2(Y)} \emptyset,
-
 $$
 
 The function $J_1(Y)$ and $J_2(Y)$ is defined as follows:

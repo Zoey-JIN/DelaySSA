@@ -496,14 +496,14 @@ $$
  However, based upon the fundamental assumption of stochastic chemical kinetics, $N_r(t)$ is a counting process with intensity $f_r(n(t))$ such that $p(N_k(t+\Delta t)-N_k(t)=1)=f_r(n(t))\Delta t$, for small $\Delta t$. Therefore, we have
 
 $$
-N_r(t)=Y_r\Big(\int^t_0f_r(n(s))ds\Big),\tag{1} 
+N_r(t)=Y_r\Big(\int^t_0f_r(n(s))ds\Big),
 $$
 
 where the $Y_r$ are independent, unit rate Poisson processes. 
 
 Each Poisson process $Y_r$ brings its own time frame. If we define $T_r(t)=\int^t_0f_r(n(s))ds$ for each $r$, then it is relevant for us to consider $Y_r(T_r(t))$. We will call $T_r(t)$ the "**internal time**" for reaction $r$.
 
-$\Delta t_r$ notes the gap time which the *r*th reaction needs. $\Delta=\min_r { \Delta t_r }$. For the moment we denote $\overline{t} = t +\Delta $ and the updated propensity functions by $\overline{f_r}$. 
+$\Delta t_r$ notes the gap time which the *r*th reaction needs. $\Delta=\min_r { \Delta t_r }$. For the moment we denote $\overline{t} = t +\Delta$ and the updated propensity functions by $\overline{f_r}$. 
 
 The internal time of the next firing of $Y_r$ has not changed and is still given by $T_r(t) + f_r \Delta t_r$. We also know that the updated internal time of $Y_r$ is given by $T_r(\overline{t}) =T_r(t)+ f_r \Delta $. Therefore, the amount of internal time that must pass before the *r*th reaction fires is given as the difference:
 ```math
