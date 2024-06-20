@@ -24,38 +24,6 @@ Then load the package
 library("DelaySSA")
 ```
 
-<!-- ## Example
-Molecular $S_1$ binds $S_2$ and then disappear with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. 
-$$S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3,\\
-S_3 \xrightarrow{k_2}\emptyset.$$
-
-The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
-
-```R
-tmax <- 150
-n_initial <- matrix(c(1000,1000,0),nrow = 3)
-t_initial <- 0
-S_matrix <- c(-1,-1,0,0,0,-1)
-S_matrix <- matrix(S_matrix,nrow = 3) 
-S_matrix_delay <- c(0,0,1,0,0,0)
-S_matrix_delay <- matrix(S_matrix_delay,nrow = 3)
-k <- c(0.001,0.001)
-reactant_matrix <- matrix(c(1,1,0,0,0,1),nrow = 3)
-delay_type <- matrix(c(2,0),nrow = 1)
-delaytime_list <- list()
-delaytime_list <- append(delaytime_list,0.1)
-delaytime_list <- append(delaytime_list,0)
-```
-
-Simulate $10^4$ times and calculate the mean value for all the molecule species and probability distribution of $S_3$ at $t = 150$. The number of $S_1$ is the same as the number of $S_2$ at any time.
-
-```R
-sample <- 10000
-result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
-plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
-plot_SSA_density(result = result,t_pick = tmax)
-``` -->
-
 # Tutorial Example : Delayed Production and Annihilation System
 This tutorial is designed to demonstrate how to use DelaySSA for defining chemical reaction models, solving related problems, and visualizing the results. The source code for all examples and figures can be found in the GitHub examples folder. We study the system with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then degrade with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
 
@@ -77,7 +45,11 @@ t_initial <- 0
 ```
 According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s_{ir}'$ denote numbers of reactant and product molecules, respectively. Then, we define $s$ as `reactant_matrix` and $s'$. Therefore, we can define $S$ as `S_matrix`. For delay part, we can define $S_\text{delay}$ as `S_matrix_delay`, which can be expressed as
 
-$$s=\begin{pmatrix} 1 & 0 \\ 1 & 0 \\ 0 & 1 \end{pmatrix},~ s'=\begin{pmatrix}0 & 0 \\0 & 0 \\0 & 0\end{pmatrix}, ~ S=s'-s=\begin{pmatrix} -1 & 0 \\ -1 & 0 \\0 & -1 \end{pmatrix},~ S_\text{delay}=\begin{pmatrix} 0 & 0 \\0 & 0 \\1 & 0\end{pmatrix}$$
+```math
+s=\begin{pmatrix} 1 & 0 \\ 1 & 0 \\ 0 & 1 \end{pmatrix},~ s'=\begin{pmatrix}0 & 0 \\0 & 0 \\0 & 0\end{pmatrix}, ~ S=s'-s=\begin{pmatrix} -1 & 0 \\ -1 & 0 \\0 & -1 \end{pmatrix},~ S_\text{delay}=\begin{pmatrix} 0 & 0 \\0 & 0 \\1 & 0\end{pmatrix}
+```
+
+
 
 ```R
 S_matrix <- c(-1,-1,0,0,0,-1)
@@ -259,11 +231,15 @@ $$
 $$  
 
 where $s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $ k_r $ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
-$$S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.$$
+```math
+S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
+```
 
 According to [5], propensity function $f(\textbf{n})$ are in the form of mass-action kinetics type
 
-$$f_r(\textbf{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}},$$
+```math
+f_r(\textbf{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}},
+```
 
 where $\textbf{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega$ is the volume of a closed compartment.
 
@@ -280,12 +256,20 @@ Case 3: If reaction $r$ loses the reactant species and gains the product species
 # Delay Direct Method Algorithm
 Consider that $N_d$ delay reactions are ongoing at the time $t$. The delay reactions will complete at $t+T_1,\ldots,t+T_{N_d}$, where $T_1 \leq T_2,\ldots,t+T_{N_d}$. As in the derivation of Gillespie’s exact Stochastic Simulation Algorithm (SSA), $p(\tau, \nu) d\tau$ can be found from the fundamental assumption as $p(\tau, \nu) d\tau = p_0(\tau) f_\mu(t + \tau) d\tau$, where $p_0(\tau)$ is the probability that no reaction will happen in the time interval $[t,t+\tau)$. The delay effects the propensity function. So $p_0(\tau)$ comes to $\exp(-\Sigma_{j=0}^{i-1}\lambda(t+T_j)(T_{j+1}-T_j)-\lambda(t+T_i)(\tau-T_{i})),~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d$, where the exponent assume equal to zero when $i=0$.
 
-$$p(\tau|\textbf{n},t)=\lambda(t + T_i) \exp ( - \sum_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j) - \lambda(t + T_i)(\tau - T_i) ),~~\lambda(t + T_i)=\sum_{r=1}^{R} f_r(t + T_i),$$
+```math
+p(\tau|\textbf{n},t)=\lambda(t + T_i) \exp ( - \sum_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j) - \lambda(t + T_i)(\tau - T_i) ),~~\lambda(t + T_i)=\sum_{r=1}^{R} f_r(t + T_i),
+```
 
-$$p(\mu|\textbf{n},t)=f_r(t + T_i)/\lambda(t + T_i),~~\mu= 1, \ldots,R, ~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d.$$
+```math
+p(\mu|\textbf{n},t)=f_r(t + T_i)/\lambda(t + T_i),~~\mu= 1, \ldots,R, ~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d.
+```
 According this two equations, $\tau$ and $\mu$ can be generated as,
-$$\tau=T_i+\frac{-\ln(1-u_1)-\Sigma_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j)}{\lambda(t + T_i)} ,$$
-$$\mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(t + T_i)< u_2 \lambda (t + T_i) \leq \sum_{r=1}^{\mu} f_r(t + T_i)$},$$
+```math
+\tau=T_i+\frac{-\ln(1-u_1)-\Sigma_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j)}{\lambda(t + T_i)} ,
+```
+```math
+\mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(t + T_i)< u_2 \lambda (t + T_i) \leq \sum_{r=1}^{\mu} f_r(t + T_i)$} ,
+```
 where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 ## Algorithm
@@ -344,7 +328,9 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 # Delay Modified Next Reaction Method Algorithm
 
  Delay Modified Next Reaction Method Algorithm is modified Next Reaction Method to systems with delays. According to [4], if $T_r$ is the current internal time of $Y_r$, $P_r$ the first internal time after $T_r$ at which $Y_r$ fires, and the propensity function for the $r$-th reaction channel is given by $f_r$, then the time until the next initiation of reaction $r$ (assuming no other reactions initiate or complete) is still given by $\Delta t_r = (1/f_r)(P_r − T_r)$.  To each delayed reaction channel we therefore assign a vector, $s_r$, that stores the completion times of that reaction in ascending order. Thus, the time until there is a change in the state of the system, be it an initiation or a completion, will be given by
-$$\Delta=\min\{\Delta t_r, s_r[1]-t\}$$
+ ```math
+ \Delta=\min\{\Delta t_r, s_r[1]-t\}
+ ```
  where $t$ is the current time of the system.
 
 ## Algorithm
@@ -419,14 +405,24 @@ $$\Delta=\min\{\Delta t_r, s_r[1]-t\}$$
 # Gillespie Algorithm
 
  Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
-$$f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)$$
+ ```math
+ f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
+```
 
 Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent random variables and following the probability density functions as:
-$$p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),$$
-$$p(\mu|n,t)=f_r(n,t)/\lambda(n,t) .$$
+```math
+p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),
+```
+```math
+p(\mu|n,t)=f_r(n,t)/\lambda(n,t) .
+```
 According this two equations, $\tau$ and $\mu$ can be generated as,
-$$\tau=-\ln(u_1)/\lambda(n,t),$$
-$$\mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(n,t)< u_2 \lambda(n,t) \leq \sum_{r=1}^{\mu} f_r(n,t)$},$$
+```math
+\tau=-\ln(u_1)/\lambda(n,t) ,
+```
+```math
+\mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(n,t)< u_2 \lambda(n,t) \leq \sum_{r=1}^{\mu} f_r(n,t)$} ,
+```
 where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 <!-- [Approximate accelerated stochastic simulation of chemically reacting systems]
@@ -459,7 +455,9 @@ where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
  
  Let $v_r$, $v'_r\in N{\geq 0}^N$ be the vectors representing the number of each species consumed and created in the *r*th reaction, respectively. Then, if $N_r(t)$ is the number of initiations of reaction $r$ by time $t$, the state of the system at time $t$ is
 
-$$n(t)=n(0)+\sum_{r=1}^R{N_r(t)(v'_r-v_r)}.$$
+$$
+n(t)=n(0)+\sum_{r=1}^R{N_r(t)(v'_r-v_r)}.
+$$
 
  However, based upon the fundamental assumption of stochastic chemical kinetics, $N_r(t)$ is a counting process with intensity $f_r(n(t))$ such that $p(N_k(t+\Delta t)-N_k(t)=1)=f_r(n(t))\Delta t$, for small $\Delta t$. Therefore, we have
 
@@ -474,7 +472,9 @@ Each Poisson process $Y_r$ brings its own time frame. If we define $T_r(t)=\int^
 $\Delta t_r$ notes the gap time which the *r*th reaction needs. $\Delta=\min_r { \Delta t_r }$. For the moment we denote $\overline{t} = t +\Delta$ and the updated propensity functions by $\overline{f_r}$. 
 
 The internal time of the next firing of $Y_r$ has not changed and is still given by $T_r(t) + f_r \Delta t_r$. We also know that the updated internal time of $Y_r$ is given by $T_r(\overline{t}) =T_r(t)+ f_r \Delta $. Therefore, the amount of internal time that must pass before the *r*th reaction fires is given as the difference:
-$$(T_r(t) + f_r \Delta t_r) − (T_r(t)+ f_r \Delta ) = f_r(\Delta t_r − \Delta).$$
+```math
+(T_r(t) + f_r \Delta t_r) − (T_r(t)+ f_r \Delta ) = f_r(\Delta t_r − \Delta).
+```
 Thus, the amount of absolute time that must pass before the *r*th reaction channel fires,$ \Delta \overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
 ```math
 \overline{\tau_r} = f_r / \overline{f_r}  (\Delta t_r − \Delta) + \overline{t}
