@@ -475,7 +475,7 @@ The internal time of the next firing of $Y_r$ has not changed and is still given
 ```math
 (T_r(t) + f_r \Delta t_r) − (T_r(t)+ f_r \Delta ) = f_r(\Delta t_r − \Delta).
 ```
-Thus, the amount of absolute time that must pass before the *r*th reaction channel fires,$\Delta\overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
+Thus, the amount of absolute time that must pass before the *r*th reaction channel fires, $\Delta\overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
 ```math
 \overline{\tau_r} = f_r / \overline{f_r}  (\Delta t_r − \Delta) + \overline{t}
     = f_r / \overline{f_r}  ((t+\Delta t_r )− (t+\Delta)) + \overline{t}
