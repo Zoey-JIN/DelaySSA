@@ -230,9 +230,9 @@ $$
 \sum_{i=1}^{N} s_{ir}X_i \xrightarrow{k_r} \sum_{i=1}^{N} s^{'}_{ir}X_i,~~r=1, \ldots,R,
 $$  
 
-where $s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $ k_r $ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
+where $s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $k_r$ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
 ```math
-S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
+S_{ir}=s^'_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
 ```
 
 According to [5], propensity function $f(\textbf{n})$ are in the form of mass-action kinetics type
@@ -369,7 +369,7 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 
  11. For each r, set $T_r = T_r + f_r \tau$.
 
- 12. If reaction $\mu$ initiated, let $u'$ be uniform$(0,1)$ and set $P_\mu = P_\mu - \ln(u')$.
+ 12. If reaction $\mu$ initiated, let $u'$ be $\text{Uniform}(0,1)$ and set $P_\mu = P_\mu - \ln(u')$.
 
  13. Recalculate the propensity functions, $f_r$.
 
@@ -475,7 +475,7 @@ The internal time of the next firing of $Y_r$ has not changed and is still given
 ```math
 (T_r(t) + f_r \Delta t_r) − (T_r(t)+ f_r \Delta ) = f_r(\Delta t_r − \Delta).
 ```
-Thus, the amount of absolute time that must pass before the *r*th reaction channel fires,$ \Delta \overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
+Thus, the amount of absolute time that must pass before the *r*th reaction channel fires,$\Delta \overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
 ```math
 \overline{\tau_r} = f_r / \overline{f_r}  (\Delta t_r − \Delta) + \overline{t}
     = f_r / \overline{f_r}  ((t+\Delta t_r )− (t+\Delta)) + \overline{t}
