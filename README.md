@@ -232,7 +232,7 @@ $$
 
 where $s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $k_r$ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
 ```math
-S_{ir}=s^'_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
+S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
 ```
 
 According to [5], propensity function $f(\textbf{n})$ are in the form of mass-action kinetics type
@@ -475,7 +475,7 @@ The internal time of the next firing of $Y_r$ has not changed and is still given
 ```math
 (T_r(t) + f_r \Delta t_r) − (T_r(t)+ f_r \Delta ) = f_r(\Delta t_r − \Delta).
 ```
-Thus, the amount of absolute time that must pass before the *r*th reaction channel fires,$\Delta \overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
+Thus, the amount of absolute time that must pass before the *r*th reaction channel fires,$\Delta\overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
 ```math
 \overline{\tau_r} = f_r / \overline{f_r}  (\Delta t_r − \Delta) + \overline{t}
     = f_r / \overline{f_r}  ((t+\Delta t_r )− (t+\Delta)) + \overline{t}
