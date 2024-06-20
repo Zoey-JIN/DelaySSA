@@ -77,12 +77,7 @@ tmax <- 150
 n_initial <- matrix(c(1000,1000,0),nrow = 3)
 t_initial <- 0
 ```
-According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s_{ir}'$ denote numbers of reactant and product molecules, respectively. Then, we define
-$s=\begin{pmatrix}
-1 & 0 \\
-1 & 0 \\
-0 & 1
-\end{pmatrix}$ as `reactant_matrix`, 
+According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s_{ir}'$ denote numbers of reactant and product molecules, respectively. Then, we define $s=\begin{pmatrix} 1 & 0 \\ 1 & 0 \\ 0 & 1 \end{pmatrix}$ as `reactant_matrix`, 
 $s'=
 \begin{pmatrix}
 0 & 0 \\
