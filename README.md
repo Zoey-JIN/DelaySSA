@@ -1,5 +1,5 @@
 # DelaySSA
-DelaySSA is an R package designed to simulate non-Markovian models of gene expression using a delayed the Gillespie algorithm. This package is particularly useful for researchers and practitioners in computational biology and systems biology who are interested in modeling the dynamics of gene expression with intrinsic delays.
+DelaySSA is an R package designed to simulate non-Markovian models of gene expression by extending the Gillespie algorithm to reactions with delay. This package is particularly useful for researchers and practitioners in computational biology and systems biology who are interested in modeling the dynamics of gene expression with intrinsic delays.
 
 ## Features
 - Implementation of the delayed Gillespie algorithm [1-4].
