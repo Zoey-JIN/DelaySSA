@@ -98,7 +98,7 @@ convert_pdf <- function(a_vector) {
 #' @return species number
 #' @export
 picksample <- function(list_output,i=1,t){
-  index <- which.min(list_output$t_values<t)-1
+  index <- which.min(list_output$t_values<=t)-1
   n_output <- list_output$n_values[i,index]
   return(n_output)
 }
