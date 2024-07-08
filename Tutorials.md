@@ -2,10 +2,9 @@
 # Tutorial Example : Delayed Production and Annihilation System
 This tutorial is designed to demonstrate how to use DelaySSA for defining chemical reaction models, solving related problems, and visualizing the results. The source code for all examples and figures can be found in the GitHub examples folder. We study the system with two non-delay channels and one delay channel. This model describes that molecular $S_1$ binds $S_2$ and then degrade with the reaction rate $k_1$. Once the reaction occurs, the molecular $S_3$ will be generated after a fixed time delay $\tau$, and will degrade with the rate $k_2$. This procedure can be described by
 
-```math
-S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3,\\
-S_3 \xrightarrow{k_2}\emptyset.
-```
+$$
+S_1+S_2 \xrightarrow{k_1}\emptyset,~~\emptyset\stackrel{\tau}\Rightarrow S_3,~~S_3 \xrightarrow{k_2}\emptyset.
+$$
 
 The species are $S_1,S_2,S_3$. Let $k_1=0.001, k_2 = 0.001，\tau = 0.1.$
 
