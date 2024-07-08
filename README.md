@@ -404,9 +404,11 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 # Gillespie Algorithm
 
  Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
- ```math
+$$
+\begin{aligned}
  f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
-```
+\end{aligned}
+$$
 
 Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent random variables and following the probability density functions as:
 ```math
