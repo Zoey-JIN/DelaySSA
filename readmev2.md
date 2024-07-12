@@ -44,9 +44,9 @@ t_initial <- 0
 ```
 According to the reactions, the counting of reactant and product molecules rows is arranged with rows indexed as $S_1,S_2,S_3$, and columns indexed in order of the reactions. $s_{ir}$ and $s_{ir}'$ denote numbers of reactant and product molecules, respectively. Then, we define $s$ as `reactant_matrix` and $s'$. Therefore, we can define $S$ as `S_matrix`. For delay part, we can define $S_\text{delay}$ as `S_matrix_delay`, which can be expressed as
 
-```math
+$$
 s=\begin{pmatrix} 1 & 0 \\ 1 & 0 \\ 0 & 1 \end{pmatrix},~ s'=\begin{pmatrix}0 & 0 \\0 & 0 \\0 & 0\end{pmatrix}, ~ S=s'-s=\begin{pmatrix} -1 & 0 \\ -1 & 0 \\0 & -1 \end{pmatrix},~ S_\text{delay}=\begin{pmatrix} 0 & 0 \\0 & 0 \\1 & 0\end{pmatrix}
-```
+$$
 
 
 
@@ -404,13 +404,14 @@ $$
 # Gillespie Algorithm
 
  Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
-$$\begin{align}
+$$
 f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
-\end{align}$$
+$$
 
 Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent random variables and following the probability density functions as:
-$$\begin{align}
-p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),\end{align}$$
+$$
+p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),
+$$
 
 $$
 p(\mu|n,t)=f_r(n,t)/\lambda(n,t) .
