@@ -32,6 +32,9 @@ simulate_reaction <- function(tmax, n_initial, t_initial, S_matrix, k, fun_fr) {
 
     n <- n + S_matrix[,r]
     t <- t + tau
+    if(t<tail(t_values,1)){
+      break
+    }
     t_values <- c(t_values, t)
     n_values <- cbind(n_values, n)
   }

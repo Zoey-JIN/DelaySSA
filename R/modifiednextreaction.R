@@ -37,6 +37,9 @@ simulate_reaction_modifiednextreaction <- function(tmax, n_initial, t_initial, S
     f_r <- fun_fr(k,n)
 
     t <- t+tau
+    if(t<tail(t_values,1)){
+      break
+    }
     t_values <- c(t_values, t)
     n_values <- cbind(n_values, n)
   }

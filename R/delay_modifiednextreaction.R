@@ -79,6 +79,9 @@ simulate_reaction_delay_modifiednextreaction <- function(tmax, n_initial, t_init
     t_vec<- t_vec+f_r*tau
 
     f_r <- fun_fr(k,n)
+    if(t<tail(t_values,1)){
+      break
+    }
     t_values <- c(t_values, t)
     n_values <- cbind(n_values, n)
   }

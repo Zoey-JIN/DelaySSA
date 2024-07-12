@@ -39,6 +39,9 @@ simulate_reaction_nextreaction <- function(tmax, n_initial, t_initial, S_matrix,
     tau_vec[r] <- 1/f_r_update[r]*log(1/u1)+tau
     f_r <- f_r_update
     t <- tau
+    if(t<tail(t_values,1)){
+      break
+    }
     t_values <- c(t_values, t)
     n_values <- cbind(n_values, n)
   }

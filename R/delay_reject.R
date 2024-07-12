@@ -74,6 +74,9 @@ simulate_reaction_delay_rejection <- function(tmax, n_initial, t_initial, S_matr
         print("Stop: wrong with the reaction type")
       }
     }
+    if(t<tail(t_values,1)){
+      break
+    }
     t_values <- c(t_values, t)
     n_values <- cbind(n_values, n)
   }
