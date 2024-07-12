@@ -410,7 +410,7 @@ f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small tim
 ```
 
 Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent random variables and following the probability density functions as:
-```mathj
+```math
 p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),\end{align}$$
 ```
 
