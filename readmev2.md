@@ -230,15 +230,15 @@ $$
 $$  
 
 where $s_{ir}$ and $s'_{ir}$ denote numbers of reactant and product molecules, respectively. $k_r$ is the reaction rate constant of the $r$-th reacion. And the stoichiometric matrix $S$ is given by
-```math
+$$
 S_{ir}=s^{'}_{ir}-s_{ir},~~r=1, \ldots,R,~~i=1, \ldots,N.
-```
+$$
 
 According to [5], propensity function $f(\textbf{n})$ are in the form of mass-action kinetics type
 
-```math
+$$
 f_r(\textbf{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_{ir}}},
-```
+$$
 
 where $\textbf{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega$ is the volume of a closed compartment.
 
@@ -255,20 +255,20 @@ Case 3: If reaction $r$ loses the reactant species and gains the product species
 # Delay Direct Method Algorithm
 Consider that $N_d$ delay reactions are ongoing at the time $t$. The delay reactions will complete at $t+T_1,\ldots,t+T_{N_d}$, where $T_1 \leq T_2,\ldots,t+T_{N_d}$. As in the derivation of Gillespie’s exact Stochastic Simulation Algorithm (SSA), $p(\tau, \nu) d\tau$ can be found from the fundamental assumption as $p(\tau, \nu) d\tau = p_0(\tau) f_\mu(t + \tau) d\tau$, where $p_0(\tau)$ is the probability that no reaction will happen in the time interval $[t,t+\tau)$. The delay effects the propensity function. So $p_0(\tau)$ comes to $\exp(-\Sigma_{j=0}^{i-1}\lambda(t+T_j)(T_{j+1}-T_j)-\lambda(t+T_i)(\tau-T_{i})),~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d$, where the exponent assume equal to zero when $i=0$.
 
-```math
+$$
 p(\tau|\textbf{n},t)=\lambda(t + T_i) \exp ( - \sum_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j) - \lambda(t + T_i)(\tau - T_i) ),~~\lambda(t + T_i)=\sum_{r=1}^{R} f_r(t + T_i),
-```
+$$
 
-```math
+$$
 p(\mu|\textbf{n},t)=f_r(t + T_i)/\lambda(t + T_i),~~\mu= 1, \ldots,R, ~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d.
-```
+$$
 According this two equations, $\tau$ and $\mu$ can be generated as,
-```math
+$$
 \tau=T_i+\frac{-\ln(1-u_1)-\Sigma_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j)}{\lambda(t + T_i)} ,
-```
-```math
+$$
+$$
 \mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(t + T_i)< u_2 \lambda (t + T_i) \leq \sum_{r=1}^{\mu} f_r(t + T_i)$} ,
-```
+$$
 where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 ## Algorithm
@@ -327,9 +327,9 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 # Delay Modified Next Reaction Method Algorithm
 
  Delay Modified Next Reaction Method Algorithm is modified Next Reaction Method to systems with delays. According to [4], if $T_r$ is the current internal time of $Y_r$, $P_r$ the first internal time after $T_r$ at which $Y_r$ fires, and the propensity function for the $r$-th reaction channel is given by $f_r$, then the time until the next initiation of reaction $r$ (assuming no other reactions initiate or complete) is still given by $\Delta t_r = (1/f_r)(P_r − T_r)$.  To each delayed reaction channel we therefore assign a vector, $s_r$, that stores the completion times of that reaction in ascending order. Thus, the time until there is a change in the state of the system, be it an initiation or a completion, will be given by
- ```math
+$$
  \Delta=\min\{\Delta t_r, s_r[1]-t\}
- ```
+$$
  where $t$ is the current time of the system.
 
 ## Algorithm
@@ -412,16 +412,16 @@ Based on this  fundamental assumptions,  $\tau$ and $\mu$ are two independent ra
 $$\begin{align}
 p(\tau|n,t)=\lambda(n,t) \exp(-\tau \lambda(n,t)), ~~\lambda=\sum_{r=1}^{R} f_r(n,t),\end{align}$$
 
-```math
+$$
 p(\mu|n,t)=f_r(n,t)/\lambda(n,t) .
-```
+$$
 According this two equations, $\tau$ and $\mu$ can be generated as,
-```math
+$$
 \tau=-\ln(u_1)/\lambda(n,t) ,
-```
-```math
+$$
+$$
 \mu=\text{the integer satisfies $\sum_{r=1}^{\mu-1} f_r(n,t)< u_2 \lambda(n,t) \leq \sum_{r=1}^{\mu} f_r(n,t)$} ,
-```
+$$
 where $u_1,u_2\sim \text{Uniform}(0,1)$ respectively.
 
 <!-- [Approximate accelerated stochastic simulation of chemically reacting systems]
@@ -471,15 +471,15 @@ Each Poisson process $Y_r$ brings its own time frame. If we define $T_r(t)=\int^
 $\Delta t_r$ notes the gap time which the *r*th reaction needs. $\Delta=\min_r { \Delta t_r }$. For the moment we denote $\overline{t} = t +\Delta$ and the updated propensity functions by $\overline{f_r}$. 
 
 The internal time of the next firing of $Y_r$ has not changed and is still given by $T_r(t) + f_r \Delta t_r$. We also know that the updated internal time of $Y_r$ is given by $T_r(\overline{t}) =T_r(t)+ f_r \Delta $. Therefore, the amount of internal time that must pass before the *r*th reaction fires is given as the difference:
-```math
+$$
 (T_r(t) + f_r \Delta t_r) − (T_r(t)+ f_r \Delta ) = f_r(\Delta t_r − \Delta).
-```
+$$
 Thus, the amount of absolute time that must pass before the *r*th reaction channel fires, $\Delta\overline{t}_r$, is given as the solution to $\overline{f_r}\Delta \overline{t}_r = f_r(\Delta t_r − \Delta)$, and we can get:
-```math
+$$
 \overline{\tau_r} = f_r / \overline{f_r}  (\Delta t_r − \Delta) + \overline{t}
     = f_r / \overline{f_r}  ((t+\Delta t_r )− (t+\Delta)) + \overline{t}
     = f_r / \overline{f_r}  (\tau_r − \overline{t}) + \overline{t}
-```
+$$
 
 We have therefore found the absolute times of the next firings of reactions $r = µ$ without having to generate any new random numbers.
 
