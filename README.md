@@ -84,7 +84,7 @@ delaytime_list <- append(delaytime_list,c(tau,0))
 ```
 
 ## Simulation and Visualization Part
-Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction
+Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of species after reactions occur and the corresponding times for each reaction
 ```R
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
@@ -92,15 +92,15 @@ result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=t
 `result` is a list whose length is determined by the number of simulations `sample_size`. Each element of this list is also a list, consisting of:
 
 1. A vector representing the times at which reactions occurred.
-2. A matrix showing the changes in substances over time.
+2. A matrix showing the changes in species over time.
 
-Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean values in the quantities of each substance at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each substance. Here the number of $S_1$ is the same as the number of $S_2$.
+Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean values in the quantities of each specie at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each specie. Here the number of $S_1$ is the same as the number of $S_2$.
 ```R
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
-To be more specific, `result` is the output list from simulation. Then use `picksample(result,i,t)` to sample the specie i at time `t`.  `convert_pdf(n)` can convert the vector to a list containing the probability density. The list has two elements, where the first element is a vecter representing number of the species, and the second element is a table representing the probability for each quantity. `plot_mean(result, i, t)` returns the mean value of substance `i` at time `t` after the simulation, using the `result` data. `plot_mean` relies on the `picksample` and `mean` functions to perform the calculation. All in all, can use `picksample` and `convert_pdf` functions to obtain the probability distribution of each substance at each time point and use `plot_mean` function to obtain the mean changes of each substance over repeated simulations. You can then visualize the data in any way you prefer.
+To be more specific, `result` is the output list from simulation. Then use `picksample(result,i,t)` to sample the specie i at time `t`.  `convert_pdf(n)` can convert the vector to a list containing the probability density. The list has two elements, where the first element is a vecter representing number of the species, and the second element is a table representing the probability for each quantity. `plot_mean(result, i, t)` returns the mean value of specie `i` at time `t` after the simulation, using the `result` data. `plot_mean` relies on the `picksample` and `mean` functions to perform the calculation. All in all, we can use `picksample` and `convert_pdf` functions to obtain the probability distribution of each specie at each time point and use `plot_mean` function to obtain the mean value of each specie over repeated simulations. 
 ```R
 > a <- c(1,2,3,4,5)
 > convert_pdf(a)
@@ -510,7 +510,7 @@ Remark. Notice that in the above pseudocode, we modified the Step 4 in the origi
 
 # Gillespie Algorithm
 
- Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
+ Consider a system of $N$ chemical species with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
 
 ```math
 f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
