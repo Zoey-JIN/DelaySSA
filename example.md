@@ -31,7 +31,67 @@ sample <- 10000
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
+Use the following code to visualize the results.
+
+```R
+library("ggplot2")
+Specie <- c("N")
+t=seq(0, tmax, by = 1)
+t_initial = 0
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(1:num_columns, function(i) {
+  n <- lapply(t, function(x) plot_mean(result, i, x))
+  n <- unlist(n)
+  if (t[1] == t_initial) 
+    n[1] <- n_initial[i, ]
+  data.frame(t = t, quantity = n, Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "T", y = "Mean Value") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"), 
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(), 
+    panel.background = element_blank(),  
+    axis.line = element_line(color = "black")  
+  )
+```
 ![BirthDeath_mean](figs/BirthDeath_mean.svg)
+```R
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(1:num_columns, function(i) {
+  n <- lapply(result, function(x) picksample(x, i, t=tmax))
+  n <- unlist(n)
+  plot_xy <- convert_pdf(n)
+  if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
+    warning("Error in Calculating Density Table")
+  }
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+  geom_line(linewidth = 0.7) + 
+  labs(x = "# of Products", y = "Probability") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"), 
+    axis.title = element_text(size = 12, face = "bold"), 
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(),  
+    panel.background = element_blank(),  
+    axis.line = element_line(color = "black")  
+  )
+```
 ![BirthDeath_density_150s](figs/BirthDeath_density_150s.svg)
 
 # Bursty Model
@@ -72,7 +132,68 @@ sample <- 100000
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
+Use the following code to visualize the results.
+
+```R
+library("ggplot2")
+Specie <- c("N")
+t=seq(0, tmax, by = 1)
+t_initial = 0
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(1:num_columns, function(i) {
+  n <- lapply(t, function(x) plot_mean(result, i, x))
+  n <- unlist(n)
+  if (t[1] == t_initial) 
+    n[1] <- n_initial[i, ]
+  data.frame(t = t, quantity = n, Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "T", y = "Mean Value") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(),  
+    panel.background = element_blank(),  
+    axis.line = element_line(color = "black")  
+  )
+```
+
 ![Bursty_mean](figs/Bursty_mean.svg)
+```R
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(1:num_columns, function(i) {
+  n <- lapply(result, function(x) picksample(x, i, t=tmax))
+  n <- unlist(n)
+  plot_xy <- convert_pdf(n)
+  if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
+    warning("Error in Calculating Density Table")
+  }
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+  geom_line(linewidth = 0.7) + 
+  labs(x = "# of Products", y = "Probability") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(),  
+    panel.background = element_blank(),  
+    axis.line = element_line(color = "black")  
+  )
+```
 ![Bursty_density_200s](figs/Bursty_density_200s.svg)
 
 # Oscillation Model
@@ -223,7 +344,67 @@ sample <- 10000
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
+Use the following code to visualize the results.
+
+```R
+library("ggplot2")
+Specie <- c("G0","G1", "G2","N")
+t=seq(0, tmax, by = 1)
+t_initial = 0
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(4, function(i) {
+  n <- lapply(t, function(x) plot_mean(result, i, x))
+  n <- unlist(n)
+  if (t[1] == t_initial) 
+    n[1] <- n_initial[i, ]
+  data.frame(t = t, quantity = n, Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "T", y = "Mean Value") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(), 
+    panel.background = element_blank(), 
+    axis.line = element_line(color = "black")  
+  )
+```
 ![Refractory_mean](figs/Refractory_mean.svg)
+```R
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(4, function(i) {
+  n <- lapply(result, function(x) picksample(x, i, t=tmax))
+  n <- unlist(n)
+  plot_xy <- convert_pdf(n)
+  if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
+    warning("Error in Calculating Density Table")
+  }
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "# of Products", y = "Probability") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(), 
+    legend.text = element_text(size = 10), 
+    panel.grid = element_blank(),  
+    panel.background = element_blank(), 
+    axis.line = element_line(color = "black") 
+  )
+```
 ![Refractory_density_150s](figs/Refractory_density_150s.svg)
 
 

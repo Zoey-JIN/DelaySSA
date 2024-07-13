@@ -84,14 +84,121 @@ delaytime_list <- append(delaytime_list,c(tau,0))
 ```
 
 ## Simulation and Visualization Part
-Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of substances after reactions occur and the corresponding times for each reaction
+Next, use the function `simulation_DelaySSA` from the package to calculate the quantities of species after reactions occur and the corresponding times for each reaction
 ```R
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
-Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean values in the quantities of each substance at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each substance. Here the number of $S_1$ is the same as the number of $S_2$.
+
+`result` is a list whose length is determined by the number of simulations `sample_size`. Each element of this list is also a list, consisting of:
+
+1. A vector representing the times at which reactions occurred.
+2. A matrix showing the changes in species over time.
+
+Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean values in the quantities of each specie at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each specie. Here the number of $S_1$ is the same as the number of $S_2$.
 ```R
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
+```
+
+To be more specific, `result` is the output list from simulation. Then use `picksample(result,i,t)` to sample the specie i at time `t`.  `convert_pdf(n)` can convert the vector to a list containing the probability density. The list has two elements, where the first element is a vecter representing number of the species, and the second element is a table representing the probability for each quantity. `plot_mean(result, i, t)` returns the mean value of specie `i` at time `t` after the simulation, using the `result` data. `plot_mean` relies on the `picksample` and `mean` functions to perform the calculation. All in all, can use `picksample` and `convert_pdf` functions to obtain the probability distribution of each specie at each time point and use `plot_mean` function to obtain the mean changes of each specie over repeated simulations. 
+```R
+> a <- c(1,2,3,4,5)
+> convert_pdf(a)
+[[1]]
+[1] 1 2 3 4 5
+
+[[2]]
+a_vector
+  1   2   3   4   5 
+0.2 0.2 0.2 0.2 0.2 
+```
+```R
+library(ggplot2)
+Specie <- c("S1 S2","S1 S2","S3")
+svg <- svglite("TwoChannels_mean.svg", width = 5, height = 5)
+t=seq(0, tmax, by = 1)
+t_initial = 0
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(c(2,3), function(i) {
+  n <- lapply(t, function(x) plot_mean(result, i, x))
+  n <- unlist(n)
+  if (t[1] == t_initial) 
+    n[1] <- n_initial[i, ]
+  data.frame(t = t, quantity = n, Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "T", y = "Mean Value") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"), 
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10), 
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(),  
+    panel.background = element_blank(), 
+    axis.line = element_line(color = "black")  
+  )
+dev.off()
+svg <- svglite("TwoChannels_S1andS2_density_150s.svg", width = 5, height = 5)
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(c(2), function(i) {
+  n <- lapply(result, function(x) picksample(x, i, t=tmax))
+  n <- unlist(n)
+  plot_xy <- convert_pdf(n)
+  if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
+    warning("Error in Calculating Density Table")
+  }
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+  geom_line(linewidth = 0.7) +  
+  labs(x = "# of Products", y = "Probability") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"), 
+    axis.text = element_text(size = 10),  
+    legend.title = element_blank(), 
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(), 
+    panel.background = element_blank(),  
+    axis.line = element_line(color = "black") 
+  )
+dev.off()
+svg <- svglite("TwoChannels_S3_density_150s.svg", width = 5, height = 5)
+num_columns <- nrow(result[[1]]$n_values)
+data_list <- lapply(c(3), function(i) {
+  n <- lapply(result, function(x) picksample(x, i, t=tmax))
+  n <- unlist(n)
+  plot_xy <- convert_pdf(n)
+  if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
+    warning("Error in Calculating Density Table")
+  }
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+})
+plot_data <- do.call(rbind, data_list)
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+  geom_line(linewidth = 0.7) + 
+  labs(x = "# of Products", y = "Probability") + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12, face = "bold"),  
+    axis.text = element_text(size = 10), 
+    legend.title = element_blank(),  
+    legend.text = element_text(size = 10),  
+    panel.grid = element_blank(),  
+    panel.background = element_blank(), 
+    axis.line = element_line(color = "black")  
+  )
+dev.off()
 ```
 
 ![TwoChannels_mean](figs/TwoChannels_mean.svg)
@@ -403,7 +510,7 @@ $$
 
 # Gillespie Algorithm
 
- Consider a system of $N$ chemical substances with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
+ Consider a system of $N$ chemical species with $R$ ongoing chemical reactions, each of which has a corresponding tendency function $f_r(n)$. The Gillespie algorithm assumes that the time from start to finish for each reaction is negligible. Through random simulations, calculate 1) how much time will pass before the next reaction occurs (i.e. starts and finishes), and 2) which reaction will occur at that future point in time. The following assumptions, sometimes referred to as the basic premises of chemical dynamics, are based on physical principles and serve as the underlying assumptions for methods of simulating chemical reaction systems [1]:
 $$
 f_r(n(t)) dt = \text{the probability that  reaction r takes place in a small time interval} ~[t, t + dt)
 $$
