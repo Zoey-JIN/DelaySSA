@@ -19,7 +19,7 @@ simulate_reaction <- function(tmax, n_initial, t_initial, S_matrix, k, fun_fr) {
   t <- t_initial
 
   while (t < tmax) {
-    cumulative_sum <- 0
+
     u1 <- runif(1)
     u2 <- runif(1)
 
