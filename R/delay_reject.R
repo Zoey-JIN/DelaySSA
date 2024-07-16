@@ -24,7 +24,7 @@ simulate_reaction_delay_rejection <- function(tmax, n_initial, t_initial, S_matr
   t <- t_initial
 
   Tstruct <- vector("list", length = 2)
-  # 第一行为时间 第二行为第几个反应
+  # The first line represents the time, and the second line indicates the reaction.
   while (t < tmax) {
     # tau
     u1 <- runif(1)
