@@ -40,7 +40,7 @@ simulate_reaction_delay_direct <- function(tmax, n_initial, t_initial, S_matrix,
         r <- Tstruct[[2]][i]
         if(delay_type[r]==0){
           print("warning")
-          n <- n + S_matrix[,r]
+          # n <- n + S_matrix[,r]
         } else if (delay_type[r]==1) {
           n <- n + S_matrix_delay[,r]
         } else if (delay_type[r]==2) {

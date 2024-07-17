@@ -32,7 +32,7 @@ simulate_reaction_nextreaction <- function(tmax, n_initial, t_initial, S_matrix,
       tau_vec[-r] <- f_r[-r]/f_r_update[-r]*(tau_vec[-r]-tau)+tau
     }
     if(any(is.infinite(tau_vec)|is.na(tau_vec))){
-      Inf_index <- which(is.na(is.infinite(tau_vec)|tau_vec))
+      Inf_index <- which(is.infinite(tau_vec)|is.na(tau_vec))
       tau_vec[Inf_index] <- -log(runif(length(Inf_index))) / f_r_update[Inf_index] + tau
     }
     u1 <- runif(1)
