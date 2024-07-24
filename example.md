@@ -21,7 +21,10 @@ k <- c(10)
 reactant_matrix <- matrix(c(0),nrow = 1)
 delay_type <- matrix(c(2),nrow = 1)
 delaytime_list <- list()
-delaytime_list <- append(delaytime_list,rgamma(n = 1, shape = 7, rate = 1))
+gamma_value <- function(){
+  rgamma(n = 1, shape = 7, rate = 1)
+}
+delaytime_list <- append(delaytime_list,gamma_value)
 ```
 
 We simulate $10^4$ trajectories and calculate the mean value and probability distribution of $N$ at $t = 150$.
