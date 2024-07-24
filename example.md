@@ -135,7 +135,7 @@ sample <- 100000
 result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=tmax, n_initial=n_initial, t_initial=t_initial, S_matrix=S_matrix, S_matrix_delay=S_matrix_delay, k=k, reactant_matrix=reactant_matrix, delay_type=delay_type , delaytime_list=delaytime_list)
 ```
 
-Use the following code to visualize the results.
+Then we can use the following code to visualize the results.
 
 ```R
 library("ggplot2")
