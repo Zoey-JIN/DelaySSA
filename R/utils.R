@@ -219,5 +219,5 @@ fun_fr <- function(k,n){
   }else {
     k_mask <- k
   }
-  return(k_mask*propensity_n(n,product_list))
+  return(k_mask*propensity_n(n,reactant_matrix))
 }
