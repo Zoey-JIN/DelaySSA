@@ -53,13 +53,27 @@ check_delay_relative <- function(delay_type, delaytime_list, S_matrix, S_matrix_
 #' @param reactant_matrix species reactant matrix
 #'
 #' @return a vector used for calculating propensity function
+# propensity_n <- function(n,reactant_matrix){
+#   result <- sapply(1:ncol(reactant_matrix), function(j) {
+#     prod(sapply(1:nrow(reactant_matrix), function(i) {
+#       ifelse(reactant_matrix[i,j]==0, 1, Reduce(`*`, (n[i] - (0:(reactant_matrix[i,j]-1)))))
+#     }))})
+#   return(result)
+# }
 propensity_n <- function(n,reactant_matrix){
-  result <- sapply(1:ncol(reactant_matrix), function(j) {
-    prod(sapply(1:nrow(reactant_matrix), function(i) {
-      ifelse(reactant_matrix[i,j]==0, 1, Reduce(`*`, (n[i] - (0:(reactant_matrix[i,j]-1)))))
-    }))})
+  result <- numeric(ncol(reactant_matrix))
+  for (j in seq_len(ncol(reactant_matrix))) {
+    propensity <- 1
+    for (i in seq_len(nrow(reactant_matrix))) {
+      if (reactant_matrix[i, j] > 0) {
+        propensity <- propensity * prod((n[i] - seq_len(reactant_matrix[i, j]) + 1))
+      }
+    }
+    result[j] <- propensity
+  }
   return(result)
 }
+
 
 #' @title The Mean Value of Species i at Time t
 #'
@@ -117,12 +131,13 @@ picksample <- function(list_output,i=1,t){
 #' @param S_matrix_delay the stoichiometric matrix at the completion time
 #' @param k a reaction rate vector
 #' @param reactant_matrix species reactant matrix
+#' @param reactant_matrix_delay species reactant matrix at delay part
 #' @param delay_type the reaction type vector taking on the values 0, 1, or 2
 #' @param delaytime_list a list representing the delay time of each reaction
 #'
 #' @return A list contains sublists including the amount of a species and the corresponding time
 #' @export
-simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay = NULL, k, reactant_matrix, delay_type = NULL , delaytime_list = NULL) {
+simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay = NULL, k, reactant_matrix, reactant_matrix_delay = NULL, delay_type = NULL , delaytime_list = NULL) {
     algorithm_chosen <- algorithm
     sample <- sample_size
     if (!(is.null(delay_type) || is.null(delaytime_list) || is.null(S_matrix_delay))) {
@@ -136,9 +151,9 @@ simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_ini
       return(k_mask*propensity_n(n,reactant_matrix))
     }
     result <- switch(algorithm_chosen,
-                    "DelayDirect" = lapply(1:sample, function(x) simulate_reaction_delay_direct(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k,fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
-                    "DelayMNR" = lapply(1:sample, function(x) simulate_reaction_delay_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
-                    "DelayRejection" = lapply(1:sample, function(x) simulate_reaction_delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, fun_fr, delay_type, delaytime_list, delay_effect_matrix)),
+                    "DelayDirect" = lapply(1:sample, function(x) simulate_reaction_delay_direct(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k,fun_fr, delay_type, delaytime_list, delay_effect_matrix, reactant_matrix_delay)),
+                    "DelayMNR" = lapply(1:sample, function(x) simulate_reaction_delay_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, fun_fr, delay_type, delaytime_list, delay_effect_matrix, reactant_matrix_delay)),
+                    "DelayRejection" = lapply(1:sample, function(x) simulate_reaction_delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, fun_fr, delay_type, delaytime_list, delay_effect_matrix, reactant_matrix_delay)),
                     "Direct" = lapply(1:sample, function(x) simulate_reaction(tmax, n_initial, t_initial, S_matrix, k, fun_fr)),
                     "MNR" = lapply(1:sample, function(x) simulate_reaction_modifiednextreaction(tmax, n_initial, t_initial, S_matrix, k, fun_fr)),
                     "NR" = lapply(1:sample, function(x) simulate_reaction_nextreaction(tmax, n_initial, t_initial, S_matrix, k, fun_fr)),

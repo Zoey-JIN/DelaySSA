@@ -237,6 +237,9 @@ An R-dimensional vector representing the reaction constant rate or a function re
 `reactant_matrix`  
 An N-by-R matrix, representing the quantity of reactants.
 
+`reactant_matrix_delay`  
+An N-by-R matrix, representing the quantity of reactants in delay part.
+
 `f_r`  
 A function determined by $k$ and $n$. `f_r` represents the propensity function.
 

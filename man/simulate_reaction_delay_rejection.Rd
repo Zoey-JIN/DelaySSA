@@ -14,7 +14,8 @@ simulate_reaction_delay_rejection(
   fun_fr,
   delay_type,
   delaytime_list,
-  delay_effect_matrix
+  delay_effect_matrix,
+  reactant_matrix_delay
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ simulate_reaction_delay_rejection(
 \item{delaytime_list}{a list representing the delay time of each reaction}
 
 \item{delay_effect_matrix}{a matrix representing that reaction without delay affects reaction with delay}
+
+\item{reactant_matrix_delay}{species reactant matrix in delay part}
 }
 \value{
 the amount of a species and the corresponding time

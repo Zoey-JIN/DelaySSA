@@ -12,11 +12,12 @@
 #' @param delay_type the reaction type vector taking on the values 0, 1, or 2
 #' @param delaytime_list a list representing the delay time of each reaction
 #' @param delay_effect_matrix a matrix representing that reaction without delay affects reaction with delay
+#' @param reactant_matrix_delay species reactant matrix in delay part
 #'
 #' @return the amount of a species and the corresponding time
 #' @export
 #'
-simulate_reaction_delay_direct <- function(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, fun_fr, delay_type, delaytime_list, delay_effect_matrix) {
+simulate_reaction_delay_direct <- function(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, fun_fr, delay_type, delaytime_list, delay_effect_matrix, reactant_matrix_delay) {
   n_values <- matrix(n_initial)
   t_values <- c(t_initial)
   n <- n_initial
@@ -42,7 +43,7 @@ simulate_reaction_delay_direct <- function(tmax, n_initial, t_initial, S_matrix,
           print("warning")
           # n <- n + S_matrix[,r]
         } else if (delay_type[r]==1) {
-          n <- n + S_matrix_delay[,r]
+          n <- n + S_matrix_delay[,r] + reactant_matrix_delay[,r]
         } else if (delay_type[r]==2) {
           n <- n + S_matrix_delay[,r]
         } else {
@@ -84,6 +85,8 @@ simulate_reaction_delay_direct <- function(tmax, n_initial, t_initial, S_matrix,
       }
       n <- n + S_matrix[,r]
     } else if (delay_type[r]==1) {
+      n <- n + S_matrix[,r]
+      n <- n - reactant_matrix_delay[,r]
       add_tau <- tau_element(delaytime_list[[r]])+t
       index <- findInterval(add_tau,Tstruct[[1]])
       Tstruct[[1]] <- append(Tstruct[[1]], add_tau, after = index)
