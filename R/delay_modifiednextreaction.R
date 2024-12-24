@@ -57,14 +57,30 @@ simulate_reaction_delay_modifiednextreaction <- function(tmax, n_initial, t_init
         n <- n - reactant_matrix_delay[,r]
         add_tau <- tau_element(delaytime_list[[r]])+t
         index <- findInterval(add_tau,Tstruct[[1]])
-        Tstruct[[1]] <- append(Tstruct[[1]], add_tau, after = index)
-        Tstruct[[2]] <- append(Tstruct[[2]], r, after = index)
+        if (index == 0) {
+          Tstruct[[1]] <- c(add_tau, Tstruct[[1]])
+          Tstruct[[2]] <- c(r, Tstruct[[2]])
+        } else if (index == length(Tstruct[[1]])) {
+          Tstruct[[1]] <- c(Tstruct[[1]], add_tau)
+          Tstruct[[2]] <- c(Tstruct[[2]], r)
+        } else {
+          Tstruct[[1]] <- c(Tstruct[[1]][1:index], add_tau, Tstruct[[1]][(index + 1):length(Tstruct[[1]])])
+          Tstruct[[2]] <- c(Tstruct[[2]][1:index], r, Tstruct[[2]][(index + 1):length(Tstruct[[2]])])
+        }
       } else if (delay_type[r]==2) {
         n <- n + S_matrix[,r]
         add_tau <- tau_element(delaytime_list[[r]])+t
         index <- findInterval(add_tau,Tstruct[[1]])
-        Tstruct[[1]] <- append(Tstruct[[1]], add_tau, after = index)
-        Tstruct[[2]] <- append(Tstruct[[2]], r, after = index)
+        if (index == 0) {
+          Tstruct[[1]] <- c(add_tau, Tstruct[[1]])
+          Tstruct[[2]] <- c(r, Tstruct[[2]])
+        } else if (index == length(Tstruct[[1]])) {
+          Tstruct[[1]] <- c(Tstruct[[1]], add_tau)
+          Tstruct[[2]] <- c(Tstruct[[2]], r)
+        } else {
+          Tstruct[[1]] <- c(Tstruct[[1]][1:index], add_tau, Tstruct[[1]][(index + 1):length(Tstruct[[1]])])
+          Tstruct[[2]] <- c(Tstruct[[2]][1:index], r, Tstruct[[2]][(index + 1):length(Tstruct[[2]])])
+        }
       } else {
         print("Stop: wrong with the reaction type")
       }
