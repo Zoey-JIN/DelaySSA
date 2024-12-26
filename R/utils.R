@@ -30,10 +30,6 @@ check_delay_relative <- function(delay_type, delaytime_list, S_matrix, S_matrix_
   if (!all(zero_check)) {
     warning("Not all corresponding elements in delaytime_list are zeros for indices where delay_type is 0")
   }
-  zero_check <- apply(S_matrix[, which(delay_type == 1), drop = FALSE], 2, function(col) all(col == 0))
-  if (!all(zero_check)) {
-    warning("Not all corresponding elements in s_matrix are zeros for indices where delay_type is 1")
-  }
 
   non_zero_indices <- which(delay_type != 0)
   result_matrix <- matrix(NA, nrow = 2, ncol = 0)
