@@ -67,7 +67,7 @@ propensity_n <- function(n,reactant_matrix){
     }
     result[j] <- propensity
   }
-  return(result)
+  return(abs(result))
 }
 
 
