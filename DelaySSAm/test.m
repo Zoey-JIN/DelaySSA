@@ -12,7 +12,8 @@ delaytime_list = {};
 delaytime_list{1} = @fun_tau;
 
 sample = 10;
-A=simulation_DelaySSA(sample, tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, reactant_matrix, delay_type , delaytime_list)
+reactant_matrix_delay = [];
+A=simulation_DelaySSA(sample, tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, reactant_matrix, reactant_matrix_delay , delay_type , delaytime_list)
 
 T = [0:tmax];
 plot_data = picksample_cells([1:1:10],A, 1, T);
@@ -27,4 +28,3 @@ end
 function delaytime_list = fun_tau()
     delaytime_list = gamrnd(7, 1);
 end
-

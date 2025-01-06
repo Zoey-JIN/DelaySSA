@@ -1,5 +1,5 @@
 function result_matrix = check_delay_relative(delay_type, delaytime_list, S_matrix, S_matrix_delay)
-
+    result_matrix = []; 
     zero_check = all(S_matrix_delay(:, delay_type == 0) == 0, 1);
     
     if ~all(zero_check)
@@ -10,11 +10,6 @@ function result_matrix = check_delay_relative(delay_type, delaytime_list, S_matr
     zero_check = tmp == 0;
     if ~all(zero_check)
         warning('Not all corresponding elements in delaytime_list are zeros for indices where delay_type is 0');
-    end
-
-    zero_check = all(S_matrix(:, delay_type == 1) == 0, 1);
-    if ~all(zero_check)
-        warning('Not all corresponding columns in S_matrix are zeros for indices where delay_type is 1');
     end
 
     non_zero_indices = find(delay_type ~= 0);

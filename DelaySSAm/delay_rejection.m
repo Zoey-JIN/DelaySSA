@@ -1,4 +1,4 @@
-function result = delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, reactant_matrix, delay_type, delaytime_list, delay_effect_matrix)    
+function result = delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix_delay, k, reactant_matrix, reactant_matrix_delay, delay_type, delaytime_list, delay_effect_matrix)    
 
     function result = fun_fr(k, n)
 
@@ -58,7 +58,7 @@ function result = delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix
             if delay_type(r) == 0
                 warning('Warning: delay_type is 0.');
             elseif delay_type(r) == 1
-                n = n + S_matrix_delay(:, r);
+                n = n + S_matrix_delay(:, r) + reactant_matrix_delay(:, r);
             elseif delay_type(r) == 2
                 n = n + S_matrix_delay(:, r);
             else
@@ -74,7 +74,7 @@ function result = delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix
             t = t + tau;
 
             if delay_type(r) == 0
-                if ismember(r, delay_effect_matrix(1, :))
+                if ~isempty(delay_effect_matrix) && ismember(r, delay_effect_matrix(1, :))
                     effect_r = delay_effect_matrix(2, delay_effect_matrix(1, :) == r);
                     drop_index = find(Tstruct(2) == effect_r);
                     drop_index = randsample(drop_index, 1);
@@ -82,6 +82,7 @@ function result = delay_rejection(tmax, n_initial, t_initial, S_matrix, S_matrix
                 end
                 n = n + S_matrix(:, r);
             elseif delay_type(r) == 1
+                n = n + S_matrix_delay(:, r) - reactant_matrix_delay(:, r);
                 tmp = tau_element(delaytime_list{r});
                 add_tau = tmp + t;
                 tmp = [add_tau,r];
