@@ -2,10 +2,12 @@
 
 export(check_delay_relative)
 export(convert_pdf)
+export(fun_fr)
 export(picksample)
 export(plot_SSA_density)
 export(plot_SSA_mean)
 export(plot_mean)
+export(propensity_n)
 export(simulate_reaction)
 export(simulate_reaction_delay_direct)
 export(simulate_reaction_delay_modifiednextreaction)

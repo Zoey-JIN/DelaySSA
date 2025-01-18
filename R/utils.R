@@ -49,13 +49,7 @@ check_delay_relative <- function(delay_type, delaytime_list, S_matrix, S_matrix_
 #' @param reactant_matrix species reactant matrix
 #'
 #' @return a vector used for calculating propensity function
-# propensity_n <- function(n,reactant_matrix){
-#   result <- sapply(1:ncol(reactant_matrix), function(j) {
-#     prod(sapply(1:nrow(reactant_matrix), function(i) {
-#       ifelse(reactant_matrix[i,j]==0, 1, Reduce(`*`, (n[i] - (0:(reactant_matrix[i,j]-1)))))
-#     }))})
-#   return(result)
-# }
+#' @export
 propensity_n <- function(n,reactant_matrix){
   result <- numeric(ncol(reactant_matrix))
   for (j in seq_len(ncol(reactant_matrix))) {
@@ -224,6 +218,7 @@ plot_SSA_mean <- function(result,t = seq(0, tmax, by = 1),n_initial=n_initial,t_
 #' @param n species number
 #'
 #' @return Propensity Function
+#' @export
 fun_fr <- function(k,n){
   if (is.function(k)) {
     k_mask <- k(n)
