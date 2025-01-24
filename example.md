@@ -38,7 +38,7 @@ Use the following code to visualize the results.
 
 ```R
 library("ggplot2")
-Specie <- c("N")
+Species <- c("N")
 t=seq(0, tmax, by = 1)
 t_initial = 0
 num_columns <- nrow(result[[1]]$n_values)
@@ -47,10 +47,10 @@ data_list <- lapply(1:num_columns, function(i) {
   n <- unlist(n)
   if (t[1] == t_initial) 
     n[1] <- n_initial[i, ]
-  data.frame(t = t, quantity = n, Specie = Specie[i])
+  data.frame(t = t, quantity = n, Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+ggplot(plot_data, aes(x = t, y = quantity, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "T", y = "Mean Value") + 
   scale_color_brewer(palette = "Set1") + 
@@ -76,10 +76,10 @@ data_list <- lapply(1:num_columns, function(i) {
   if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
     warning("Error in Calculating Density Table")
   }
-  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Species)) + 
   geom_line(linewidth = 0.7) + 
   labs(x = "# of Products", y = "Probability") + 
   scale_color_brewer(palette = "Set1") + 
@@ -105,7 +105,7 @@ $$
 \emptyset\stackrel{\frac{\alpha b^i}{(1+b)^{i+1}}}\longrightarrow iN, ~~iN\stackrel{\tau}\Rightarrow\emptyset,~~i=1,2,3,...
 $$
 
-The specie is $N$. Let $i=1,\ldots,30,~\alpha=0.0282,\beta=3.46,\tau=120$.
+The species is $N$. Let $i=1,\ldots,30,~\alpha=0.0282,\beta=3.46,\tau=120$.
 
 ```R
 j <- 30
@@ -139,7 +139,7 @@ Then we can use the following code to visualize the results.
 
 ```R
 library("ggplot2")
-Specie <- c("N")
+Species <- c("N")
 t=seq(0, tmax, by = 1)
 t_initial = 0
 num_columns <- nrow(result[[1]]$n_values)
@@ -148,10 +148,10 @@ data_list <- lapply(1:num_columns, function(i) {
   n <- unlist(n)
   if (t[1] == t_initial) 
     n[1] <- n_initial[i, ]
-  data.frame(t = t, quantity = n, Specie = Specie[i])
+  data.frame(t = t, quantity = n, Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+ggplot(plot_data, aes(x = t, y = quantity, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "T", y = "Mean Value") + 
   scale_color_brewer(palette = "Set1") + 
@@ -178,10 +178,10 @@ data_list <- lapply(1:num_columns, function(i) {
   if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
     warning("Error in Calculating Density Table")
   }
-  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Species)) + 
   geom_line(linewidth = 0.7) + 
   labs(x = "# of Products", y = "Probability") + 
   scale_color_brewer(palette = "Set1") + 
@@ -247,7 +247,7 @@ Use the following code to visualize the results.
 
 ```R
 library("ggplot2")
-Specie <- c("X","Y")
+Species <- c("X","Y")
 t=seq(0, tmax, by = 1)
 t_initial = 0
 num_columns <- nrow(result[[1]]$n_values)
@@ -256,10 +256,10 @@ data_list <- lapply(1:num_columns, function(i) {
   n <- unlist(n)
   if (t[1] == t_initial) 
     n[1] <- n_initial[i, ]
-  data.frame(t = t, quantity = n, Specie = Specie[i])
+  data.frame(t = t, quantity = n, Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+ggplot(plot_data, aes(x = t, y = quantity, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "T", y = "Mean Value") + 
   scale_color_brewer(palette = "Set1") + 
@@ -286,10 +286,10 @@ data_list <- lapply(1:num_columns, function(i) {
   if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
     warning("Error in Calculating Density Table")
   }
-  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "# of Products", y = "Probability") + 
   scale_color_brewer(palette = "Set1") + 
@@ -322,7 +322,7 @@ G_2\xrightarrow{k_4}G_2+N,~
 N\stackrel{\tau}\Rightarrow\emptyset
 $$
 
-The specie is $G_0,G_1,G_2,N$. Let $k_1 = 0.15,k_2 =  0.1,k_3 = 0.05,k_4 = 10, \tau = 1.$
+The species is $G_0,G_1,G_2,N$. Let $k_1 = 0.15,k_2 =  0.1,k_3 = 0.05,k_4 = 10, \tau = 1.$
 
 ```R
 tmax <- 150
@@ -351,7 +351,7 @@ Use the following code to visualize the results.
 
 ```R
 library("ggplot2")
-Specie <- c("G0","G1", "G2","N")
+Species <- c("G0","G1", "G2","N")
 t=seq(0, tmax, by = 1)
 t_initial = 0
 num_columns <- nrow(result[[1]]$n_values)
@@ -360,10 +360,10 @@ data_list <- lapply(4, function(i) {
   n <- unlist(n)
   if (t[1] == t_initial) 
     n[1] <- n_initial[i, ]
-  data.frame(t = t, quantity = n, Specie = Specie[i])
+  data.frame(t = t, quantity = n, Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+ggplot(plot_data, aes(x = t, y = quantity, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "T", y = "Mean Value") + 
   scale_color_brewer(palette = "Set1") + 
@@ -389,10 +389,10 @@ data_list <- lapply(4, function(i) {
   if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
     warning("Error in Calculating Density Table")
   }
-  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "# of Products", y = "Probability") + 
   scale_color_brewer(palette = "Set1") + 

@@ -94,13 +94,13 @@ result <- simulation_DelaySSA(algorithm = "DelayMNR", sample_size=sample, tmax=t
 1. A vector representing the times at which reactions occurred.
 2. A matrix showing the changes in species over time.
 
-Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean values in the quantities of each specie at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each specie. Here the number of $S_1$ is the same as the number of $S_2$.
+Sampling times are taken as `seq(0, tmax, by = 1)`. Use `plot_SSA_mean` to calculate and plot the mean values in the quantities of each species at these time points. At time `tmax`, use `plot_SSA_density` to calculate and plot the probability distribution of the quantities of each species. Here the number of $S_1$ is the same as the number of $S_2$.
 ```R
 plot_SSA_mean(result = result,t=seq(0, tmax, by = 1) ,n_initial = n_initial,t_initial = 0)
 plot_SSA_density(result = result,t_pick = tmax)
 ```
 
-To be more specific, `result` is the output list from simulation. Then use `picksample(result,i,t)` to sample the specie i at time `t`.  `convert_pdf(n)` can convert the vector to a list containing the probability density. The list has two elements, where the first element is a vecter representing number of the species, and the second element is a table representing the probability for each quantity. `plot_mean(result, i, t)` returns the mean value of specie `i` at time `t` after the simulation, using the `result` data. `plot_mean` relies on the `picksample` and `mean` functions to perform the calculation. All in all, we can use `picksample` and `convert_pdf` functions to obtain the probability distribution of each specie at each time point and use `plot_mean` function to obtain the mean value of each specie over repeated simulations. 
+To be more specific, `result` is the output list from simulation. Then use `picksample(result,i,t)` to sample the species i at time `t`.  `convert_pdf(n)` can convert the vector to a list containing the probability density. The list has two elements, where the first element is a vecter representing number of the species, and the second element is a table representing the probability for each quantity. `plot_mean(result, i, t)` returns the mean value of species `i` at time `t` after the simulation, using the `result` data. `plot_mean` relies on the `picksample` and `mean` functions to perform the calculation. All in all, we can use `picksample` and `convert_pdf` functions to obtain the probability distribution of each species at each time point and use `plot_mean` function to obtain the mean value of each species over repeated simulations. 
 ```R
 > a <- c(1,2,3,4,5)
 > convert_pdf(a)
@@ -114,7 +114,7 @@ a_vector
 ```
 ```R
 library(ggplot2)
-Specie <- c("S1 S2","S1 S2","S3")
+Species <- c("S1 S2","S1 S2","S3")
 svg <- svglite("TwoChannels_mean.svg", width = 5, height = 5)
 t=seq(0, tmax, by = 1)
 t_initial = 0
@@ -124,10 +124,10 @@ data_list <- lapply(c(2,3), function(i) {
   n <- unlist(n)
   if (t[1] == t_initial) 
     n[1] <- n_initial[i, ]
-  data.frame(t = t, quantity = n, Specie = Specie[i])
+  data.frame(t = t, quantity = n, Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = t, y = quantity, color = Specie)) + 
+ggplot(plot_data, aes(x = t, y = quantity, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "T", y = "Mean Value") + 
   scale_color_brewer(palette = "Set1") + 
@@ -152,10 +152,10 @@ data_list <- lapply(c(2), function(i) {
   if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
     warning("Error in Calculating Density Table")
   }
-  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Species = Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Species)) + 
   geom_line(linewidth = 0.7) +  
   labs(x = "# of Products", y = "Probability") + 
   scale_color_brewer(palette = "Set1") + 
@@ -180,10 +180,10 @@ data_list <- lapply(c(3), function(i) {
   if (!all(data.frame(percentage = plot_xy)[, 1] == data.frame(percentage = plot_xy)[,2])) {
     warning("Error in Calculating Density Table")
   }
-  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Specie = Specie[i])
+  data.frame(quantity = data.frame(percentage = plot_xy)[,1], percentage = data.frame(percentage = plot_xy)[,3], Species= Species[i])
 })
 plot_data <- do.call(rbind, data_list)
-ggplot(plot_data, aes(x = quantity, y = percentage, color = Specie)) + 
+ggplot(plot_data, aes(x = quantity, y = percentage, color = Species)) + 
   geom_line(linewidth = 0.7) + 
   labs(x = "# of Products", y = "Probability") + 
   scale_color_brewer(palette = "Set1") + 
@@ -352,7 +352,7 @@ f_r(\textbf{n})_=k_r \Omega \prod_{i=1}^{N} \frac{n_i!}{(n_i-s_{ir})! \Omega^{s_
 
 where $\textbf{n} = \left( n_1, \ldots, n_N \right)$, $n_i$ is the number of species $X_i$, $\Omega$ is the volume of a closed compartment.
 
-The time delay could be a fixed number or a stochastic value. According to [3], reactions with delays are categorized into consuming and nonconsuming reactions. If a delayed reaction is a nonconsuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\textbf{n}$ of the number of species will change only at $t+t_\text{delay}$. If a delayed reaction is a consuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\textbf{n}$ of the number of species will change both at $t$ and $t+t_\text{delay}$.
+The time delay could be a fixed number or a stochastic value. According to [3], reactions with delays are categorized into consuming and nonconsuming reactions. If a delayed reaction is a nonconsuming reaction, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\textbf{n}$ of the number of species will change only at $t+t_\text{delay}$. If a delayed reaction is a consuming reactions, it initiates at $t$ and will finish until $t+t_\text{delay}$, then the $\textbf{n}$ of the number of species will change both at $t$ and $t+t_\text{delay}$.
 
 We can categorize reactions into the following three cases.
 
@@ -363,7 +363,7 @@ Case 2: If reaction $r$ loses the reactant species and gains the product species
 Case 3: If reaction $r$ loses the reactant species and gains the product species at the initiation time $t$ and the completion time $t+t_\text{delay}$, respectively, we define the reaction $r$ with delays as ICD.
 
 # Delay Direct Method Algorithm
-Consider that $N_d$ delay reactions are ongoing at the time $t$. The delay reactions will complete at $t+T_1,\ldots,t+T_{N_d}$, where $T_1 \leq T_2,\ldots,t+T_{N_d}$. As in the derivation of Gillespie’s exact Stochastic Simulation Algorithm (SSA), $p(\tau, \nu) d\tau$ can be found from the fundamental assumption as $p(\tau, \nu) d\tau = p_0(\tau) f_\mu(t + \tau) d\tau$, where $p_0(\tau)$ is the probability that no reaction will happen in the time interval $[t,t+\tau)$. The delay effects the propensity function. So $p_0(\tau)$ comes to $\exp(-\Sigma_{j=0}^{i-1}\lambda(t+T_j)(T_{j+1}-T_j)-\lambda(t+T_i)(\tau-T_{i})),~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d$, where the exponent assume equal to zero when $i=0$.
+Consider that $N_d$ delay reactions are ongoing at the time $t$. The delay reactions will complete at $t+T_1,\ldots,t+T_{N_d}$, where $T_1 \leq T_2,\ldots,t+T_{N_d}$. As in the derivation of Gillespie’s exact Stochastic Simulation Algorithm (SSA), $p(\tau, \nu) d\tau$ can be found from the fundamental assumption as $p(\tau, \nu) d\tau = p_0(\tau) f_\mu(t + \tau) d\tau$, where $p_0(\tau)$ is the probability that no reaction will happen in the time interval $[t,t+\tau)$. The delay effects the propensity function. So $p_0(\tau)$ comes to $\exp(-\Sigma_{j=0}^{i-1}\lambda(t+T_j)(T_{j+1}-T_j)-\lambda(t+T_i)(\tau-T_{i})),~~\tau \in [T_i, T_{i+1}), ~~i=0,\ldots,N_d$, where the exponent assumes equal to zero when $i=0$.
 
 ```math
 p(\tau|\textbf{n},t)=\lambda(t + T_i) \exp ( - \sum_{j=0}^{i-1} \lambda(t + T_j)(T_{j+1} - T_j) - \lambda(t + T_i)(\tau - T_i) ),~~\lambda(t + T_i)=\sum_{r=1}^{R} f_r(t + T_i),
@@ -625,7 +625,7 @@ We have therefore found the absolute times of the next firings of reactions $r =
 
 
 # Modified Next Reaction Method Algorithm
-According to [4], Modified Next Reaction Method Algorithm that is completely equivalent to Next Reaction Method Algorithm. But  but makes more explicit use of the internal times $T_r$. The main idea of this algorithm is $\Delta t_r = (1/f_r)(P_r − T_r)$.
+According to [4], Modified Next Reaction Method Algorithm that is completely equivalent to Next Reaction Method Algorithm. But makes more explicit use of the internal times $T_r$. The main idea of this algorithm is $\Delta t_r = (1/f_r)(P_r − T_r)$.
 
 ## Algorithm
 
