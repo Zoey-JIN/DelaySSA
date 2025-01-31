@@ -119,7 +119,7 @@ S_matrix_delay <- matrix(S_matrix_delay,nrow = 1)
 a <- 0.0282
 b <- 3.46
 k <- c(sapply(1:j, function(i) a * b^i / (1 + b)^(i + 1)))
-reactant_matrix <- matrix(rep(0,j),nrow = 3)
+reactant_matrix <- matrix(rep(0,j),nrow = 1)
 delay_type <- matrix(rep(c(2),times=j),nrow = 1)
 tau = 120
 delaytime_list <- list()
