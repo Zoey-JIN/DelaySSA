@@ -16,7 +16,8 @@ simulation_DelaySSA(
   reactant_matrix,
   reactant_matrix_delay = NULL,
   delay_type = NULL,
-  delaytime_list = NULL
+  delaytime_list = NULL,
+  delay_effect_matrix = NULL
 )
 }
 \arguments{

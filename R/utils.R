@@ -127,10 +127,10 @@ picksample <- function(list_output,i=1,t){
 #'
 #' @return A list contains sublists including the amount of a species and the corresponding time
 #' @export
-simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay = NULL, k, reactant_matrix, reactant_matrix_delay = NULL, delay_type = NULL , delaytime_list = NULL) {
+simulation_DelaySSA <- function(algorithm = "DelayMNR", sample_size, tmax, n_initial, t_initial, S_matrix, S_matrix_delay = NULL, k, reactant_matrix, reactant_matrix_delay = NULL, delay_type = NULL , delaytime_list = NULL, delay_effect_matrix = NULL) {
     algorithm_chosen <- algorithm
     sample <- sample_size
-    if (!(is.null(delay_type) || is.null(delaytime_list) || is.null(S_matrix_delay))) {
+    if (!(is.null(delay_type) || is.null(delaytime_list) || is.null(S_matrix_delay) || is.null(delay_effect_matrix))) {
       delay_effect_matrix <- check_delay_relative(delay_type, delaytime_list, S_matrix, S_matrix_delay)}
     fun_fr <- function(k,n){
       if (is.function(k)) {

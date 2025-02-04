@@ -55,9 +55,14 @@ simulate_reaction_delay_rejection <- function(tmax, n_initial, t_initial, S_matr
       if(delay_type[r]==0){
         if(r %in% delay_effect_matrix[1,]){
           effect_r <- delay_effect_matrix[2,][which(delay_effect_matrix[1, ] == r)]
-          drop_index <- sample(which(Tstruct[[2]] == effect_r),1)
-          Tstruct[[1]] <- Tstruct[[1]][-drop_index]
-          Tstruct[[2]] <- Tstruct[[2]][-drop_index]
+          for (element in effect_r) {
+            drop_index <- sample(which(Tstruct[[2]] == element), 1) 
+            if(delay_type[Tstruct[[2]][drop_index]]==1){
+              n <- n + reactant_matrix_delay[,Tstruct[[2]][drop_index]]
+            }
+            Tstruct[[1]] <- Tstruct[[1]][-drop_index]
+            Tstruct[[2]] <- Tstruct[[2]][-drop_index]
+          }
         }
         n <- n + S_matrix[,r]
       } else if (delay_type[r]==1) {
