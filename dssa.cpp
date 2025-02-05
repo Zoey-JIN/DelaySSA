@@ -143,9 +143,9 @@ List Dmnr(int iterInit, int iterInc, double tmax, NumericVector n_initial, doubl
 					for (int ii = 0; ii < sum(has_r); ++ii) {
 						IntegerVector drop_index_vec0 = c_index_in_vector(Rstruct,effect_r(ii));
 						if(drop_index_vec0.length()>0){
-							int drop_index = sample(drop_index_vec0,1)[0];
+							drop_index = sample(drop_index_vec0,1)[0];
 							if(delay_type(Rstruct(drop_index))==1){
-								n <- n + reactant_matrix_delay(_,Rstruct(drop_index));	
+								n = n + reactant_matrix_delay(_,Rstruct(drop_index));	
 							}
 							Tstruct.erase(drop_index);
 							Rstruct.erase(drop_index);
@@ -212,8 +212,8 @@ List Drejection(int iterInit, int iterInc, double tmax, NumericVector n_initial,
 	t_values(0) = t_initial;
 	NumericVector n = n0; //n_initial
 	double t = t_initial;
-	double min_1,min_2,tau,add_tau;
-	int r_1,r_2,r;
+	double min_2,tau,add_tau;
+	int r_2,r;
 	// NumericVector tau_vec;
 	NumericVector tau_vec;
 	IntegerVector effect_r;
@@ -273,7 +273,7 @@ List Drejection(int iterInit, int iterInc, double tmax, NumericVector n_initial,
 					for (int ii = 0; ii < sum(has_r); ++ii) {
 						IntegerVector drop_index_vec0 = c_index_in_vector(Rstruct,effect_r(ii));
 						if(drop_index_vec0.length()>0){
-							int drop_index = sample(drop_index_vec0,1)[0];
+							drop_index = sample(drop_index_vec0,1)[0];
 							if(delay_type(Rstruct(drop_index))==1){
 								n <- n + reactant_matrix_delay(_,Rstruct(drop_index));	
 							}
@@ -336,8 +336,8 @@ List Ddirect(int iterInit, int iterInc, double tmax, NumericVector n_initial, do
 	t_values(0) = t_initial;
 	NumericVector n = n0; //n_initial
 	double t = t_initial;
-	double min_1,min_2,tau,add_tau;
-	int r_1,r_2,r;
+	double min_2,tau,add_tau;
+	int r_2,r;
 	// NumericVector tau_vec;
 	NumericVector tau_vec;
 	IntegerVector effect_r;
@@ -458,7 +458,7 @@ List Ddirect(int iterInit, int iterInc, double tmax, NumericVector n_initial, do
 				for (int ii = 0; ii < sum(has_r); ++ii) {
 					IntegerVector drop_index_vec0 = c_index_in_vector(Rstruct,effect_r(ii));
 					if(drop_index_vec0.length()>0){
-						int drop_index = sample(drop_index_vec0,1)[0];
+						drop_index = sample(drop_index_vec0,1)[0];
 						if(delay_type(Rstruct(drop_index))==1){
 							n <- n + reactant_matrix_delay(_,Rstruct(drop_index));	
 						}
